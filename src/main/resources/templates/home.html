@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="~{layout/default}">
+
+<head>
+    <title>HOME</title>
+    <link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+</head>
+
+<body>
+    <div>
+        <div>
+            <div>
+                <div layout:fragment="content">
+
+                    콘텐츠내용이 들가야지
+
+                    <h5>기본버튼들</h5>
+                    <div>
+                        <button type="button" class="btn btn-primary">Primary</button>
+                        <button type="button" class="btn btn-secondary">Secondary</button>
+                        <button type="button" class="btn btn-success">Success</button>
+                        <button type="button" class="btn btn-danger">Danger</button>
+                        <button type="button" class="btn btn-warning">Warning</button>
+                        <button type="button" class="btn btn-info">Info</button>
+                        <button type="button" class="btn btn-light">Light</button>
+                        <button type="button" class="btn btn-dark">Dark</button>
+
+                        <button type="button" class="btn btn-link">Link</button>
+                    </div>
+
+                    <h5>작은버튼들</h5>
+                    <div>
+                        <button type="button" class="btn btn-primary btn-sm">Small button</button>
+                        <button type="button" class="btn btn-secondary btn-sm">Small button</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
