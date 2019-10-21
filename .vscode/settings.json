@@ -1,0 +1,32 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "psi-header.config": {
+        "forceToTop": true,
+        "author": "sangmok",
+        "authorEmail": "appsoga@gmail.com",
+        "license": "Custom",
+        "company": "APPSOGA Inc."
+    },
+    "psi-header.variables": [
+        [
+            "projectCreationYear",
+            "2019"
+        ]
+    ],
+    "psi-header.templates": [
+        {
+            "language": "*",
+            "template": [
+                "File: <<filename>>",
+                "Project: <<projectname>>",
+                "File Created: <<filecreated('dddd, Do MMMM YYYY h:mm:ss a')>>",
+                "Author: <<author>> (<<authoremail>>)",
+                // "-----",
+                // "Last Modified: <<dateformat('dddd, Do MMMM YYYY h:mm:ss a')>>",
+                // "Modified By: <<author>> (<<authoremail>>>)",
+                "-----",
+                "Copyright <<projectCreationYear>> - <<year>> <<company>>"
+            ]
+        }
+    ]
+}
