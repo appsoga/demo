@@ -1,6 +1,8 @@
 # demo2
 demo app with spring-boot 2
 
-test 33
+## package
+Spring Boot 2
 
-이걸로 세번째 변경
+* bootstrap
+* datatables
