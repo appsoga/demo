@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping(path = "member")
 @Controller
-public class UserController {
+public class MemberController {
 
     @Autowired
     private MemberService memberService;
