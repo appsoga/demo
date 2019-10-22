@@ -19,7 +19,7 @@ public class MemberService implements InitializingBean {
     private MemberRepository memberRepository;
 
     public Member findMemberByUsername(String username) {
-        logger.debug("username is {}", username);
+        logger.debug("parameter: username is {}", username);
         return memberRepository.findOneByUsername(username);
     }
 
