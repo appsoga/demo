@@ -37,7 +37,7 @@ public class MemberController {
     public ResponseEntity<?> getMemberByUsername(@RequestParam String username) {
         if (username == null)
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-        Member e1 = memberService.findMemberByUsername(username);
+        Member e1 = memberService.getMemberByUsername(username);
         if (e1 == null)
             return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<Member>(e1, HttpStatus.OK);
