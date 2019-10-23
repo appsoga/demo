@@ -86,7 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // @Autowired
         // public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws
         // Exception {
-        // auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+        // auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         // }
 
         // @Bean("persistentTokenBasedRememberMeServices")
