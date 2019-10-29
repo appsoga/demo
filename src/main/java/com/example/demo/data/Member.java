@@ -8,11 +8,15 @@
  */
 package com.example.demo.data;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @lombok.Data
 @Entity
@@ -23,9 +27,23 @@ public class Member {
     @Column(name = "ID")
     private Integer id;
 
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "EMAIL")
+    private String email;
+
     @Column(name = "USERNAME")
     private String username;
 
     @Column(name = "PASSWORD")
     private String password;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "EXPIRES_ON")
+    private Calendar expiresOn;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LAST_ACCESSS_ON")
+    private Calendar lastAccessedOn;
 }

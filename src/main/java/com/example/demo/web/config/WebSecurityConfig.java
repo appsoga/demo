@@ -8,11 +8,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
+// import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+// import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -78,16 +79,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // return manager;
         // }
 
-        // @Bean
-        // public PasswordEncoder passwordEncoder() {
-        // return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        // }
+        @Autowired
+        private UserDetailsService userDetailsService;
 
-        // @Autowired
-        // public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws
-        // Exception {
-        // auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-        // }
+        @Autowired
+        private PasswordEncoder passwordEncoder;
+
+        @Bean("passwordEncoder")
+        public PasswordEncoder passwordEncoder() {
+            // return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+            return new BCryptPasswordEncoder();
+        }
+
+        @Autowired
+        public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        }
 
         // @Bean("persistentTokenBasedRememberMeServices")
         // public PersistentTokenBasedRememberMeServices
