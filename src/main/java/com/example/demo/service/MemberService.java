@@ -7,7 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,9 @@ import org.springframework.stereotype.Service;
 public class MemberService implements InitializingBean {
 
     private static Logger logger = LoggerFactory.getLogger(MemberService.class);
-    private static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Autowired(required = false)
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -33,7 +36,7 @@ public class MemberService implements InitializingBean {
         // create Member object
         Member e1 = new Member();
         e1.setUsername(username);
-        e1.setPassword(passwordEncoder.encode(password));
+        e1.setPassword(encode(password));
         return memberRepository.saveAndFlush(e1);
     }
 
@@ -44,15 +47,21 @@ public class MemberService implements InitializingBean {
 
         Member e1 = new Member();
         e1.setUsername("admin");
-        e1.setPassword(passwordEncoder.encode("password"));
+        e1.setPassword(encode("password"));
         e1 = memberRepository.save(e1);
 
         Member e2 = new Member();
         e2.setUsername("sangmok");
-        e2.setPassword(passwordEncoder.encode("password"));
+        e2.setPassword(encode("password"));
         e2 = memberRepository.save(e2);
 
         logger.info("add user to db.");
+    }
+
+    private String encode(String raw) {
+        if (passwordEncoder == null)
+            passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return passwordEncoder.encode(raw);
     }
 
 }
