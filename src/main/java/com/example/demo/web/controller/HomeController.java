@@ -11,4 +11,14 @@ public class HomeController {
         return "home";
     }
 
+    @RequestMapping(path = "app")
+    public String app_home() {
+        return "home";
+    }
+
+    @RequestMapping(path = "app/login")
+    public String loginHtml() {
+        return "login";
+    }
+
 }

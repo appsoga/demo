@@ -27,11 +27,6 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    @RequestMapping(path = "sign-in")
-    public String loginHtml() {
-        return "sign-in";
-    }
-
     @RequestMapping(value = "user", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getMemberByUsername(@RequestParam String username) {
