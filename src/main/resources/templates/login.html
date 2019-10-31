@@ -14,9 +14,12 @@
 
 <body>
     <div class="container">
-        <form class="form-signin" method="post" action="/login">
+        <form class="form-signin" method="post" th:action="@{/app/login-process}">
             <h2 class="form-signin-heading">Please sign in</h2>
-            <!-- <div class="alert alert-danger" role="alert">Bad credentials</div> -->
+            <div th:if="${param.error}" class="alert alert-danger alert-dismissible"
+                role="alert">
+                <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}">!!</span>
+            </div>
             <p>
                 <label for="username" class="sr-only">Username</label>
                 <input type="text" id="username" name="username" class="form-control" placeholder="Username" required

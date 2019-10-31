@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+// import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 // import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,21 +14,22 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 // import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 @Configuration
-@EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     @Configuration
-    @Order(3)
-    public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
-        // protected void configure(HttpSecurity http) throws Exception {
-        // http.authorizeRequests().antMatchers("/home", "/vendor/**", "/image/**",
-        // "/home/**").permitAll()
-        // .antMatchers("/admin/**").hasRole("EDMIN_ROLE").anyRequest().authenticated().and().formLogin()
-        // .loginPage("/login").permitAll().defaultSuccessUrl("/home").and().logout()
-        // .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-        // }
+    @Order(1)
+    public static class HttpBasicSecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+
+            http.antMatcher("/api/**").authorizeRequests().anyRequest().permitAll().and().httpBasic().realmName("SMKOR")
+                    .and().csrf().disable();
+
+        }
     }
 
     @Configuration
@@ -38,38 +39,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
 
-            // http.csrf().disable()
-            // .antMatcher("/app/**")
-            // .authorizeRequests()
-            // .antMatchers("/app/login").access("permitAll")
-            // .antMatchers("/app/so/**").hasRole("OWNER")
-            // // .antMatchers("/app", "/app/", "/login",
-            // // "/logout").access("permitAll")
-            // // .antMatchers("/images/**", "/css/**", "/js/**",
-            // // "/lib/**").access("permitAll")
-            // .antMatchers("/app/users/**").hasAuthority("Administrators")
-            // // .antMatchers("/users/**").hasRole("ADMINISTRATORS")
-            // // .antMatchers("/notices/**").hasAuthority("Administrators")
-            // // .antMatchers("/joblauncher/**").hasAnyAuthority("Administrators",
-            // // "Managers")
-            // .anyRequest().authenticated()
-            // .and().formLogin()
-            // .usernameParameter("loginEmail")
-            // .passwordParameter("loginPassword")
-            // .loginPage("/app/login")
-            // .loginProcessingUrl("/app/login-process")
-            // .and().rememberMe().rememberMeParameter("remember-me")
-            // .tokenRepository(tokenRepository).tokenValiditySeconds(86400)
-            // .and().logout().logoutUrl("/app/logout").logoutSuccessUrl("/app/")
-            // .and().headers()
-            // .addHeaderWriter(new
-            // StaticHeadersWriter("X-Content-Security-Policy","script-src 'self'"))
-            // .frameOptions().disable()
-            // ;
+            http.csrf().disable()
+                    //
+                    .antMatcher("/app/**").authorizeRequests().antMatchers("/app/login").access("permitAll")
+                    .antMatchers("/app/dashbord/**").hasRole("USER").anyRequest().authenticated()
+                    //
+                    .and().formLogin().usernameParameter("username").passwordParameter("password")
+                    .loginPage("/app/login").loginProcessingUrl("/app/login-process")
+                    // .and().rememberMe().rememberMeParameter("remember-me")
+                    // .tokenRepository(tokenRepository).tokenValiditySeconds(86400)
+                    .and().logout().logoutUrl("/app/logout").logoutSuccessUrl("/")
+                    //
+                    .and().headers()
+                    .addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy", "script-src 'self'"))
+                    .frameOptions().disable();
 
         }
     }
 
+    @Order(0)
     @Configuration
     public static class GlobalConfig {
 
@@ -83,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Autowired
         private UserDetailsService userDetailsService;
 
-        @Autowired
+        @Autowired(required = true)
         private PasswordEncoder passwordEncoder;
 
         @Autowired
@@ -99,6 +87,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // "remember-me", userDetailsService, tokenRepository);
         // return tokenBasedservice;
         // }
+
     }
 
     @Bean("passwordEncoder")
