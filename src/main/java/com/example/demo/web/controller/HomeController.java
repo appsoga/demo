@@ -9,19 +9,32 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 
+    /**
+     * '/' 호출시 응답으로 웹어플 기본경로로 다시 보낸다.
+     * 
+     * @param model
+     * @return
+     */
     @RequestMapping
     public String home(Model model) {
         return "redirect:app/dashboard";
     }
 
     @RequestMapping(value = "app/dashboard")
-    public String app_dashboard() {
-        return "home";
+    public String app_dashboard_html() {
+        return "dashboard";
+    }
+
+    /**
+     * datatable의 예제
+     */
+    @RequestMapping(value = "app/datatable")
+    public String app_datatable_html() {
+        return "datatable";
     }
 
     @RequestMapping(value = "app/login", method = RequestMethod.GET)
-    public String loginHtml() {
+    public String app_login_html() {
         return "login";
     }
-
 }
