@@ -28,7 +28,15 @@ public class MemberService implements InitializingBean {
         return memberRepository.findOneByUsername(username);
     }
 
-    public Member addMember(String username, String password) {
+    public Member createMember(Member e1) {
+        if (e1 == null) {
+            logger.debug("entity is must not null.");
+            return null;
+        }
+        return memberRepository.saveAndFlush(e1);
+    }
+
+    public Member createMember(String username, String password) {
         if (username == null) {
             logger.debug("username is must not null.");
             return null;
@@ -40,28 +48,45 @@ public class MemberService implements InitializingBean {
         return memberRepository.saveAndFlush(e1);
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        if (memberRepository.count() > 0)
+    public Member modifyMember(Member e1) {
+        if (e1 == null) {
+            logger.debug("entity is must not null.");
+            return null;
+        }
+        Member reade1 = getMemberByUsername(e1.getUsername());
+        if (!reade1.getName().equals(e1.getName()))
+            reade1.setName(e1.getName());
+        if (!reade1.getEmail().equals(e1.getEmail()))
+            reade1.setEmail(e1.getEmail());
+        return memberRepository.saveAndFlush(reade1);
+    }
+
+    public void removeMemberByUsername(String username) {
+        if (username == null) {
+            logger.debug("username is must not null.");
             return;
-
-        Member e1 = new Member();
-        e1.setUsername("admin");
-        e1.setPassword(encode("password"));
-        e1 = memberRepository.save(e1);
-
-        Member e2 = new Member();
-        e2.setUsername("sangmok");
-        e2.setPassword(encode("password"));
-        e2 = memberRepository.save(e2);
-
-        logger.info("add user to db.");
+        }
+        Member reade1 = memberRepository.findOneByUsername(username);
+        if (reade1 == null) {
+            logger.debug("not found by {}.", username);
+            return;
+        }
+        memberRepository.delete(reade1);
     }
 
     private String encode(String raw) {
         if (passwordEncoder == null)
             passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         return passwordEncoder.encode(raw);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (memberRepository.count() > 0)
+            return;
+        createMember("admin", "password");
+        createMember("sangmok", "password");
+        logger.info("add user to db.");
     }
 
 }
