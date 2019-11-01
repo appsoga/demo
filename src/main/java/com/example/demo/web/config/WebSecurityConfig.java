@@ -26,8 +26,13 @@ public class WebSecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
 
-            http.antMatcher("/api/**").authorizeRequests().anyRequest().permitAll().and().httpBasic().realmName("SMKOR")
-                    .and().csrf().disable();
+            http.antMatcher("/api/**").authorizeRequests()
+                    //
+                    .antMatchers("/api/member/**").hasRole("USER")
+                    //
+                    .anyRequest().permitAll();
+            http.httpBasic().realmName("SMKOR");
+            http.csrf().disable();
 
         }
     }
@@ -39,19 +44,22 @@ public class WebSecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
 
-            http.csrf().disable()
+            http.antMatcher("/app/**").authorizeRequests()
                     //
-                    .antMatcher("/app/**").authorizeRequests().antMatchers("/app/login").access("permitAll")
-                    .antMatchers("/app/dashbord/**").hasRole("USER").anyRequest().authenticated()
+                    .antMatchers("/app/login").permitAll()
                     //
-                    .and().formLogin().usernameParameter("username").passwordParameter("password")
-                    .loginPage("/app/login").loginProcessingUrl("/app/login-process")
-                    // .and().rememberMe().rememberMeParameter("remember-me")
-                    // .tokenRepository(tokenRepository).tokenValiditySeconds(86400)
-                    .and().logout().logoutUrl("/app/logout").logoutSuccessUrl("/")
+                    .antMatchers("/app/dashbord/**").hasRole("USER")
                     //
-                    .and().headers()
-                    .addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy", "script-src 'self'"))
+                    .anyRequest().authenticated();
+            http.csrf().disable();
+            http.formLogin()
+                    //
+                    .usernameParameter("username").passwordParameter("password")
+                    //
+                    .loginPage("/app/login").loginProcessingUrl("/app/login-process");
+            http.rememberMe().rememberMeParameter("remember-me");
+            http.logout().logoutUrl("/app/logout").logoutSuccessUrl("/");
+            http.headers().addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy", "script-src 'self'"))
                     .frameOptions().disable();
 
         }
