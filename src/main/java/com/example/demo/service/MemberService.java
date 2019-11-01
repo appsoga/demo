@@ -45,7 +45,7 @@ public class MemberService implements InitializingBean {
         Member e1 = new Member();
         e1.setUsername(username);
         e1.setPassword(encode(password));
-        return memberRepository.saveAndFlush(e1);
+        return createMember(e1);
     }
 
     public Member modifyMember(Member e1) {
@@ -53,10 +53,15 @@ public class MemberService implements InitializingBean {
             logger.debug("entity is must not null.");
             return null;
         }
+        logger.info("param e1: {}", e1);
         Member reade1 = getMemberByUsername(e1.getUsername());
-        if (!reade1.getName().equals(e1.getName()))
+        if (reade1 == null) {
+            logger.debug("not found member: {}", e1);
+            return null;
+        }
+        if (e1.getName() != null)
             reade1.setName(e1.getName());
-        if (!reade1.getEmail().equals(e1.getEmail()))
+        if (e1.getEmail() != null)
             reade1.setEmail(e1.getEmail());
         return memberRepository.saveAndFlush(reade1);
     }

@@ -28,7 +28,7 @@ public class WebSecurityConfig {
 
             http.antMatcher("/api/**").authorizeRequests()
                     //
-                    .antMatchers("/api/member/**").hasRole("USER")
+                    // .antMatchers("/api/member/**").hasRole("USER")
                     //
                     .anyRequest().permitAll();
             http.httpBasic().realmName("SMKOR");

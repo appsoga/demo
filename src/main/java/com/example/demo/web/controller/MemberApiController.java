@@ -61,8 +61,10 @@ public class MemberApiController {
             UriComponentsBuilder ucBuilder) {
         logger.info("update member: {}", e1);
         if (e1 == null || !e1.getUsername().equals(username))
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Member>(e1, HttpStatus.BAD_REQUEST);
         e1 = memberService.modifyMember(e1);
+        if (e1 == null)
+            return new ResponseEntity<Member>(e1, HttpStatus.NOT_FOUND);
         return new ResponseEntity<Member>(e1, HttpStatus.OK);
     }
 
