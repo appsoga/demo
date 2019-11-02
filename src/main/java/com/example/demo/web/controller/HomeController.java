@@ -25,14 +25,6 @@ public class HomeController {
         return "dashboard";
     }
 
-    /**
-     * datatable의 예제
-     */
-    @RequestMapping(value = "app/datatable")
-    public String app_datatable_html() {
-        return "datatable";
-    }
-
     @RequestMapping(value = "app/login", method = RequestMethod.GET)
     public String app_login_html() {
         return "login";
