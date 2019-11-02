@@ -9,42 +9,41 @@
         $(document).ready(function () {
             $('#example').DataTable({
                 orderCellsTop: true,
-                fixedHeader: true
+                fixedHeader: true,
+                responsive: true,
+                dom: '<"row"<"col"i><"col text-right"B>><"clear">t<"row"<"col-4"f><"col"p>>',
+                buttons: [
+                    {
+                        text: 'Add Member',
+                        className: 'btn btn-sm btn-primary',
+                        action: function (e, dt, node, config) {
+                            alert('Button activated');
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        autoFilter: true,
+                        sheetName: 'Exported data'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        download: 'open'
+                    }
+                ]
             });
         });
     </script>
 </head>
 
 <body>
-    <div>   
+    <div>
         <div>
             <div>
                 <div layout:fragment="content">
-
-                    콘텐츠내용이 들가야지
-
-                    <h5>기본버튼들</h5>
+                    <hr />
                     <div>
-                        <button type="button" class="btn btn-primary">Primary</button>
-                        <button type="button" class="btn btn-secondary">Secondary</button>
-                        <button type="button" class="btn btn-success">Success</button>
-                        <button type="button" class="btn btn-danger">Danger</button>
-                        <button type="button" class="btn btn-warning">Warning</button>
-                        <button type="button" class="btn btn-info">Info</button>
-                        <button type="button" class="btn btn-light">Light</button>
-                        <button type="button" class="btn btn-dark">Dark</button>
-
-                        <button type="button" class="btn btn-link">Link</button>
-                    </div>
-
-                    <h5>작은버튼들</h5>
-                    <div>
-                        <button type="button" class="btn btn-primary btn-sm">Small button</button>
-                        <button type="button" class="btn btn-secondary btn-sm">Small button</button>
-                    </div>
-
-                    <div>
-                        <table class="table table-sm table-striped table-bordered" id="example" style="width:100%">
+                        <table class="table table-sm table-striped table-bordered" id="example" style="width:100%"
+                            data-order='[[ 4, "desc" ]]' data-page-length='12'>
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -57,7 +56,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Tiger Nixon</td>
+                                    <td>홍길동</td>
                                     <td>System Architect</td>
                                     <td>Edinburgh</td>
                                     <td>61</td>
@@ -530,6 +529,7 @@
             </div>
         </div>
     </div>
-    
+
 </body>
+
 </html>
