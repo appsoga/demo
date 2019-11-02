@@ -1,0 +1,22 @@
+
+
+body { 
+    background-color: midnightblue; 
+}
+
+div.contentbody { 
+    background-color: white;
+    padding-bottom: 30px; 
+}
+
+div.page-content {
+    padding-top: 30px;
+}
+
+footer.card {
+    background-color: midnightblue;
+    color: aliceblue;
+    /* font-weight: bolder; */
+    margin-top: 10px;
+    padding: 20px;
+}

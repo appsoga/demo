@@ -3,8 +3,38 @@
 
 <body>
     <div>
-        <footer th:fragment="defaultFooter">
-            Layout Common Footer
+        <footer th:fragment="defaultFooter" class="card">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h6>USEFUL LINKS</h6>
+                        <ul>
+                            <li><a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/"
+                                    target="_new">Bootstrap 4</a></li>
+                            <li><a href="https://datatables.net/manual/" target="_new">DataTables</a></li>
+                            <li><a href="https://www.chartjs.org/docs/latest/" target="_new">Chartjs</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col">
+                        <h6>REFERENCE LINKS</h6>
+                        <ul>
+                            <li><a href="https://oss.kr" target="_new">OSS(Open Source Software)</a></li>
+                            <li><a href="https://www.olis.or.kr/license/Detailselect.do?lId=1006&mapCode=010006"
+                                    target="_new">OLIS(OpensourcesSW License)</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col">
+                        <h6>DEVELOPMENT LINKS</h6>
+                        <ul>
+                            <li><a href="http://localhost:8080/api/member/admin" target="_new">API path</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+                <span>MIT License, Copyright (c) APPSOGA.</span>
+            </div>
         </footer>
     </div>
 </body>
