@@ -88,6 +88,11 @@
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
+      <artifactId>datatables-fixedheader</artifactId>
+      <version>3.1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
       <artifactId>jszip</artifactId>
       <version>3.1.0</version>
     </dependency>
