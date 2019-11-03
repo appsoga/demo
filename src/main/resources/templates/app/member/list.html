@@ -7,20 +7,29 @@
     <!-- <link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" /> -->
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#example').DataTable({
-                orderCellsTop: true,
+
+            var table = $('#example').DataTable({
+                // orderCellsTop: true,
                 // fixedHeader: true,
                 responsive: true,
-                dom: 'Bt<"row"<"col-4"f><"col"p>>',
-                altEditor: true,
+                dom: '<"row"<"col"i><"col text-right"B>><"clear">t<"row"<"col-4"r><"col"p>>',
                 buttons: [
                     {
-                        text: 'Add',
-                        className: 'btn btn-primary',
-                        name: 'add'
+                        text: 'Add Member',
+                        className: 'btn btn-sm btn-primary',
+                        action: function (e, dt, node, config) {
+                            alert('Button activated');
+                        }
+                    },
+                    {
+                        className: 'btn btn-sm btn-secondary',
+                        extend: 'excelHtml5',
+                        autoFilter: true,
+                        sheetName: 'Exported data'
                     }
                 ]
             });
+
         });
     </script>
 </head>
@@ -35,7 +44,7 @@
                             <h3>> Member</h3>
                         </div>
                         <div class="col text-right">
-                            <button type="button" class="btn btn-primary btn-sm">Add member</button>
+                            <!-- <button type="button" class="btn btn-primary btn-sm">Add member</button> -->
                         </div>
                     </div>
                     <div>
