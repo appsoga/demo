@@ -29,6 +29,5 @@
                 "Copyright <<projectCreationYear>> - <<year>> <<company>>"
             ]
         }
-    ],
-    "java.dependency.packagePresentation": "flat"
+    ]
 }
