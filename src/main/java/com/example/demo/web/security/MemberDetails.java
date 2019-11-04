@@ -26,7 +26,6 @@ public class MemberDetails implements UserDetails {
 	private Integer id;
 	private String name;
 	private Member member;
-	private Integer agencyId;
 
 	public MemberDetails(Integer id, String name, String username, String password, Boolean accountNonExpired,
 			Boolean accountNonLocked, Boolean enabled, Collection<GrantedAuthority> authorities) {
