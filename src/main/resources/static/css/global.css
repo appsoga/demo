@@ -4,19 +4,21 @@ body {
     background-color: midnightblue; 
 }
 
-div.contentbody { 
+article.body { 
     background-color: white;
     padding-bottom: 30px; 
+    margin-bottom: 10px;
 }
 
-div.page-content {
-    padding-top: 20px;
+nav.navbar {
+    margin-bottom: 10px;
 }
 
-footer.card {
-    background-color: midnightblue;
+article>article {
+    padding: 20px;
+}
+
+footer.footer {
     color: aliceblue;
-    /* font-weight: bolder; */
-    margin-top: 10px;
     padding: 20px;
 }

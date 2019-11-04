@@ -16,7 +16,7 @@ public class HomeController {
     private Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     /**
-     * '/' 호출시 응답으로 웹어플 기본경로로 다시 보낸다.
+     * '/' 호출시 응답, 웹어플 기본경로로 다시 보낸다.
      * 
      * @param model
      * @return
@@ -36,4 +36,10 @@ public class HomeController {
         logger.info("locale is {}", locale);
         return "login";
     }
+
+    @RequestMapping(value = "layout/default")
+    public void app_default_html() {
+
+    }
+
 }

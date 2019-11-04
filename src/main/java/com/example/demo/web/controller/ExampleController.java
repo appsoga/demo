@@ -18,4 +18,12 @@ public class ExampleController {
     public void app_chartjs_html() {
     }
 
+    @RequestMapping(value = "ag-grid")
+    public void app_ag_grid_html() {
+    }
+
+    @RequestMapping(value = "ui-grid")
+    public void app_ui_grid_html() {
+    }
+
 }

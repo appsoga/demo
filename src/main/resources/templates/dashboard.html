@@ -4,7 +4,7 @@
 
 <head>
     <title>HOME</title>
-    <!-- <link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" /> -->
+    <script th:src="@{/webjars/chartjs/2.8.0/Chart.min.js}"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -108,10 +108,11 @@
     <div>
         <div>
             <div>
-                <div layout:fragment="content">
-
+                <article layout:fragment="content">
                     <div class="row">
-                        <h5>Dashboard</h5>
+                        <div class="col">
+                            <h4>> Dashboard</h4>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -164,7 +165,7 @@
                         </div>
                     </div>
 
-                </div>
+                </article>
             </div>
         </div>
     </div>

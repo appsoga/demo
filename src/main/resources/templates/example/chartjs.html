@@ -4,7 +4,7 @@
 
 <head>
     <title>HOME</title>
-    <!-- <link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" /> -->
+    <script th:src="@{/webjars/chartjs/2.8.0/Chart.min.js}"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -108,14 +108,14 @@
     <div>
         <div>
             <div>
-                <div layout:fragment="content">
-
+                <article layout:fragment="content">
                     <div class="row">
-                        <h5>JsChart example</h5>
+                        <div class="col">
+                            <h5>JsChart example</h5>
+                        </div>
                     </div>
-
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Special title treatment</h5>
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Special title treatment</h5>
@@ -137,10 +137,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-sm-6">
+                    <!-- </div> -->
+                    <!-- <br /> -->
+                    <!-- <div class="row"> -->
+                        <div class="col-sm-3">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Special title treatment</h5>
@@ -151,7 +151,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Special title treatment</h5>
@@ -164,7 +164,7 @@
                         </div>
                     </div>
 
-                </div>
+                </article>
             </div>
         </div>
     </div>
