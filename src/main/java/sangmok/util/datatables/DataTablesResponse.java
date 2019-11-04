@@ -8,22 +8,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
-import sangmok.util.JsonViewScope;
-
 public class DataTablesResponse<T> {
 
 	private Logger logger = LoggerFactory.getLogger(DataTablesResponse.class);
-	// @JsonView(JsonViewScope.Data.class)
 	private int draw;
-	// @JsonView(JsonViewScope.Data.class)
 	private long recordsFiltered;
-	// @JsonView(JsonViewScope.Data.class)
 	private long recordsTotal;
-	// @JsonView(JsonViewScope.Data.class)
 	private List<Object> data;
-	// @JsonView(JsonViewScope.Data.class)
 	private DataTablesRequest command;
 
 	public DataTablesResponse(DataTablesRequest command, org.springframework.data.domain.Page<T> page, Class<?> wrapperClazz)

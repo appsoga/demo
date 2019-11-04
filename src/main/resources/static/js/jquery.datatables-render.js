@@ -48,7 +48,7 @@
  * 
  * --> 1,234,567
  */
-Number.prototype.format = function() {
+Number.prototype.format = function () {
 	if (this == 0)
 		return 0;
 
@@ -64,7 +64,7 @@ Number.prototype.format = function() {
 /*
  * 숫자형 문자열에서 콤마(,)를 사용하게 해주는 함수 추가
  */
-String.prototype.format = function() {
+String.prototype.format = function () {
 	var num = parseFloat(this);
 	if (isNaN(num))
 		return "0";
@@ -73,9 +73,14 @@ String.prototype.format = function() {
 };
 
 /*
- * =========================================================== 기본타입 형식화
+ * =========================================================== 
+ * 기본타입 형식화
  * ===========================================================
  */
+function dfEmpty(data, type, row) {
+	return '';
+}
+
 function dtFormatPercentage(data, type, row) {
 	if (type === 'display' || type === 'filter') {
 		return (data * 100).toFixed(2) + '%';
@@ -85,7 +90,7 @@ function dtFormatPercentage(data, type, row) {
 
 function dtFormatNumeric(data, type, row) {
 	if (type === 'display' || type === 'filter') {
-		return data.toFixed(0).replace(/./g, function(c, i, a) {
+		return data.toFixed(0).replace(/./g, function (c, i, a) {
 			return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
 		});
 	}
@@ -94,23 +99,23 @@ function dtFormatNumeric(data, type, row) {
 
 function dtFormatCurrency(data, type, row) {
 	if (type === 'display' || type === 'filter') {
-		return data.toFixed(2).replace(/./g, function(c, i, a) {
+		return data.toFixed(2).replace(/./g, function (c, i, a) {
 			return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
 		});
 	}
 	return data;
 }
 
-function dtFormatDate(data, type, row){
-	if ( type === 'display' || type === 'filter' ) {
+function dtFormatDate(data, type, row) {
+	if (type === 'display' || type === 'filter') {
 		return moment(new Date(data)).format('YYYY-MM-DD');
 	}
 	return data;
 }
 
-function dtFormatTimestamp(data, type, row){
-	if ( type === 'display' || type === 'filter' ) {
-//		return moment(new Date(data)).format('YYYY-MM-DD HH:mm:ss');
+function dtFormatTimestamp(data, type, row) {
+	if (type === 'display' || type === 'filter') {
+		//		return moment(new Date(data)).format('YYYY-MM-DD HH:mm:ss');
 		return moment(data).format('YYYY-MM-DD HH:mm:ss');
 	}
 	return data;
@@ -120,15 +125,15 @@ function dtFormatTimestamp(data, type, row){
  * 확장타입 형식화
  * ===========================================================*/
 function dtFormatName(data, type, row) {
-	if ( type === 'display' || type === 'filter' ) {
-		var mask = data.length > 3 ? '**':'*';
+	if (type === 'display' || type === 'filter') {
+		var mask = data.length > 3 ? '**' : '*';
 		return data.replace(/(\S{1})(\S{1})(\S{1})/, '$1' + mask + '$3');
 	}
 	return data;
 }
 
 function dtFormatPhoneNo(data, type, row) {
-	if ( type === 'display' || type === 'filter' ) {
+	if (type === 'display' || type === 'filter') {
 		return data.replace(/(\d{3})(\d{4})(\d{4})/, '$1-****-$3');
 	}
 	return data;

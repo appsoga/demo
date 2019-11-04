@@ -78,6 +78,11 @@
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
+      <artifactId>momentjs</artifactId>
+      <version>2.24.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
       <artifactId>datatables</artifactId>
       <version>1.10.20</version>
     </dependency>
@@ -116,6 +121,7 @@
       <artifactId>ui-grid</artifactId>
       <version>3.2.5</version>
     </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>

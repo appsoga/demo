@@ -15,28 +15,48 @@
     <script th:src="@{/webjars/datatables-fixedheader/3.1.4/js/dataTables.fixedHeader.js}"></script>
     <script th:src="@{/webjars/datatables-responsive/2.2.3/js/dataTables.responsive.js}"></script>
     <script th:src="@{/webjars/datatables-responsive/2.2.3/js/responsive.bootstrap4.js}"></script>
-    <!-- <script th:src="@{/js/jquery.datatables-render.js}"></script> -->
+    <script th:src="@{/js/jquery.datatables-render.js}"></script>
     <script th:src="@{/js/jquery.spring-friendly.min.js}"></script>
 
     <script type="text/javascript">
+
         $(document).ready(function () {
 
             var table;
             var columns = [
-                {data:"id",          name:"id"},
-                {data:"username",    name:"username"},
-                {data:"name",        name:"name"},
-                {data:"email",       name:"email"}
+                { data: "id", name: "id" },
+                { data: "username", name: "username" },
+                { data: "name", name: "name" },
+                { data: "email", name: "email" },
+                { data: "expiresOn", name: "expiresOn" }
+                // { render: dfEmpty, sortable: false}
             ];
 
+            // Setup - add a text input to each footer cell
+            $('#datatable1 thead tr').clone(true).appendTo('#datatable1 thead');
+            $('#datatable1 thead tr:eq(1) th').each(function (i) {
+                var title = $(this).text();
+                $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Search ' + title + '" />');
+
+                $('input', this).on('change', function () {
+                    if (table.column(i).search() !== this.value) {
+                        table
+                            .column(i)
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
             table = $('#datatable1').DataTable({
-                
+
                 "sPaginationType": "full_numbers",
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
                     "url": "datatable.json",
-                    "type": "GET"
+                    "type": "GET",
+                    "data": function ( data ) { if (console) console.info(JSON.stringify(data)) }
                 },
                 "columns": columns,
                 buttons: [
@@ -85,6 +105,8 @@
                                     <th>아이디</th>
                                     <th>성명</th>
                                     <th>전자메일</th>
+                                    <th>만료일</th>
+                                    <!-- <th>명령</th> -->
                                 </tr>
                             </thead>
                         </table>
