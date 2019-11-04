@@ -31,3 +31,77 @@ content-type: application/json
 
 ### 사용자 삭제
 DELETE http://localhost:8080/api/member/user1 HTTP/1.1
+
+
+
+
+### datatable 테스트
+GET http://localhost:8080/app/member/datatable.json HTTP/1.1
+
+list: 66 {
+    "draw": 17,
+    "columns": [
+        {
+            "data": "id",
+            "name": "id",
+            "searchable": true,
+            "orderable": true,
+            "search": {
+                "value": "",
+                "regex": false
+            }
+        },
+        {
+            "data": "username",
+            "name": "username",
+            "searchable": true,
+            "orderable": true,
+            "search": {
+                "value": "",
+                "regex": false
+            }
+        },
+        {
+            "data": "name",
+            "name": "name",
+            "searchable": true,
+            "orderable": true,
+            "search": {
+                "value": "1024",
+                "regex": false
+            }
+        },
+        {
+            "data": "email",
+            "name": "email",
+            "searchable": true,
+            "orderable": true,
+            "search": {
+                "value": "",
+                "regex": false
+            }
+        },
+        {
+            "data": "expiresOn",
+            "name": "expiresOn",
+            "searchable": true,
+            "orderable": true,
+            "search": {
+                "value": "",
+                "regex": false
+            }
+        }
+    ],
+    "order": [
+        {
+            "column": 0,
+            "dir": "asc"
+        }
+    ],
+    "start": 0,
+    "length": 25,
+    "search": {
+        "value": "1024",
+        "regex": false
+    }
+}

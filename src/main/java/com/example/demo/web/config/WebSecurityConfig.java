@@ -46,7 +46,7 @@ public class WebSecurityConfig {
 
             http.antMatcher("/app/**").authorizeRequests()
                     //
-                    .antMatchers("/app/login").permitAll()
+                    .antMatchers("/app/login", "/app/**/*.json").permitAll()
                     //
                     .antMatchers("/app/dashbord/**").hasRole("USER")
                     //
