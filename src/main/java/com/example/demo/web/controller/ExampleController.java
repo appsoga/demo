@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.example.demo.data.Member;
 import com.example.demo.repository.MemberRepository;
+import com.example.demo.web.controller.MemberController.MemberSpecs;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,8 +35,6 @@ public class ExampleController {
     @RequestMapping(value = "datatable")
     public void app_datatable_html() {
     }
-
-   
 
     @RequestMapping(value = "chartjs")
     public void app_chartjs_html() {
@@ -154,6 +154,64 @@ public class ExampleController {
             return t;
         }
 
+    }
+
+    // #####################################
+    // jTable example
+    // #####################################
+
+    @RequestMapping(value = "jsgrid")
+    public void app_jgrid_html() {
+    }
+
+    @lombok.Data
+    public static class JsGridRequest {
+        private Integer pageIndex = 0;
+        private Integer pageSize = 10;
+        private String sortField;
+        private String sortOrder;
+
+        public Sort getSort() {
+            if (sortField == null)
+                return Sort.unsorted();
+            if (sortOrder == null)
+                return Sort.unsorted();
+
+            Direction direction = (sortOrder.equalsIgnoreCase("ASC")) ? Direction.ASC : Direction.DESC;
+            // return Sort.
+            return Sort.by(direction, sortField);
+        }
+    }
+
+    @lombok.Data
+    public static class JsGridResponse<T> {
+        private List<T> data;
+        private Long itemsCount;
+    }
+
+    @RequestMapping(value = "jsgrid-list")
+    public @ResponseBody JsGridResponse<Member> jsgrid_list(@ModelAttribute Member filter,
+            @ModelAttribute JsGridRequest jsr) {
+        logger.info("jtable request is {}, filter is {}", jsr, filter);
+        JTablesPageRequest pageable = new JTablesPageRequest(jsr.getPageIndex() - 1, jsr.getPageSize(), jsr.getSort());
+        Specification<Member> specs = Specification.where(null);
+
+        if (filter.getId() !=null && !filter.getId().equals(0)) {
+            Specification<Member> spec1 = Specification.where(MemberSpecs.equalId(filter.getId()));
+            specs = Specification.where(specs).and(spec1);
+        }
+
+        if (!filter.getUsername().isEmpty()) {
+            Specification<Member> spec1 = Specification.where(MemberSpecs.equalUsername(filter.getUsername()));
+            specs = Specification.where(specs).and(spec1);
+        }
+
+        Page<Member> page = memberRepository.findAll(specs, pageable);
+        // jsgrid response
+        JsGridResponse<Member> jtr = new JsGridResponse<Member>();
+        jtr.setData(page.getContent());
+        jtr.setItemsCount(page.getTotalElements());
+        return jtr;
     }
 
 }

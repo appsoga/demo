@@ -62,7 +62,7 @@ public class MemberController {
         // specs = Specifications.where(EmployeeSpecifications.inAgency(allAgencys));
         // }
 
-        specs = Specification.where(MemberSpecs.usernameNotNull());
+        specs = Specification.where(MemberSpecs.notNullUsername());
 
         Specification<Member> spec1 = SpecificationFactory.createSpecification(request);
         specs = Specification.where(specs).and(spec1);
@@ -76,13 +76,35 @@ public class MemberController {
     }
 
     public static class MemberSpecs {
-        public static Specification<Member> usernameNotNull() {
+        public static Specification<Member> notNullUsername() {
             return new Specification<Member>() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public Predicate toPredicate(Root<Member> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                     return cb.isNotNull(root.get("username"));
+                }
+            };
+        }
+
+        public static Specification<Member> equalId(Integer key) {
+            return new Specification<Member>() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public Predicate toPredicate(Root<Member> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                    return cb.equal(root.get("id"), key);
+                }
+            };
+        }
+
+        public static Specification<Member> equalUsername(String key) {
+            return new Specification<Member>() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public Predicate toPredicate(Root<Member> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                    return cb.equal(root.get("username"), key);
                 }
             };
         }
