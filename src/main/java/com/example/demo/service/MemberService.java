@@ -91,10 +91,10 @@ public class MemberService implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         if (memberRepository.count() > 0)
             return;
-        for (int i = 1; i <= 1024; i++) {
+        for (int i = 1; i <= 300; i++) {
             Member e1 = new Member();
             e1.setEmail(String.format("user%d@xxx.com", i));
-            e1.setExpiresOn(Calendar.getInstance());
+            e1.setExpiresOn(Calendar.getInstance().getTime());
             e1.setName(String.format("user%d", i));
             e1.setPassword(encode("password"));
             e1.setUsername(String.format("user%d", i));

@@ -8,7 +8,7 @@
  */
 package com.example.demo.data;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @lombok.Data
 @Entity
@@ -33,17 +35,23 @@ public class Member {
     @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "USERNAME")
+    @Column(name = "USERNAME", unique = true)
     private String username;
 
     @Column(name = "PASSWORD")
     private String password;
 
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
+    @Column(name = "ENABLED", nullable = false, length = 1)
+    private Boolean enabled = false;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     @Temporal(TemporalType.DATE)
     @Column(name = "EXPIRES_ON")
-    private Calendar expiresOn;
+    private Date expiresOn;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_ACCESSS_ON")
-    private Calendar lastAccessedOn;
+    private Date lastAccessedOn;
 }

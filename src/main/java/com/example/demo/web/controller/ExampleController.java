@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +34,7 @@ public class ExampleController {
     public void app_datatable_html() {
     }
 
-    @RequestMapping(value = "jtable")
-    public void app_jtable_html() {
-    }
+   
 
     @RequestMapping(value = "chartjs")
     public void app_chartjs_html() {
@@ -49,6 +46,14 @@ public class ExampleController {
 
     @RequestMapping(value = "ui-grid")
     public void app_ui_grid_html() {
+    }
+
+    // #####################################
+    // jTable example
+    // #####################################
+
+    @RequestMapping(value = "jtable")
+    public void app_jtable_html() {
     }
 
     // http://localhost:8080/example/jtable-list?jtStartIndex=0&jtPageSize=10&jtSorting=Name%20ASC
@@ -139,10 +144,11 @@ public class ExampleController {
     public static class EntityUtils {
 
         public static Member copyForUpdate(Member t, Member s) {
-            t.setUsername(s.getUsername());
+            // t.setUsername(s.getUsername());
             // t.setPassword(s.getPassword());
             t.setName(s.getName());
             t.setEmail(s.getEmail());
+            t.setEnabled(s.getEnabled());
             t.setExpiresOn(s.getExpiresOn());
             // t.setLastAccessedOn(s.getLastAccessedOn());
             return t;

@@ -101,11 +101,11 @@
                             data-page-length='25'>
                             <thead>
                                 <tr>
-                                    <th>번호</th>
-                                    <th>아이디</th>
-                                    <th>성명</th>
-                                    <th>전자메일</th>
-                                    <th>만료일</th>
+                                    <th th:text="#{label.no}">번호</th>
+                                    <th th:text="#{label.id}">아이디</th>
+                                    <th th:text="#{label.username}">성명</th>
+                                    <th th:text="#{label.email}">전자메일</th>
+                                    <th th:text="#{label.expiresOn}">만료일</th>
                                     <!-- <th>명령</th> -->
                                 </tr>
                             </thead>

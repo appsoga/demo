@@ -47,7 +47,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
 		Boolean accountNonExpired = false;
 		if (member.getExpiresOn() == null)
 			accountNonExpired = true;
-		else if (member.getExpiresOn().compareTo(Calendar.getInstance()) > 0)
+		else if (member.getExpiresOn().compareTo(Calendar.getInstance().getTime()) > 0)
 			accountNonExpired = true;
 		else
 			accountNonExpired = false;
