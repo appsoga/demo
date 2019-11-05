@@ -193,19 +193,18 @@ public class ExampleController {
     public @ResponseBody JsGridResponse<Member> jsgrid_list(@ModelAttribute Member filter,
             @ModelAttribute JsGridRequest jsr) {
         logger.info("jtable request is {}, filter is {}", jsr, filter);
-        JTablesPageRequest pageable = new JTablesPageRequest(jsr.getPageIndex() - 1, jsr.getPageSize(), jsr.getSort());
-        Specification<Member> specs = Specification.where(null);
 
-        if (filter.getId() !=null && !filter.getId().equals(0)) {
+        Specification<Member> specs = Specification.where(null);
+        if (filter.getId() != null && !filter.getId().equals(0)) {
             Specification<Member> spec1 = Specification.where(MemberSpecs.equalId(filter.getId()));
             specs = Specification.where(specs).and(spec1);
         }
-
         if (!filter.getUsername().isEmpty()) {
             Specification<Member> spec1 = Specification.where(MemberSpecs.equalUsername(filter.getUsername()));
             specs = Specification.where(specs).and(spec1);
         }
 
+        JTablesPageRequest pageable = new JTablesPageRequest(jsr.getPageIndex() - 1, jsr.getPageSize(), jsr.getSort());
         Page<Member> page = memberRepository.findAll(specs, pageable);
         // jsgrid response
         JsGridResponse<Member> jtr = new JsGridResponse<Member>();
