@@ -5,8 +5,8 @@
 
 <head>
     <title>jqGrid Example</title>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" th:href="@{/jqgrid/5.4.0/css/ui.jqgrid-bootstrap4.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/jqgrid/5.4.0/css/ui.jqgrid-bootstrap.css}">
 
     <!-- <link th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}" rel="stylesheet" media="screen" /> -->
 
@@ -16,15 +16,28 @@
 
     <!-- <script type="text/ecmascript" th:src="@{/webjars/free-jqgrid/4.15.4/js/jquery.jqgrid.min.js}"></script> -->
     <!-- <script type="text/ecmascript" th:src="@{/webjars/free-jqgrid/4.15.4/js/i18n/grid.locale-kr.js}"></script> -->
- 
+
     <script type="text/javascript">
+
+        $.jgrid.defaults.responsive = true;
+        $.jgrid.defaults.styleUI = 'Bootstrap';
+
         $(document).ready(function () {
 
             $("#jqGrid").jqGrid({
                 url: 'jqgrid-list',
                 mtype: "GET",
                 datatype: "json",
-                styleUI: "Bootstrap",
+                // postData: { username: 'admin' },
+                loadBeforeSend: function (xhr, grid) {
+                    if (console.log(grid.url));
+                },
+                loadComplete: function (data) {
+                    if (console.log(data));
+                },
+                loadError: function (xhr, status, error) {
+                    alert("실패>>" + error);
+                },
                 colModel: [
                     { label: '번호', name: 'id', key: true, index: 'id', sortable: true, sorttype: 'number', width: 70, align: 'right' },
                     { label: '아이디', name: 'username', width: 150 },
@@ -34,15 +47,57 @@
                         label: '만료일자', name: 'expiresOn', index: 'expiresOn', sortable: true, sorttype: 'date', formatter: 'date',
                         formatoptions: { srcformat: 'ISO8601Long', newformat: 'Y-m-d' }
                     },
-                    { label: '사용여부', name: 'enabled' }
+                    { label: '사용여부', name: 'enabled', formatter: 'checkbox' }
                 ],
-                viewrecords: true,
                 height: 250,
+                autowidth: true,
+                ignoreCase: true,
                 sortable: true,
-                rowNum: 10,
+                multiselect: true,
+                rowNum: 20,
                 rowList: [10, 20, 50, 100],
+                scroll: true,
+                viewrecords: true,
+                page: 1,
                 pager: "#jqGridPager",
                 caption: "JqGrid Sample By sangmok"
+            });
+
+            jQuery("#jqGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
+            $("#jqGrid").jqGrid('bindKeys');
+
+            // add navigation bar with some built in actions for the grid
+            $('#jqGrid').navGrid('#jqGridPager',
+                {
+                    edit: true,
+                    add: true,
+                    del: true,
+                    search: true,
+                    refresh: true,
+                    view: true,
+                    position: "right",
+                    cloneToTop: false
+                });
+
+
+            $("#username").on('change keyup paste', function () {
+
+                // Fetch the text from our <input> control 
+                var searchString = $("#username").val();
+                // Prepare to pass a new search filter to our jqGrid 
+                var f = { groupOp: "AND", rules: [] };
+                // Remember to change the following line to reflect the jqGrid column you want to search for your string in 
+                // In this example, I'm searching through the UserName column. 
+                f.rules.push({ field: "username", op: "cn", data: searchString });
+
+                if (console)
+                    console.log(JSON.stringify(f));
+
+                var grid = $('#jqGrid');
+                grid[0].p.search = f.rules.length > 0;
+                $.extend(grid[0].p.postData, { filters: JSON.stringify(f) });
+                grid.trigger("reloadGrid", [{ page: 1 }]);
+
             });
 
         });
@@ -61,6 +116,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
+                            Employee name: <input type="text" name="username" id="username" style="width:250px" />
                             <table id="jqGrid" style="width:100%"></table>
                             <div id="jqGridPager"></div>
                         </div>

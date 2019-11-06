@@ -46,8 +46,9 @@ public class ExampleController {
     }
 
     @RequestMapping(value = "jqgrid-list")
-    public @ResponseBody JqGridResponse<Member> jqgrid_list(@ModelAttribute JqGridRequest jr) {
-        logger.info("jtable request is {}", jr);
+    public @ResponseBody JqGridResponse<Member> jqgrid_list(@ModelAttribute Member filter,
+            @ModelAttribute JqGridRequest jr) {
+        logger.info("jtable request is {}, filter: {}", jr, filter);
         JTablesPageRequest pageable = new JTablesPageRequest(jr.getPage() - 1, jr.getRows(), jr.getSort());
         Page<Member> page = memberRepository.findAll(pageable);
         // jtable response
@@ -70,6 +71,11 @@ public class ExampleController {
         private String sidx;
         @JsonProperty("sord")
         private String sord;
+
+        @JsonProperty("_search")
+        private Boolean search;
+
+        private Long nd;
 
         public Sort getSort() {
             if (sidx == null || sidx.isEmpty())
