@@ -1,28 +1,4 @@
-
-
-body { 
-    background-color: midnightblue; 
-}
-
-article.body { 
-    background-color: white;
-    padding-bottom: 30px; 
-    margin-bottom: 10px;
-}
-
-nav.navbar {
-    margin-bottom: 10px;
-}
-
-article>article {
-    padding: 20px;
-}
-
-footer.footer {
-    color: aliceblue;
-    padding: 20px;
-}
-
+@charset "UTF-8";
 
 @font-face {
   font-family: 'Glyphicons Halflings';

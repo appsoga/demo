@@ -48,9 +48,10 @@ public class WebSecurityConfig {
                     //
                     .antMatchers("/app/login", "/app/**/*.json").permitAll()
                     //
-                    .antMatchers("/app/dashbord/**").hasRole("USER")
+                    // .antMatchers("/app/dashbord/**").hasRole("USER")
                     //
-                    .anyRequest().authenticated();
+                    // .anyRequest().authenticated();
+                    .anyRequest().permitAll();
             http.csrf().disable();
             http.formLogin()
                     //
