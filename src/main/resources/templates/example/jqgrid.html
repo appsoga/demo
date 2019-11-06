@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout/default}">
+<!-- <html lang="ko" ng-app="app" xmlns:th="http://www.thymeleaf.org"> -->
+
+<head>
+    <title>jqGrid Example</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" th:href="@{/jqgrid/5.4.0/css/ui.jqgrid-bootstrap4.css}">
+
+    <!-- <link th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}" rel="stylesheet" media="screen" /> -->
+
+    <!-- <script type="text/ecmascript" th:src="@{/jqgrid/5.4.0/js/jquery-1.11.0.min.js}"></script> -->
+    <script type="text/ecmascript" th:src="@{/jqgrid/5.4.0/js/jquery.jqGrid.min.js}"></script>
+    <script type="text/ecmascript" th:src="@{/jqgrid/5.4.0/js/i18n/grid.locale-kr.js}"></script>
+
+    <!-- <script type="text/ecmascript" th:src="@{/webjars/free-jqgrid/4.15.4/js/jquery.jqgrid.min.js}"></script> -->
+    <!-- <script type="text/ecmascript" th:src="@{/webjars/free-jqgrid/4.15.4/js/i18n/grid.locale-kr.js}"></script> -->
+ 
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#jqGrid").jqGrid({
+                url: 'jqgrid-list',
+                mtype: "GET",
+                datatype: "json",
+                styleUI: "Bootstrap",
+                colModel: [
+                    { label: '번호', name: 'id', key: true, index: 'id', sortable: true, sorttype: 'number', width: 70, align: 'right' },
+                    { label: '아이디', name: 'username', width: 150 },
+                    { label: '성명', name: 'name', index: 'name', sortable: true, sorttype: 'text' },
+                    { label: '전자메일', name: 'email', width: 250 },
+                    {
+                        label: '만료일자', name: 'expiresOn', index: 'expiresOn', sortable: true, sorttype: 'date', formatter: 'date',
+                        formatoptions: { srcformat: 'ISO8601Long', newformat: 'Y-m-d' }
+                    },
+                    { label: '사용여부', name: 'enabled' }
+                ],
+                viewrecords: true,
+                height: 250,
+                sortable: true,
+                rowNum: 10,
+                rowList: [10, 20, 50, 100],
+                pager: "#jqGridPager",
+                caption: "JqGrid Sample By sangmok"
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+    <div>
+        <div>
+            <div>
+                <article layout:fragment="content">
+                    <div class="row">
+                        <div class="col">
+                            <h4>jqGrid Example</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="jqGrid" style="width:100%"></table>
+                            <div id="jqGridPager"></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

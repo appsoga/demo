@@ -42,15 +42,15 @@ public class Member {
     private String password;
 
     @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
-    @Column(name = "ENABLED", nullable = false, length = 1)
+    @Column(name = "ENABLED", nullable = false)
     private Boolean enabled = false;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     @Temporal(TemporalType.DATE)
     @Column(name = "EXPIRES_ON")
     private Date expiresOn;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_ACCESSS_ON")
     private Date lastAccessedOn;

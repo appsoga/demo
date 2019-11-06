@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.example.demo.data.Member;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.web.controller.MemberController.MemberSpecs;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.slf4j.Logger;
@@ -40,12 +41,61 @@ public class ExampleController {
     public void app_chartjs_html() {
     }
 
-    @RequestMapping(value = "ag-grid")
-    public void app_ag_grid_html() {
+    @RequestMapping(value = "jqgrid")
+    public void app_jqgrid_html() {
     }
 
-    @RequestMapping(value = "ui-grid")
-    public void app_ui_grid_html() {
+    @RequestMapping(value = "jqgrid-list")
+    public @ResponseBody JqGridResponse<Member> jqgrid_list(@ModelAttribute JqGridRequest jr) {
+        logger.info("jtable request is {}", jr);
+        JTablesPageRequest pageable = new JTablesPageRequest(jr.getPage() - 1, jr.getRows(), jr.getSort());
+        Page<Member> page = memberRepository.findAll(pageable);
+        // jtable response
+        JqGridResponse<Member> jtr = new JqGridResponse<Member>();
+        jtr.setData(page.getContent());
+        jtr.setTotalRecords(page.getTotalElements());
+        jtr.setTotalPageSize(page.getTotalPages());
+        jtr.setCurrentPage(page.getNumber() + 1);
+        return jtr;
+    }
+
+    @lombok.Data
+    public static class JqGridRequest {
+        private Integer q;
+        @JsonProperty("page")
+        private Integer page = 1;
+        @JsonProperty("rows")
+        private Integer rows = 10;
+        @JsonProperty("sidx")
+        private String sidx;
+        @JsonProperty("sord")
+        private String sord;
+
+        public Sort getSort() {
+            if (sidx == null || sidx.isEmpty())
+                return Sort.unsorted();
+            if (sord == null || sord.isEmpty())
+                return Sort.unsorted();
+
+            Direction direction = (sord.equalsIgnoreCase("ASC")) ? Direction.ASC : Direction.DESC;
+            // return Sort.
+            return Sort.by(direction, sidx);
+        }
+    }
+
+    // {"page":1,"total":1,"records":1,"rows":[{"id":1,"cell":["johnsmith",1,"John","Smith",1]}]}
+
+    @lombok.Data
+    public static class JqGridResponse<T> {
+        @JsonFormat(shape = JsonFormat.Shape.STRING)
+        @JsonProperty("records")
+        private Long totalRecords;
+        @JsonProperty("page")
+        private Integer currentPage;
+        @JsonProperty("total")
+        private Integer totalPageSize;
+        @JsonProperty("rows")
+        private List<T> data;
     }
 
     // #####################################
