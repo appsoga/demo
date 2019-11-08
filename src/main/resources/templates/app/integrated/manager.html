@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout/bootstrap}">
+
+<head>
+    <title th:text="#{label.menu.examples-jsgrid}">untitled</title>
+    <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid-theme.min.css}" rel="stylesheet" />
+    <style>
+        div.jsgrid {
+            font-size: small;
+        }
+
+        div.jsgrid tbody tr td {
+            padding: 2px;
+        }
+
+        div.jsgrid-grid-header.jsgrid-header-scrollbar>table>tbody>tr.jsgrid-filter-row>td:nth-child(2)>input[type=text],
+        div.jsgrid-grid-header.jsgrid-header-scrollbar>table>tbody>tr.jsgrid-filter-row>td.jsgrid-cell.jsgrid-align-right>input[type=number] {
+            padding: 1px;
+        }
+
+        div.card-body {
+            padding: 7px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <article class="container-fluid" layout:fragment="content">
+
+        <div class="page-path row">
+            <div class="col">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                Home > <span class="page-current-path" th:text="#{label.menu.examples-jsgrid}">About</span>
+            </div>
+        </div>
+        <div class="page-body row">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">신규 가입자
+                            </div>
+                            <div class="col-6 text-right">
+                                <span id="jsGrid1Pager">itemsCount</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="jsGrid"></div>
+                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div th:fragment="javascript">
+        <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                var countries = [
+                    { Name: "", Id: 0 },
+                    { Name: "United States", Id: 1 },
+                    { Name: "Canada", Id: 2 },
+                    { Name: "United Kingdom", Id: 3 }
+                ];
+
+                $("#jsGrid").jsGrid({
+                    width: "100%",
+                    height: "150px",
+
+                    filtering: true,
+                    // inserting: true,
+                    editing: false,
+                    sorting: true,
+                    paging: true,
+                    autoload: true,
+                    pageLoading: true,
+
+                    pageSize: 15,
+                    pageButtonCount: 1,
+                    pagerContainer: "#jsGrid1Pager",
+                    pagerFormat: "총 {itemCount}",
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    // data: clients,
+
+                    // fields: [
+                    //     { name: "Name", type: "text", width: 150, validate: "required" },
+                    //     { name: "Age", type: "number", width: 50 },
+                    //     { name: "Address", type: "text", width: 200 },
+                    //     { name: "Country", type: "select", items: countries, valueField: "Id", textField: "Name" },
+                    //     { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
+                    //     { type: "control" }
+                    // ],
+                    fields: [
+                        { title: "ID", name: "id", type: "number", filtering: true },
+                        { title: "Username", name: "username", type: "text" },
+                        // { title: "Name", name: "name", type: "text", filtering: false },
+                        // { title: "Email", name: "email", type: "text", filtering: false },
+                        { title: "Enabled", name: "enabled", type: "checkbox" }
+                    ],
+                    onDataLoaded: function (o) {
+                        console.log(o.data.itemsCount);
+                    },
+                    controller: {
+                        loadData: function (filter) {
+                            console.log(filter);
+                            return $.ajax({
+                                type: "GET",
+                                url: "jsgrid-list",
+                                data: filter
+                            });
+                        },
+                        insertItem: $.noop,
+                        updateItem: $.noop,
+                        deleteItem: $.noop
+                    }
+
+
+                });
+
+            });
+        </script>
+    </div>
+</body>
+
+</html>
