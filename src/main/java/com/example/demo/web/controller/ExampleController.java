@@ -19,6 +19,7 @@ import com.example.demo.data.specs.MemberSpecs;
 import sangmok.util.jqgrid.JqGridPageRequest;
 import sangmok.util.jqgrid.JqGridRequest;
 import sangmok.util.jqgrid.JqGridResponse;
+import sangmok.util.jsgrid.JsGridPageRequest;
 import sangmok.util.jsgrid.JsGridRequest;
 import sangmok.util.jsgrid.JsGridResponse;
 import sangmok.util.jtable.JTablePageResponse;
@@ -48,7 +49,7 @@ public class ExampleController {
 	@RequestMapping(value = "jqgrid.html")
 	public void app_jqgrid_html() {
 	}
-	
+
 	@RequestMapping(value = "jqgrid2.html")
 	public void app_jqgrid2_html() {
 	}
@@ -77,11 +78,16 @@ public class ExampleController {
 			specs = Specification.where(specs).and(spec1);
 		}
 		if (!filter.getUsername().isEmpty()) {
-			Specification<Member> spec1 = Specification.where(MemberSpecs.equalUsername(filter.getUsername()));
+			Specification<Member> spec1 = Specification.where(MemberSpecs.likeUsername(filter.getUsername()));
 			specs = Specification.where(specs).and(spec1);
 		}
 
-		JTablesPageRequest pageable = new JTablesPageRequest(jsr.getPageIndex() - 1, jsr.getPageSize(), jsr.getSort());
+		if (filter.getEnabled() != null) {
+			Specification<Member> spec1 = Specification.where(MemberSpecs.equalEnabled(filter.getEnabled()));
+			specs = Specification.where(specs).and(spec1);
+		}
+
+		JsGridPageRequest pageable = new JsGridPageRequest(jsr.getPageIndex() - 1, jsr.getPageSize(), jsr.getSort());
 		Page<Member> page = memberRepository.findAll(specs, pageable);
 		// jsgrid response
 		JsGridResponse<Member> jtr = new JsGridResponse<Member>();

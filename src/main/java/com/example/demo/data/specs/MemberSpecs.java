@@ -42,4 +42,27 @@ public class MemberSpecs {
 			}
 		};
 	}
+
+	public static Specification<Member> likeUsername(String key) {
+		return new Specification<Member>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<Member> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.like(root.get("username"), "%" + key + "%");
+			}
+		};
+	}
+
+	public static Specification<Member> equalEnabled(Boolean key) {
+		return new Specification<Member>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<Member> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.equal(root.get("enabled"), key);
+			}
+		};
+	}
+
 }
