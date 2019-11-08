@@ -11,9 +11,9 @@ public class JsGridRequest {
 	private String sortOrder;
 
 	public Sort getSort() {
-		if (sortField == null)
+		if (sortField == null || sortField.isEmpty())
 			return Sort.unsorted();
-		if (sortOrder == null)
+		if (sortOrder == null || sortOrder.isEmpty())
 			return Sort.unsorted();
 
 		Direction direction = (sortOrder.equalsIgnoreCase("ASC")) ? Direction.ASC : Direction.DESC;

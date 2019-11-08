@@ -126,10 +126,9 @@ public class ExampleController {
 	@RequestMapping(value = "jtable-update")
 	public @ResponseBody JTablePageResponse<Member> jtable_update(@ModelAttribute Member member) {
 		Integer id = member.getId();
-		Optional<Member> o1 = memberRepository.findById(id);
-		Member e1 = EntityUtils.copyForUpdate(o1.get(), member);
-		Member er1 = memberRepository.save(e1);
-		return new JTablePageResponse<Member>(er1);
+		Member readItem = memberRepository.getOne(id);
+		EntityUtils.copyForUpdate(readItem, member);
+		return new JTablePageResponse<Member>(memberRepository.save(readItem));
 	}
 
 	public static class EntityUtils {

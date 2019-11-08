@@ -47,6 +47,7 @@ public class MemberService implements InitializingBean {
         Member e1 = new Member();
         e1.setUsername(username);
         e1.setPassword(encode(password));
+        e1.setEnabled(false);
         return createMember(e1);
     }
 

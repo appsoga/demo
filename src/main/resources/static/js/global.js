@@ -11,9 +11,7 @@ $.jgrid.defaults.viewrecords = true;
 var lang = 'ko';
 $(document).ready(function () {
 	lang = $("body").attr("data-language");
-	if (console) console.log(lang);
-	
-	
+	// if (console) console.log(lang);
 });
 
 

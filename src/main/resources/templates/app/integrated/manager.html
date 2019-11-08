@@ -23,106 +23,234 @@
         div.card-body {
             padding: 7px;
         }
+
+        /* div.board div.col {
+            border: 1pt rgb(70, 68, 68) dotted;
+        } */
+
+        body {
+            background-color: rgb(189, 192, 202);
+        }
+
+        div.board div.board-card {
+            background-color: white;
+            padding: 2px;
+            /* margin-top: 5px; */
+            border-radius: 3px 3px 0px 0px;
+            border-top: 1px red solid;
+        }
+
+        div.board div.board-card.board-margin-top {
+            background-color: white;
+            padding: 2px;
+            margin-top: 25px;
+            border-radius: 3px 3px 0px 0px;
+            border-top: 1px red solid;
+        }
+
+        div.board div.board-card .board-card-title {
+            color: red;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        div.board div.board-card .grid-items-count {
+            font-size: small;
+            padding-right: 10px;
+        }
+
+        div.board div.board-tab {
+            padding: 2px;
+            margin-top: 5px;
+        }
+
+        div.board div.board-tab .tab-pane {
+            background-color: white;
+            padding: 2px;
+            margin-top: 0px;
+            border-top: 1px red solid;
+        }
+
+        div.board div.board-tab .nav-tabs {
+            border-bottom: 4px red solid;
+        }
+
+        div.board div.board-tab .nav-link {
+            padding-top: 2px;
+            padding-bottom: 2px;
+            background-color: white;
+        }
+
+        div.board div.board-tab a.nav-link[aria-selected=true] {
+            background-color: red;
+            color: rgb(245, 240, 241)
+        }
     </style>
 </head>
 
 <body>
 
     <article class="container-fluid" layout:fragment="content">
-
         <div class="page-path row">
             <div class="col">
                 <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
                 Home > <span class="page-current-path" th:text="#{label.menu.examples-jsgrid}">About</span>
             </div>
         </div>
-        <div class="page-body row">
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-6">
-                                <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">신규 가입자
+
+        <div class="board container-fluid">
+            <div class="row">
+                <div class="col col-lg-2">
+                    <div class="row">
+                        <div class="col board-card">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="board-card-title">SCU</span>
+                                </div>
+                                <div class="col text-right">
+                                    <span class="grid-items-count">총</span><span id="scuGridItemsCount"
+                                        class="grid-items-count">515</span>
+                                </div>
                             </div>
-                            <div class="col-6 text-right">
-                                <span id="jsGrid1Pager">itemsCount</span>
-                            </div>
+                            <div id="scuGrid"></div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div id="jsGrid"></div>
-                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    <div class="row">
+                        <div class="col board-card board-margin-top">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="board-card-title">BUNCH</span>
+                                </div>
+                                <div class="col text-right">
+                                    <span class="grid-items-count">총</span><span id="bunchGridItemsCount"
+                                        class="grid-items-count">515</span>
+                                </div>
+                            </div>
+                            <div id="bunchGrid"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col board-card board-margin-top">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="board-card-title">Workplace</span>
+                                </div>
+                                <div class="col text-right">
+                                    <span class="grid-items-count">총</span><span id="wpGridItemsCount"
+                                        class="grid-items-count">515</span>
+                                </div>
+                            </div>
+                            <div id="wpGrid"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-auto">
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col board-card">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="board-card-title">Customer</span>
+                                </div>
+                                <div class="col text-right">
+                                    <span class="grid-items-count">총</span><span id="custGridItemsCount"
+                                        class="grid-items-count">515</span>
+                                </div>
+                            </div>
+                            <div id="custGrid"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-right">
+                            <button type="button" class="btn btn-primary btn-sm">Small button</button>
+                            <button type="button" class="btn btn-secondary btn-sm">Small button</button>
+                            <button type="button" class="btn btn-secondary btn-sm">Small button</button>
+                            <button type="button" class="btn btn-secondary btn-sm">Small button</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class=" col col-lg-3 board-card board-margin-top">
+                            <div class="row">
+                                <div class="col">
+                                    <span class="board-card-title">Group</span>
+                                </div>
+                                <div class="col text-right">
+                                    <span class="grid-items-count">총</span><span id="groupGridItemsCount"
+                                        class="grid-items-count">515</span>
+                                </div>
+                            </div>
+                            <div id="groupGrid"></div>
+                        </div>
+                        <div class="col-md-auto">
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col board-card board-margin-top">
+                                    Basic
+                                </div>
+                                <div class="col-md-auto">
+                                </div>
+                                <div class="col col-lg-5">
+                                    <div class="row">
+                                        <div class="col board-card board-margin-top">
+                                            nVoip
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col board-card board-margin-top">
+                                            Gis
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col board-tab">
+                                    <nav>
+                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+                                                href="#nav-home" role="tab" aria-controls="nav-home"
+                                                aria-selected="true">Home</a>
+                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+                                                href="#nav-profile" role="tab" aria-controls="nav-profile"
+                                                aria-selected="false">Profile</a>
+                                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
+                                                href="#nav-contact" role="tab" aria-controls="nav-contact"
+                                                aria-selected="false">Contact</a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                            aria-labelledby="nav-home-tab">...</div>
+                                        <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                                            aria-labelledby="nav-profile-tab">...</div>
+                                        <div class="tab-pane fade" id="nav-contact" role="tabpanel"
+                                            aria-labelledby="nav-contact-tab">...</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-right">
+                                    <button type="button" class="btn btn-primary btn-sm">Small button</button>
+                                    <button type="button" class="btn btn-secondary btn-sm">Small button</button>
+                                    <button type="button" class="btn btn-secondary btn-sm">Small button</button>
+                                    <button type="button" class="btn btn-secondary btn-sm">Small button</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </article>
     <div th:fragment="javascript">
         <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
+        <script th:src="@{/js/app-integrated.js}"></script>
         <script type="text/javascript">
             $(document).ready(function () {
 
-                var countries = [
-                    { Name: "", Id: 0 },
-                    { Name: "United States", Id: 1 },
-                    { Name: "Canada", Id: 2 },
-                    { Name: "United Kingdom", Id: 3 }
-                ];
-
-                $("#jsGrid").jsGrid({
-                    width: "100%",
-                    height: "150px",
-
-                    filtering: true,
-                    // inserting: true,
-                    editing: false,
-                    sorting: true,
-                    paging: true,
-                    autoload: true,
-                    pageLoading: true,
-
-                    pageSize: 15,
-                    pageButtonCount: 1,
-                    pagerContainer: "#jsGrid1Pager",
-                    pagerFormat: "총 {itemCount}",
-                    deleteConfirm: "Do you really want to delete the client?",
-
-                    // data: clients,
-
-                    // fields: [
-                    //     { name: "Name", type: "text", width: 150, validate: "required" },
-                    //     { name: "Age", type: "number", width: 50 },
-                    //     { name: "Address", type: "text", width: 200 },
-                    //     { name: "Country", type: "select", items: countries, valueField: "Id", textField: "Name" },
-                    //     { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
-                    //     { type: "control" }
-                    // ],
-                    fields: [
-                        { title: "ID", name: "id", type: "number", filtering: true },
-                        { title: "Username", name: "username", type: "text" },
-                        // { title: "Name", name: "name", type: "text", filtering: false },
-                        // { title: "Email", name: "email", type: "text", filtering: false },
-                        { title: "Enabled", name: "enabled", type: "checkbox" }
-                    ],
-                    onDataLoaded: function (o) {
-                        console.log(o.data.itemsCount);
-                    },
-                    controller: {
-                        loadData: function (filter) {
-                            console.log(filter);
-                            return $.ajax({
-                                type: "GET",
-                                url: "jsgrid-list",
-                                data: filter
-                            });
-                        },
-                        insertItem: $.noop,
-                        updateItem: $.noop,
-                        deleteItem: $.noop
-                    }
-
-
-                });
 
             });
         </script>

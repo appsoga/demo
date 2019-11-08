@@ -42,8 +42,8 @@ public class Member {
     private String password;
 
     @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
-    @Column(name = "ENABLED", nullable = false)
-    private Boolean enabled = false;
+    @Column(name = "ENABLED", nullable = false, length = 1)
+    private Boolean enabled;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     @Temporal(TemporalType.DATE)

@@ -54,6 +54,17 @@ public class MemberSpecs {
 		};
 	}
 
+	public static Specification<Member> likeName(String key) {
+		return new Specification<Member>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<Member> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.like(root.get("name"), "%" + key + "%");
+			}
+		};
+	}
+
 	public static Specification<Member> equalEnabled(Boolean key) {
 		return new Specification<Member>() {
 			private static final long serialVersionUID = 1L;

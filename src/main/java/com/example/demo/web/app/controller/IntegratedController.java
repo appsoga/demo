@@ -39,18 +39,23 @@ public class IntegratedController {
         logger.info("jtable request is {}, filter is {}", jsr, filter);
 
         Specification<Member> specs = Specification.where(null);
-        if (filter.getId() != null && !filter.getId().equals(0)) {
-            Specification<Member> spec1 = Specification.where(MemberSpecs.equalId(filter.getId()));
-            specs = Specification.where(specs).and(spec1);
-        }
-        if (!filter.getUsername().isEmpty()) {
-            Specification<Member> spec1 = Specification.where(MemberSpecs.likeUsername(filter.getUsername()));
-            specs = Specification.where(specs).and(spec1);
-        }
-
-        if (filter.getEnabled() != null) {
-            Specification<Member> spec1 = Specification.where(MemberSpecs.equalEnabled(filter.getEnabled()));
-            specs = Specification.where(specs).and(spec1);
+        if (filter != null) {
+            if (!isEmpty(filter.getId())) {
+                Specification<Member> spec1 = Specification.where(MemberSpecs.equalId(filter.getId()));
+                specs = Specification.where(specs).and(spec1);
+            }
+            if (!isEmpty(filter.getUsername())) {
+                Specification<Member> spec1 = Specification.where(MemberSpecs.likeUsername(filter.getUsername()));
+                specs = Specification.where(specs).and(spec1);
+            }
+            if (!isEmpty(filter.getName())) {
+                Specification<Member> spec1 = Specification.where(MemberSpecs.likeName(filter.getName()));
+                specs = Specification.where(specs).and(spec1);
+            }
+            if (!isEmpty(filter.getEnabled())) {
+                Specification<Member> spec1 = Specification.where(MemberSpecs.equalEnabled(filter.getEnabled()));
+                specs = Specification.where(specs).and(spec1);
+            }
         }
 
         JsGridPageRequest pageable = new JsGridPageRequest(jsr.getPageIndex() - 1, jsr.getPageSize(), jsr.getSort());
@@ -60,6 +65,14 @@ public class IntegratedController {
         jtr.setData(page.getContent());
         jtr.setItemsCount(page.getTotalElements());
         return jtr;
+    }
+
+    private boolean isEmpty(Object o1) {
+        if (o1 == null)
+            return true;
+        if (o1 instanceof java.lang.String)
+            return ((java.lang.String) o1).isEmpty();
+        return false;
     }
 
 }
