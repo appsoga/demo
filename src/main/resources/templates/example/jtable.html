@@ -5,7 +5,9 @@
 
 <head>
     <title th:text="#{label.menu.examples-jtable}">HOME</title>
-    <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <!-- 
+    <link th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}" rel="stylesheet" type="text/css" />
+     -->
     <link th:href="@{/webjars/jTable/2.4.0/themes/lightcolor/gray/jtable.min.css}" rel="stylesheet" />
 </head>
 
@@ -40,14 +42,14 @@
             var table1 = $('#table1').jtable({
                 title: 'The Member List',
                 paging: true, //Enable paging
-                // pageSize: 10, //Set page size (default: 10)
+                pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
                 // defaultSorting: 'id ASC', //Set default sorting
                 // dialogShowEffect: "highlight",
-                gotoPageArea: "none",
+                // gotoPageArea: "none",
                 selecting: true,
                 selectingCheckboxes: true,
-                multiselect: true,
+                multiselect: false,
                 actions: {
                     listAction: 'jtable-list',
                     deleteAction: 'jtable-delete',
@@ -89,27 +91,6 @@
 
 		</script>
 	</div>
-
-
-    <div>
-        <div>
-            <div>
-                <article layout:fragment="content">
-                    <div class="row">
-                        <div class="col">
-                            <h5>jTable example</h5>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            
-                        </div>
-                    </div>
-
-                </article>
-            </div>
-        </div>
-    </div>
 
 </body>
 
