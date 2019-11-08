@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorate="~{layout/jqueryui}">
+
+<head>
+<title th:text="#{label.menu.examples-jqgrid}">Untitled</title>
+<style>
+	div.col {background-color: red; }
+</style>
+</head>
+<body>
+
+	<article class="container-fluid" layout:fragment="content">
+		<div class="row">
+			<div class="col-sm-6 gridbox" style="border: 1px red solid;">
+				<table id="jqGrid1"></table>
+				<div id="jqGrid1Pager"></div>
+			</div>
+			<div class="col-6 gridbox" style="border: 1px red solid;">
+				<table id="jqGrid2"></table>
+				<div id="jqGrid2Pager"></div>
+			</div>
+		</div>
+	</article>
+
+	<div th:fragment="javascript">
+		<script type="text/javascript">
+		
+		var jqColModel = [
+            { label: '번호', name: 'id', key: true, index: 'id', sortable: true, sorttype: 'number', width: 70, align: 'right' },
+            { label: '아이디', name: 'username', width: 150 },
+            { label: '성명', name: 'name', index: 'name', sortable: true, sorttype: 'text' },
+            { label: '전자메일', name: 'email', width: 250 },
+            { label: '만료일자', name: 'expiresOn', index: 'expiresOn', sortable: true, sorttype: 'date', formatter: 'date',
+                formatoptions: { srcformat: 'ISO8601Long', newformat: 'Y-m-d' }
+            },
+            { label: '사용여부', name: 'enabled', formatter: 'checkbox' }
+        ], jqGrid1 = 
+        $("#jqGrid1").jqGrid({
+            url: 'jqgrid-list',
+            mtype: "GET",
+            datatype: "json",
+            loadBeforeSend: function (xhr, grid) {
+                if (console.log(grid.url));
+            },
+            loadComplete: function (data) {
+                if (console.log(data));
+            },
+            loadError: function (xhr, status, error) {
+                alert("실패>>" + error);
+            },
+            colModel: jqColModel,
+            height: 250,
+            /* ignoreCase: true,
+            sortable: true,
+            multiselect: true,
+            rowNum: 10,
+            rowList: [10, 20, 50, 100],
+            viewrecords: true, */
+            autowidth: true,
+            page: 1,
+            pager: "#jqGrid1Pager",
+            caption: "JqGrid Sample By sangmok"
+        }), jqGrid2 = 
+        	$("#jqGrid2").jqGrid({
+                url: 'jqgrid-list',
+                mtype: "GET",
+                datatype: "json",
+                loadBeforeSend: function (xhr, grid) {
+                    if (console.log(grid.url));
+                },
+                loadComplete: function (data) {
+                    if (console.log(data));
+                },
+                loadError: function (xhr, status, error) {
+                    alert("실패>>" + error);
+                },
+                colModel: jqColModel,
+                height: 250,
+                /* ignoreCase: true,
+                sortable: true,
+                multiselect: true,
+                rowNum: 10,
+                rowList: [10, 20, 50, 100],
+                viewrecords: true, */
+                autowidth: true,
+                page: 1,
+                pager: "#jqGrid2Pager",
+                caption: "JqGrid Sample By sangmok"
+            })
+        ;
+		
+		jQuery("#jqGrid1").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
+		jQuery("#jqGrid2").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
+
+        
+		</script>
+		<script type="text/javascript">
+	        $(document).ready(function () {
+	
+	        });
+		</script>
+	</div>
+</body>
+
+</html>
+
+

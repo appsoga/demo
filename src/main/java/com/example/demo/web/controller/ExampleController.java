@@ -48,6 +48,10 @@ public class ExampleController {
 	@RequestMapping(value = "jqgrid.html")
 	public void app_jqgrid_html() {
 	}
+	
+	@RequestMapping(value = "jqgrid2.html")
+	public void app_jqgrid2_html() {
+	}
 
 	@RequestMapping(value = "jqgrid-list")
 	public @ResponseBody JqGridResponse<Member> jqgrid_list(@ModelAttribute Member filter,
