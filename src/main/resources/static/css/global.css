@@ -1,27 +1,14 @@
 
 
 body { 
-    background-color: midnightblue; 
+    background-color: background; 
+}
+article {
+	/* background-color: white;  */
+	padding: 15px;
 }
 
-article.body { 
-    background-color: white;
-    padding-bottom: 30px; 
-    margin-bottom: 10px;
-}
 
-nav.navbar {
-    margin-bottom: 10px;
-}
-
-article>article {
-    padding: 20px;
-}
-
-footer.footer {
-    color: aliceblue;
-    padding: 20px;
-}
 
 
 @font-face {

@@ -1,10 +1,101 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout/default}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorate="~{layout/bootstrap}">
 
 <head>
-    <title>HOME</title>
-    <script th:src="@{/webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<title th:text="#{label.menu.about}">untitle</title>
+<style>
+table.orgin {
+	font-size: x-small;
+}
+
+table.orgin th {
+	background-color: lightgray;
+}
+</style>
+</head>
+
+<body>
+
+	<article class="container-fluid" layout:fragment="content">
+		<div class="page-path row">
+			<div class="col">
+				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+				Home > <span class="page-current-path" th:text="#{label.menu.about}">About</span>
+			</div>
+		</div>
+		<div class="page-body row">
+			<div class="col-sm-12">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title" th:text="#{label.menu.about}">신규 가입자
+							현황</h5>
+						<p class="card-text">With supporting text below as a natural
+							lead-in to additional content.</p>
+						<div class="row">
+                        <div class="col">
+                            <h5>JsChart example</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Special title treatment</h5>
+                                    <p class="card-text">With supporting text below as a natural lead-in to additional
+                                        content.</p>
+                                    <canvas id="myChart1"></canvas>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Special title treatment</h5>
+                                    <p class="card-text">With supporting text below as a natural lead-in to additional
+                                        content.</p>
+                                    <canvas id="myChart2"></canvas>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                    <!-- <br /> -->
+                    <!-- <div class="row"> -->
+                        <div class="col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Special title treatment</h5>
+                                    <p class="card-text">With supporting text below as a natural lead-in to additional
+                                        content.</p>
+                                    <canvas id="myChart3"></canvas>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Special title treatment</h5>
+                                    <p class="card-text">With supporting text below as a natural lead-in to additional
+                                        content.</p>
+                                    <canvas id="myChart4"></canvas>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+						<!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<div th:fragment="javascript">
+		<script th:src="@{/webjars/chartjs/2.8.0/Chart.min.js}"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -102,73 +193,7 @@
         });
 
     </script>
-</head>
-
-<body>
-    <div>
-        <div>
-            <div>
-                <article layout:fragment="content">
-                    <div class="row">
-                        <div class="col">
-                            <h5>JsChart example</h5>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Special title treatment</h5>
-                                    <p class="card-text">With supporting text below as a natural lead-in to additional
-                                        content.</p>
-                                    <canvas id="myChart1"></canvas>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Special title treatment</h5>
-                                    <p class="card-text">With supporting text below as a natural lead-in to additional
-                                        content.</p>
-                                    <canvas id="myChart2"></canvas>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div>
-                    <!-- </div> -->
-                    <!-- <br /> -->
-                    <!-- <div class="row"> -->
-                        <div class="col-sm-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Special title treatment</h5>
-                                    <p class="card-text">With supporting text below as a natural lead-in to additional
-                                        content.</p>
-                                    <canvas id="myChart3"></canvas>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Special title treatment</h5>
-                                    <p class="card-text">With supporting text below as a natural lead-in to additional
-                                        content.</p>
-                                    <canvas id="myChart4"></canvas>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </article>
-            </div>
-        </div>
-    </div>
-
+	</div>
 </body>
 
 </html>

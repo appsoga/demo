@@ -6,7 +6,7 @@
  * -----
  * Copyright 2019 - 2019 APPSOGA Inc.
  */
-package com.example.demo.web.controller;
+package com.example.demo.web.app.controller;
 
 import com.example.demo.data.Member;
 import com.example.demo.service.MemberService;

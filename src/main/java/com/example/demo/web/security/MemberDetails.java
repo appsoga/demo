@@ -40,6 +40,10 @@ public class MemberDetails implements UserDetails {
 		this.authorities = authorities;
 	}
 
+	public Boolean isAdmin() {
+		return false;
+	}
+
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
 		return this.authorities;

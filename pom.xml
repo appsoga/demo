@@ -66,25 +66,10 @@
       <artifactId>thymeleaf-layout-dialect</artifactId>
       <!-- <version>2.3.0</version> -->
     </dependency>
-    <!-- <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>bootstrap</artifactId>
-      <version>3.3.4</version>
-    </dependency> -->
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>bootstrap</artifactId>
-      <version>4.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars.bower</groupId>
-      <artifactId>octicons</artifactId>
-      <version>7.1.0</version>
-    </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>jquery</artifactId>
-      <version>3.3.1</version>
+      <version>1.12.4</version>
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
@@ -92,11 +77,23 @@
       <version>1.12.1</version>
     </dependency>
     <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+      <version>4.3.1</version>
+    </dependency>
+    
+    
+    
+    <dependency>
+      <groupId>org.webjars.bower</groupId>
+      <artifactId>octicons</artifactId>
+      <version>7.1.0</version>
+    </dependency>
+    <dependency>
       <groupId>org.webjars.bower</groupId>
       <artifactId>free-jqgrid</artifactId>
       <version>4.15.4</version>
     </dependency>
-
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>momentjs</artifactId>

@@ -3,7 +3,7 @@ package com.example.demo.service;
 import java.util.Calendar;
 
 import com.example.demo.data.Member;
-import com.example.demo.repository.MemberRepository;
+import com.example.demo.data.repository.MemberRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

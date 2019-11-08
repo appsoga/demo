@@ -3,12 +3,6 @@ package com.example.demo.web.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.demo.data.Member;
-import com.example.demo.repository.MemberRepository;
-import com.example.demo.web.controller.MemberController.MemberSpecs;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.demo.data.Member;
+import com.example.demo.data.repository.MemberRepository;
+import com.example.demo.data.specs.MemberSpecs;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Controller
 @RequestMapping(value = "example")
@@ -33,15 +33,15 @@ public class ExampleController {
     /**
      * datatable의 예제
      */
-    @RequestMapping(value = "datatable")
+    @RequestMapping(value = "datatable.html")
     public void app_datatable_html() {
     }
 
-    @RequestMapping(value = "chartjs")
+    @RequestMapping(value = "chartjs.html")
     public void app_chartjs_html() {
     }
 
-    @RequestMapping(value = "jqgrid")
+    @RequestMapping(value = "jqgrid.html")
     public void app_jqgrid_html() {
     }
 
@@ -108,7 +108,7 @@ public class ExampleController {
     // jTable example
     // #####################################
 
-    @RequestMapping(value = "jtable")
+    @RequestMapping(value = "jtable.html")
     public void app_jtable_html() {
     }
 
@@ -216,8 +216,8 @@ public class ExampleController {
     // jTable example
     // #####################################
 
-    @RequestMapping(value = "jsgrid")
-    public void app_jgrid_html() {
+    @RequestMapping(value = "jsgrid.html")
+    public void app_jsgrid_html() {
     }
 
     @lombok.Data
