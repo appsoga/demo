@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/bootstrap}">
 
 <head>
-<title th:text="#{label.menu.about}">untitle</title>
+<title th:text="#{label.mypage}">Untitled</title>
 <style>
 table.orgin {
 	font-size: x-small;
@@ -23,19 +23,23 @@ table.orgin th {
 		<div class="page-path row">
 			<div class="col">
 				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-				Home > <span class="page-current-path" th:text="#{label.menu.about}">About</span>
+				Home > <span class="page-current-path" th:text="#{label.mypage}">About</span>
 			</div>
 		</div>
 		<div class="page-body row">
 			<div class="col-sm-12">
 				<div class="card">
 					<div class="card-body">
-						<h5 class="card-title" th:text="#{label.menu.about}">신규 가입자
+						<h5 class="card-title" th:text="#{label.mypage}">신규 가입자
 							현황</h5>
 						<p class="card-text">With supporting text below as a natural
 							lead-in to additional content.</p>
-						<canvas id="myChart1"></canvas>
-						<!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+						
+						Logged user: <span sec:authentication="name">admin</span>
+						<br />
+						Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+						
+						
 					</div>
 				</div>
 			</div>
