@@ -158,10 +158,13 @@
                         // updateItem: $.noop,
                         // deleteItem: $.noop,
                         loadData: function (filter) {
-                            // console.log(filter);
+                            console.log(filter);
                             return $.ajax({
                                 type: "GET",
-                                url: "jsgrid-list",
+                                // url: "jsgrid-list",
+                                url: "../api/members",
+                                contentType: 'application/json',
+                                dataType: 'json',
                                 data: filter
                             });
                         },
@@ -169,8 +172,8 @@
                             // console.log(row);
                             return $.ajax({
                                 type: "PUT",
-                                contentType: 'application/json',
                                 url: "../api/members",
+                                contentType: 'application/json',
                                 dataType: 'json',
                                 data: JSON.stringify(item),
                                 success: function (data) {

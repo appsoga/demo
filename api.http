@@ -1,9 +1,15 @@
-GET http://localhost:8080/api/members HTTP/1.1
+GET http://localhost:8080/api/members/jsgrid HTTP/1.1
+content-type: application/json
 
 {
-    "pageIndex": 1,
-    "pageSize": 12 
+    "pageIndex": 0,
+    "pageSize": 12,
+    "sortField": "username",
+    "sortOrder": "desc",
+
+    "username": "admin",
 }
+
 
 ### 사용자 추가
 POST http://localhost:8080/api/members HTTP/1.1

@@ -38,6 +38,15 @@ public class MemberApiController {
     @Autowired
     private MemberService memberService;
 
+    @GetMapping(path = "jsgrid")
+    public ResponseEntity<?> jsGrid(@RequestBody JsGridRequest jsr, @RequestBody Member filter,
+            UriComponentsBuilder ucBuilder) {
+        logger.info("jtable request is {}, filter is {}", jsr, filter);
+        // logger.info("jtable request is {}, filter is {}", jsr);
+        JsGridResponse<Member> jtr = memberService.getMembersForJsGrid(jsr, filter);
+        return new ResponseEntity<JsGridResponse<Member>>(jtr, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Member e1, UriComponentsBuilder ucBuilder) {
         logger.info("create member: {}", e1);
