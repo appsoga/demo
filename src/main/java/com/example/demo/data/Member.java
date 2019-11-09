@@ -12,6 +12,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -24,10 +26,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name = "TB_MEMBER")
 public class Member {
+
+    public static enum MemberType {
+        Admin, Manager, User
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "ID")
     private Integer id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "TYPE", length = 18, nullable = false)
+    private MemberType type = MemberType.User;
 
     @Column(name = "NAME")
     private String name;
@@ -54,4 +65,5 @@ public class Member {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_ACCESSS_ON")
     private Date lastAccessedOn;
+
 }
