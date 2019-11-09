@@ -1,6 +1,8 @@
 package com.example.demo.web.controller;
 
-import java.util.Optional;
+import com.example.demo.data.Member;
+import com.example.demo.data.repository.MemberRepository;
+import com.example.demo.data.specs.MemberSpecs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.example.demo.data.Member;
-import com.example.demo.data.repository.MemberRepository;
-import com.example.demo.data.specs.MemberSpecs;
 
 import sangmok.util.jqgrid.JqGridPageRequest;
 import sangmok.util.jqgrid.JqGridRequest;

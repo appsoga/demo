@@ -7,21 +7,39 @@
     <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.css}" rel="stylesheet" />
     <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid-theme.min.css}" rel="stylesheet" />
     <style>
-        div.jsgrid {
+        .jsgrid {
             font-size: small;
         }
 
-        div.jsgrid tbody tr td {
-            padding: 2px;
+        .jsgrid,
+        .jsgrid-header-row,
+        .jsgrid-header-cell,
+        .jsgrid-row,
+        .jsgrid-alt-row,
+        .jsgrid-cell {
+            padding: 0px;
         }
 
-        div.jsgrid-grid-header.jsgrid-header-scrollbar>table>tbody>tr.jsgrid-filter-row>td:nth-child(2)>input[type=text],
+        .jsgrid-header-cell,
+        .jsgrid-cell {
+            padding-left: 3px;
+            padding-right: 3px;
+        }
+
+        .jsgrid input {
+            background-color: red;
+        }
+
+        /* div.jsgrid tbody tr td {
+            padding: 2px;
+        } */
+
+        /* div.jsgrid-grid-header.jsgrid-header-scrollbar>table>tbody>tr.jsgrid-filter-row>td:nth-child(2)>input[type=text],
         div.jsgrid-grid-header.jsgrid-header-scrollbar>table>tbody>tr.jsgrid-filter-row>td.jsgrid-cell.jsgrid-align-right>input[type=number] {
             padding: 1px;
-        }
+        } */
 
-        div.card-body { padding: 7px;   }
-
+        /* div.card-body { padding: 7px;   } */
     </style>
 </head>
 
@@ -36,11 +54,10 @@
             </div>
         </div>
         <div class="page-body row">
-            <div class="col-sm-4">
+            <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">신규 가입자
-                            현황</h5>
+                        <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">Untitled</h5>
                         <div id="jsGrid"></div>
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                     </div>
@@ -51,14 +68,79 @@
     <div th:fragment="javascript">
         <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
         <script type="text/javascript">
-            $(document).ready(function () {
 
-                var countries = [
-                    { Name: "", Id: 0 },
-                    { Name: "United States", Id: 1 },
-                    { Name: "Canada", Id: 2 },
-                    { Name: "United Kingdom", Id: 3 }
-                ];
+            var custFields = [
+                {
+                    headerTemplate: function () {
+                        return $("<button>").attr("type", "button").text("Delete")
+                            .on("click", function () {
+                                // deleteSelectedItems();
+                            });
+                    },
+                    itemTemplate: function (_, item) {
+                        return $("<input>").attr("type", "checkbox")
+                            .prop("checked", $.inArray(item, selectedItems) > -1)
+                            .on("change", function () {
+                                $(this).is(":checked") ? selectItem(item) : unselectItem(item);
+                            });
+                    },
+                    align: "center",
+                    width: 50
+                },
+                { title: "LBU", name: "id", type: "number", filtering: true, width: 40 },
+                { title: "BUNCH", name: "username", type: "text", filtering: true, width: 40 },
+                { title: "무전번호", name: "name", type: "text", filtering: true, width: 40 },
+                { title: "PTT", type: "text", filtering: true, width: 40 },
+                { title: "IM", type: "text", filtering: true, width: 40 },
+                { title: "mVoip", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "K", type: "text", filtering: true, width: 40 },
+                { title: "Email", name: "email", type: "text", width: 40 },
+                { title: "Enabled", name: "enabled", type: "checkbox", width: 40 },
+                {
+                    type: "control",
+                    editButton: true,                               // show edit button
+                    deleteButton: true,                             // show delete button
+                    clearFilterButton: true,                        // show clear filter button
+                    modeSwitchButton: true,                         // show switching filtering/inserting button
+
+                    align: "center",                                // center content alignment
+                    width: 50,                                      // default column width is 50px
+                    filtering: false,                               // disable filtering for column
+                    inserting: false,                               // disable inserting for column
+                    editing: false,                                 // disable editing for column
+                    sorting: false,                                 // disable sorting for column
+
+                    searchModeButtonTooltip: "Switch to searching", // tooltip of switching filtering/inserting button in inserting mode
+                    insertModeButtonTooltip: "Switch to inserting", // tooltip of switching filtering/inserting button in filtering mode
+                    editButtonTooltip: "Edit",                      // tooltip of edit item button
+                    deleteButtonTooltip: "Delete",                  // tooltip of delete item button
+                    searchButtonTooltip: "Search",                  // tooltip of search button
+                    clearFilterButtonTooltip: "Clear filter",       // tooltip of clear filter button
+                    insertButtonTooltip: "Insert",                  // tooltip of insert button
+                    updateButtonTooltip: "Update",                  // tooltip of update item button
+                    cancelEditButtonTooltip: "Cancel edit",         // tooltip of cancel editing button
+                }
+            ];
+
+            var countries = [
+                { Name: "", Id: 0 },
+                { Name: "United States", Id: 1 },
+                { Name: "Canada", Id: 2 },
+                { Name: "United Kingdom", Id: 3 }
+            ];
+
+
+            $(document).ready(function () {
 
                 $("#jsGrid").jsGrid({
                     width: "100%",
@@ -94,7 +176,7 @@
                         // { title: "Email", name: "email", type: "text", filtering: false },
                         { title: "Enabled", name: "enabled", type: "checkbox" }
                     ],
-                    onDataLoaded : function(o) {
+                    onDataLoaded: function (o) {
                         console.log(o.data.itemsCount);
                     },
                     controller: {

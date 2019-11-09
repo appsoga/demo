@@ -33,27 +33,27 @@
                         th:text="#{label.menu.dashboard}">Link</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/example/jtable.html}"
                         th:text="#{label.menu.members}">Link</a></li>
-                        
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" th:text="#{label.menu.examples}"
                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dropdown
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" th:href="@{/example/jtable.html}"
-                            th:text="#{label.menu.examples-jtable}">Action</a>
-                        <a class="dropdown-item" th:href="@{/example/jqgrid.html}"
-                            th:text="#{label.menu.examples-jqgrid}">Action</a>
                         <a class="dropdown-item" th:href="@{/example/jsgrid.html}"
                             th:text="#{label.menu.examples-jsgrid}">Action</a>
+                        <a class="dropdown-item" th:href="@{/example/jtable.html}"
+                            th:text="#{label.menu.examples-jtable}">Action</a>
                         <a class="dropdown-item" th:href="@{/example/datatable.html}"
                             th:text="#{label.menu.examples-datatable}">Another action</a>
+                        <a class="dropdown-item" th:href="@{/example/jqgrid.html}"
+                            th:text="#{label.menu.examples-jqgrid}">Action</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" th:href="@{/example/chartjs.html}"
-                        	th:text="#{label.menu.examples-chartjs}">Something else here</a>
+                            th:text="#{label.menu.examples-chartjs}">Something else here</a>
                     </div>
                 </li>
-                
+
                 <li class="nav-item"><a class="nav-link" th:href="@{/app/about.html}"
                         th:text="#{label.menu.about}">Link</a></li>
             </ul>
