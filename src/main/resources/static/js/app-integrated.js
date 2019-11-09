@@ -136,7 +136,18 @@ var custFields = [
     { title: "PTT", type: "text", filtering: true, width: 40 },
     { title: "IM", type: "text", filtering: true, width: 40 },
     { title: "mVoip", type: "text", filtering: true, width: 40 },
-    { title: "K", name: "email", type: "text", width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "K", type: "text", filtering: true, width: 40 },
+    { title: "Email", name: "email", type: "text", width: 40 },
     { title: "Enabled", name: "enabled", type: "checkbox", width: 40 },
     {
         type: "control",
@@ -182,6 +193,11 @@ var scuGrid = $("#scuGrid").jsGrid({
     onDataLoaded: function (o) {
         $("#scuGridItemsCount").text(o.data.itemsCount);
     },
+    rowClick: function (item, itemIndex, event) {
+        var bunchId = item.item.id;
+        console.log(JSON.stringify(item.item), custGrid);
+        $("#custGrid").jsGrid("loadData", { id: bunchId });
+    },
     controller: {
         loadData: function (filter) {
             // console.log(filter);
@@ -207,15 +223,20 @@ var bunchGrid = $("#bunchGrid").jsGrid({
     pageButtonCount: 0,
     pagerFormat: "Page: {pageIndex} &nbsp;&nbsp; {first} {prev} {next}",
     pagePrevText: '<span class="glyphicon glyphicon-backward"></span>',
-        pageNextText: '<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>',
-        pageFirstText: '<span class="glyphicon glyphicon-fast-backward"></span>',
-        pageLastText: '<span class="glyphicon glyphicon-fast-forward"></span>',
+    pageNextText: '<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>',
+    pageFirstText: '<span class="glyphicon glyphicon-fast-backward"></span>',
+    pageLastText: '<span class="glyphicon glyphicon-fast-forward"></span>',
     paging: true,
     width: "100%",
     height: "200px",
     fields: bunchFields,
+    onDataLoaded: function (o) {
+        $("#bunchGridItemsCount").text(o.data.itemsCount);
+    },
     rowClick: function (item, itemIndex, event) {
-        console.log(item, custGrid);
+        var bunchId = item.item.id;
+        console.log(JSON.stringify(item.item), custGrid);
+        $("#custGrid").jsGrid("loadData", { id: bunchId });
     },
     controller: {
         loadData: function (filter) {
@@ -242,6 +263,9 @@ var wpGrid = $("#wpGrid").jsGrid({
     width: "100%",
     height: "300px",
     fields: wpFields,
+    onDataLoaded: function (o) {
+        $("#wpGridItemsCount").text(o.data.itemsCount);
+    },
     controller: {
         loadData: function (filter) {
             // console.log(filter);
@@ -275,6 +299,9 @@ var custGrid = $("#custGrid").jsGrid({
     // pagerContainer: "#jsGrid1Pager",
     // pagerFormat: "총 {itemCount}", 
     deleteConfirm: "Do you really want to delete the client?",
+    onDataLoaded: function (o) {
+        $("#custGridItemsCount").text(o.data.itemsCount);
+    },
     controller: {
         loadData: function (filter) {
             // console.log(filter);
@@ -298,6 +325,9 @@ var groupGrid = $("#groupGrid").jsGrid({
     width: "100%",
     height: "470px",
     fields: groupFields,
+    onDataLoaded: function (o) {
+        $("#groupGridItemsCount").text(o.data.itemsCount);
+    },
     controller: {
         loadData: function (filter) {
             // console.log(filter);
