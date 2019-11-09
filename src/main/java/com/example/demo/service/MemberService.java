@@ -4,15 +4,21 @@ import java.util.Calendar;
 
 import com.example.demo.data.Member;
 import com.example.demo.data.repository.MemberRepository;
+import com.example.demo.data.specs.MemberSpecs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import sangmok.util.jsgrid.JsGridPageRequest;
+import sangmok.util.jsgrid.JsGridRequest;
+import sangmok.util.jsgrid.JsGridResponse;
 
 @Service
 public class MemberService implements InitializingBean {
@@ -88,21 +94,67 @@ public class MemberService implements InitializingBean {
         return passwordEncoder.encode(raw);
     }
 
+    public Member getMember(Integer id) {
+        logger.debug("id: {}", id);
+        return memberRepository.getOne(id);
+    }
+
+    public void removeMember(Integer id) {
+        memberRepository.deleteById(id);
+    }
+
+    public JsGridResponse<Member> getMembersForJsGrid(JsGridRequest jsr, Member filter) {
+        logger.debug("jsGrid: request is {}, filter is {}", jsr, filter);
+
+        if (jsr == null)
+            jsr = new JsGridRequest();
+
+        Specification<Member> specs = Specification.where(null);
+        if (filter != null) {
+            if (filter.getId() != null && !filter.getId().equals(0)) {
+                Specification<Member> spec1 = Specification.where(MemberSpecs.equalId(filter.getId()));
+                specs = Specification.where(specs).and(spec1);
+            }
+            if (filter.getUsername() != null && !filter.getUsername().isEmpty()) {
+                Specification<Member> spec1 = Specification.where(MemberSpecs.likeUsername(filter.getUsername()));
+                specs = Specification.where(specs).and(spec1);
+            }
+            if (filter.getEnabled() != null) {
+                Specification<Member> spec1 = Specification.where(MemberSpecs.equalEnabled(filter.getEnabled()));
+                specs = Specification.where(specs).and(spec1);
+            }
+        }
+
+        JsGridPageRequest pageable = new JsGridPageRequest(jsr.getPageIndex(), jsr.getPageSize(), jsr.getSort());
+        Page<Member> page = memberRepository.findAll(specs, pageable);
+        // jsgrid response
+        JsGridResponse<Member> jtr = new JsGridResponse<Member>();
+        jtr.setData(page.getContent());
+        jtr.setItemsCount(page.getTotalElements());
+        return jtr;
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         if (memberRepository.count() > 0)
             return;
-        for (int i = 1; i <= 300; i++) {
+        for (int i = 1; i <= 3; i++) {
             Member e1 = new Member();
             e1.setEmail(String.format("user%d@xxx.com", i));
             e1.setExpiresOn(Calendar.getInstance().getTime());
             e1.setName(String.format("user%d", i));
             e1.setPassword(encode("password"));
             e1.setUsername(String.format("user%d", i));
+            e1.setEnabled(false);
             createMember(e1);
         }
-        createMember("admin", "password");
-        logger.info("add user to db.");
+        logger.info("add sample users to db.");
+
+        Member admin = createMember("admin", "password");
+        // admin.setType(MemberType.ADMIN);
+        admin.setEnabled(true);
+        memberRepository.save(admin);
+        logger.info("add admin user to db.");
     }
 
 }

@@ -1,38 +1,43 @@
-GET http://localhost:8080/api/member/admin HTTP/1.1
+GET http://localhost:8080/api/members HTTP/1.1
+
+{
+    "pageIndex": 1,
+    "pageSize": 12 
+}
 
 ### 사용자 추가
-POST http://localhost:8080/api/member/create HTTP/1.1
+POST http://localhost:8080/api/members HTTP/1.1
 content-type: application/json
 
 {
-  "name": "sangmok",
-  "email": null,
-  "username": "user1",
+  "username": "appsoga",
   "password": "{bcrypt}$2a$10$B/oPhZRQILgGrSrlWJ1J2O3UdUa/PMWIo8vg0WtQZmrObf62fT63C",
+  "email": null,
+  "name": "sangmok",
   "expiresOn": null,
-  "lastAccessedOn": null
+  "lastAccessedOn": null,
+  "enabled": true
 }
 
 ### 사용자 조회
-GET http://localhost:8080/api/member/user1 HTTP/1.1
+GET http://localhost:8080/api/members/1 HTTP/1.1
 
 ### 사용자 수정
-PUT http://localhost:8080/api/member/user1 HTTP/1.1
+PUT http://localhost:8080/api/members HTTP/1.1
 content-type: application/json
 
 {
-  "id": 3,
+  "id": 1,
   "name": "jhon smith",
   "email": "root@linux.com",
   "username": "user1",
   "expiresOn": null,
-  "lastAccessedOn": null
+  "lastAccessedOn": null,
+  "enabled": true
 }
 
 ### 사용자 삭제
-DELETE http://localhost:8080/api/member/user1 HTTP/1.1
-
-
+DELETE http://localhost:8080/api/members/1 HTTP/1.1
 
 
 ### datatable 테스트

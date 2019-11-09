@@ -12,85 +12,83 @@
 </head>
 
 <body>
-	<article class="container-fluid" layout:fragment="content">
-		<div class="page-path row">
-			<div class="col">
-				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-				Home > <span class="page-current-path" th:text="#{label.menu.examples-jtable}">About</span>
-			</div>
-		</div>
-		<div class="page-body row">
-			<div class="col-sm-12">
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title" th:text="#{label.menu.examples-jtable}">신규 가입자
-							현황</h5>
-						<p class="card-text">With supporting text below as a natural
-							lead-in to additional content.</p>
-						<div id="table1"></div>
-						<!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</article>
-	<div th:fragment="javascript">
-		<script th:src="@{/webjars/jTable/2.4.0/jquery.jtable.js}"></script>
-		<script type="text/javascript">
-        $(document).ready(function () {
+    <article class="container-fluid" layout:fragment="content">
+        <div class="page-path row">
+            <div class="col">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                Home > <span class="page-current-path" th:text="#{label.menu.examples-jtable}">About</span>
+            </div>
+        </div>
+        <div class="page-body row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="#{label.menu.examples-jtable}">Untitle</h5>
+                        <p class="card-text">jTable은 http 일반요청을 사용하여 통신한다. 따라서 콘트롤을 위한 CRUD를 같이 구현해야 한다.</p>
+                        <div id="table1"></div>
+                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div th:fragment="javascript">
+        <script th:src="@{/webjars/jTable/2.4.0/jquery.jtable.js}"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
 
-            var table1 = $('#table1').jtable({
-                title: 'The Member List',
-                paging: true, //Enable paging
-                pageSize: 10, //Set page size (default: 10)
-                sorting: true, //Enable sorting
-                // defaultSorting: 'id ASC', //Set default sorting
-                // dialogShowEffect: "highlight",
-                // gotoPageArea: "none",
-                selecting: true,
-                selectingCheckboxes: true,
-                multiselect: false,
-                actions: {
-                    listAction: 'jtable-list',
-                    deleteAction: 'jtable-delete',
-                    updateAction: 'jtable-update',
-                    createAction: 'jtable-create'
-                },
-                toolbar: {
-                    items: [{
-                        icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAFVElEQVRoge2Ze1BUVRzHP3dZ7rKsCRopkjqjJWqAwqz4gGGazGiMRm20DG18UDlq44xDY1bjg5zp4ZREqeM0ioqUVmOaM/lKzRqF8oUYDx8V4AMRAheQx7KPe/sDvYl7F3aXlcLZz8z945zzO7/f77v3nj0v8OHDh4/uhHC/A0SnRQdj00ZLghQNQoxk175V+MGJSm/H0XrTWUxaTJjNxhMCmgiQjbKAUbIzDEHStFrIaMWWld6MeQePhcSkxYTZJcEIGJExAqPsdkIFAUAGuuB130WHQozzjP62vrZwGU1r0mAEYaTdTo/7n57rOP3RRi4zLpeRpyEwHPD3VsB+w0N3iHrxlrv9JLDJgrxt35Q9J9Tanb4RSZDGCwgj3A3YEYKfJln2pB+ALAwBEtXaNZ1JqqsR2vkyupWQ9nhghHh1HnGF+LA4egS2/uHlVeVhMtcSFRJJn8A+qvYVjRUU15zv0G+XC0mJnE1YcBgA7x5fjslcS9LgicSHxanaH7ly1LtCDDoDUf0jlfItcwNF5UVtbDQaDaMHxSrlqvoqSv4udTVEp3BZSLO1mdRnFzM0NBwAi81CUsZkquqrFJvJ0ZNIm7IcAFmWmb0pxcHPJdMlbtpMADRaGwG4Un+VILHIwRbgWsM17wqRJIkP965mS8omBEFA1IrMipvJJwc+BUCnFZn/1DzF/vuzezh39XcHP6tPrUErtg27/cLXrqbhFLfGyNnL+RwqPkJixAQApo2aSuaxrZgaTcwYm0xoUF8A6prr+ezQOlUfjxrC0AUEAFDZVEmLvYUQ/cMEag2q9g3WBm6ab3pXCMCaA+kkDIlHL+rRi3qSx0wnO/cr5ibMUWw+P7wOU6NJtf+q+JVtBntBdSGvRaW0O9gz8j7vMC+355EbdZVk5WQr5Zdip/Fi7FSC9D0BKCovYtfp3e667TQeTYhbjmdRUVsBQC9DL15/8lUAJFni/R8+QpIlp30tdgst9hZa7C2KncVuVerufayS1aWcPJpHzFYz6Qcz+Hj6agACxUAAvju9i6Ly4nb7LjiyyGGwp5/JIP2MJ5n8i8dLFFGrc6gLCgzuVDKdwaM3EhwYzJKJqUDr53TL3ECQvieJERPY/fg4cv/81WnfDU+vpV9wPwBW5q6iqKaYVONi4sLGqtofvfoL6/M3dJiTR29kycRUgm//+nmXz7Lv3D6l7Z3nl6LTik77in4iOj8dOj8dGkFzu85fqbv38de4tqdzW8jowbEkjXhOKX/x80Yyj23FbDUDMLD3AFIS5rrrttO49WkF+AewYtIyhNYTBo7/kcPJklMAfHtyJ7PiXwEgJWEO+wsOUFZ92cHHipz32kyIAJsKNrP9/DeqMRusDd4X8sb4BQzo3R9oHRtrD69X2jKPbWbqqBcw6AyIWpG3k5YyP2uhg4/yxutorW3DVjfXADXupOKAy0KGhoYzc1yyUt5fcJALFReVcm1THVk52SwcPx+AcY+NITHyGX4sPNTGz9LYNwl56BEANhZkUlJXyoxhLxMVEokaZ6ry2Hlpl/eEWGwWFmYvUsoXb1xysNmW+2WbhWJtU62DTXivcGWJYvBvXV8N7DmAyJAI1biVTVWq9ffispDS6jJKq8vatWm2NPPbX6qnNfedLt8hbi7MUra6d/Yae0v2c+qG+tRe0Vjhkt8uF5JzPddhiVJQXdhpvw/MKYpPyH+ExVmD0zGikTU/yci9vX2ILdulHQJ4dIitkTRbnbV3eIXh7FoBPLtW0PhJg/LT8ss86dseHt/FqF30AKEd9fvfCVFD7epNgGHcNRa7hRA1uuoy1IcPHz66F/8AJsfkVcQBCG8AAAAASUVORK5CYII=",
-                        text: 'Export to Excel',
-                        click: function () {
-                            //perform your custom job...
-                            alert('unimplement yet..!');
-                        }
-                    }, {
-                        icon: '/images/pdf.png',
-                        text: 'Export to Pdf',
-                        click: function () {
-                            //perform your custom job...
-                            alert('unimplement yet..!');
-                        }
-                    }]
-                },
-                fields: {
-                    id: { title: 'ID', key: true, create: false, edit: false, list: true },
-                    username: { title: 'Username', edit: false, list: true },
-                    password: { title: 'User Password', type: 'password', edit: false, list: false },
-                    name: { title: 'Name', width: '23%' },
-                    email: { title: 'Email address', list: true },
-                    enabled: { title: 'Enabled', type: 'checkbox', values: { '0': 'Passive', '1': 'Active' }, list: true },
-                    expiresOn: { title: 'Expires On', width: '15%', type: 'date', displayFormat: "yy-mm-dd" },
-                    lastAccessedOn: { title: 'Last Accessed On', create: false, edit: false, width: '15%', type: 'date', displayFormat: 'yy-mm-dd' }
-                }
+                var table1 = $('#table1').jtable({
+                    title: 'The Member List',
+                    paging: true, //Enable paging
+                    pageSize: 10, //Set page size (default: 10)
+                    sorting: true, //Enable sorting
+                    // defaultSorting: 'id ASC', //Set default sorting
+                    // dialogShowEffect: "highlight",
+                    // gotoPageArea: "none",
+                    selecting: true,
+                    selectingCheckboxes: true,
+                    multiselect: false,
+                    actions: {
+                        listAction: 'jtable-list',
+                        deleteAction: 'jtable-delete',
+                        updateAction: 'jtable-update',
+                        createAction: 'jtable-create'
+                    },
+                    toolbar: {
+                        items: [{
+                            icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAFVElEQVRoge2Ze1BUVRzHP3dZ7rKsCRopkjqjJWqAwqz4gGGazGiMRm20DG18UDlq44xDY1bjg5zp4ZREqeM0ioqUVmOaM/lKzRqF8oUYDx8V4AMRAheQx7KPe/sDvYl7F3aXlcLZz8z945zzO7/f77v3nj0v8OHDh4/uhHC/A0SnRQdj00ZLghQNQoxk175V+MGJSm/H0XrTWUxaTJjNxhMCmgiQjbKAUbIzDEHStFrIaMWWld6MeQePhcSkxYTZJcEIGJExAqPsdkIFAUAGuuB130WHQozzjP62vrZwGU1r0mAEYaTdTo/7n57rOP3RRi4zLpeRpyEwHPD3VsB+w0N3iHrxlrv9JLDJgrxt35Q9J9Tanb4RSZDGCwgj3A3YEYKfJln2pB+ALAwBEtXaNZ1JqqsR2vkyupWQ9nhghHh1HnGF+LA4egS2/uHlVeVhMtcSFRJJn8A+qvYVjRUU15zv0G+XC0mJnE1YcBgA7x5fjslcS9LgicSHxanaH7ly1LtCDDoDUf0jlfItcwNF5UVtbDQaDaMHxSrlqvoqSv4udTVEp3BZSLO1mdRnFzM0NBwAi81CUsZkquqrFJvJ0ZNIm7IcAFmWmb0pxcHPJdMlbtpMADRaGwG4Un+VILHIwRbgWsM17wqRJIkP965mS8omBEFA1IrMipvJJwc+BUCnFZn/1DzF/vuzezh39XcHP6tPrUErtg27/cLXrqbhFLfGyNnL+RwqPkJixAQApo2aSuaxrZgaTcwYm0xoUF8A6prr+ezQOlUfjxrC0AUEAFDZVEmLvYUQ/cMEag2q9g3WBm6ab3pXCMCaA+kkDIlHL+rRi3qSx0wnO/cr5ibMUWw+P7wOU6NJtf+q+JVtBntBdSGvRaW0O9gz8j7vMC+355EbdZVk5WQr5Zdip/Fi7FSC9D0BKCovYtfp3e667TQeTYhbjmdRUVsBQC9DL15/8lUAJFni/R8+QpIlp30tdgst9hZa7C2KncVuVerufayS1aWcPJpHzFYz6Qcz+Hj6agACxUAAvju9i6Ly4nb7LjiyyGGwp5/JIP2MJ5n8i8dLFFGrc6gLCgzuVDKdwaM3EhwYzJKJqUDr53TL3ECQvieJERPY/fg4cv/81WnfDU+vpV9wPwBW5q6iqKaYVONi4sLGqtofvfoL6/M3dJiTR29kycRUgm//+nmXz7Lv3D6l7Z3nl6LTik77in4iOj8dOj8dGkFzu85fqbv38de4tqdzW8jowbEkjXhOKX/x80Yyj23FbDUDMLD3AFIS5rrrttO49WkF+AewYtIyhNYTBo7/kcPJklMAfHtyJ7PiXwEgJWEO+wsOUFZ92cHHipz32kyIAJsKNrP9/DeqMRusDd4X8sb4BQzo3R9oHRtrD69X2jKPbWbqqBcw6AyIWpG3k5YyP2uhg4/yxutorW3DVjfXADXupOKAy0KGhoYzc1yyUt5fcJALFReVcm1THVk52SwcPx+AcY+NITHyGX4sPNTGz9LYNwl56BEANhZkUlJXyoxhLxMVEokaZ6ry2Hlpl/eEWGwWFmYvUsoXb1xysNmW+2WbhWJtU62DTXivcGWJYvBvXV8N7DmAyJAI1biVTVWq9ffispDS6jJKq8vatWm2NPPbX6qnNfedLt8hbi7MUra6d/Yae0v2c+qG+tRe0Vjhkt8uF5JzPddhiVJQXdhpvw/MKYpPyH+ExVmD0zGikTU/yci9vX2ILdulHQJ4dIitkTRbnbV3eIXh7FoBPLtW0PhJg/LT8ss86dseHt/FqF30AKEd9fvfCVFD7epNgGHcNRa7hRA1uuoy1IcPHz66F/8AJsfkVcQBCG8AAAAASUVORK5CYII=",
+                            text: 'Export to Excel',
+                            click: function () {
+                                //perform your custom job...
+                                alert('unimplement yet..!');
+                            }
+                        }, {
+                            icon: '/images/pdf.png',
+                            text: 'Export to Pdf',
+                            click: function () {
+                                //perform your custom job...
+                                alert('unimplement yet..!');
+                            }
+                        }]
+                    },
+                    fields: {
+                        id: { title: 'ID', key: true, create: false, edit: false, list: true },
+                        username: { title: 'Username', edit: false, list: true },
+                        password: { title: 'User Password', type: 'password', edit: false, list: false },
+                        name: { title: 'Name', width: '23%' },
+                        email: { title: 'Email address', list: true },
+                        enabled: { title: 'Enabled', type: 'checkbox', values: { '0': 'Passive', '1': 'Active' }, list: true },
+                        expiresOn: { title: 'Expires On', width: '15%', type: 'date', displayFormat: "yy-mm-dd" },
+                        lastAccessedOn: { title: 'Last Accessed On', create: false, edit: false, width: '15%', type: 'date', displayFormat: 'yy-mm-dd' }
+                    }
+                });
+
+                //Load student list from server
+                table1.jtable('load');
             });
 
-            //Load student list from server
-            table1.jtable('load');
-        });
-
-		</script>
-	</div>
+        </script>
+    </div>
 
 </body>
 

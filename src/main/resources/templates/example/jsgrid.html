@@ -27,19 +27,11 @@
         }
 
         .jsgrid input {
-            background-color: red;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            border-style: groove;
+            border-radius: 5px 5px 5px 5px;
         }
-
-        /* div.jsgrid tbody tr td {
-            padding: 2px;
-        } */
-
-        /* div.jsgrid-grid-header.jsgrid-header-scrollbar>table>tbody>tr.jsgrid-filter-row>td:nth-child(2)>input[type=text],
-        div.jsgrid-grid-header.jsgrid-header-scrollbar>table>tbody>tr.jsgrid-filter-row>td.jsgrid-cell.jsgrid-align-right>input[type=number] {
-            padding: 1px;
-        } */
-
-        /* div.card-body { padding: 7px;   } */
     </style>
 </head>
 
@@ -58,6 +50,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">Untitled</h5>
+                        <p class="card-text">j현재까지 Grid중에서 쓸만한 걸로 판단되었음. tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 목록요청에 대한
+                            응답은 일반컨트롤러로 작업하고, CRUD는 RESTController로 작업된거 있음 쓰면 된다. 목록까정 REST로 할라믄 POST를 사용해서 일반 CREATE와
+                            다른경로를 만들면 된다.</p>
                         <div id="jsGrid"></div>
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                     </div>
@@ -70,51 +65,39 @@
         <script type="text/javascript">
 
             var custFields = [
-                {
-                    headerTemplate: function () {
-                        return $("<button>").attr("type", "button").text("Delete")
-                            .on("click", function () {
-                                // deleteSelectedItems();
-                            });
-                    },
-                    itemTemplate: function (_, item) {
-                        return $("<input>").attr("type", "checkbox")
-                            .prop("checked", $.inArray(item, selectedItems) > -1)
-                            .on("change", function () {
-                                $(this).is(":checked") ? selectItem(item) : unselectItem(item);
-                            });
-                    },
-                    align: "center",
-                    width: 50
-                },
-                { title: "LBU", name: "id", type: "number", filtering: true, width: 40 },
-                { title: "BUNCH", name: "username", type: "text", filtering: true, width: 40 },
-                { title: "무전번호", name: "name", type: "text", filtering: true, width: 40 },
-                { title: "PTT", type: "text", filtering: true, width: 40 },
-                { title: "IM", type: "text", filtering: true, width: 40 },
-                { title: "mVoip", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "K", type: "text", filtering: true, width: 40 },
-                { title: "Email", name: "email", type: "text", width: 40 },
-                { title: "Enabled", name: "enabled", type: "checkbox", width: 40 },
+                // {
+                //     headerTemplate: function () {
+                //         return $("<button>").attr("type", "button").text("Delete")
+                //             .on("click", function () {
+                //                 // deleteSelectedItems();
+                //             });
+                //     },
+                //     itemTemplate: function (_, item) {
+                //         return $("<input>").attr("type", "checkbox")
+                //             .prop("checked", $.inArray(item, selectedItems) > -1)
+                //             .on("change", function () {
+                //                 $(this).is(":checked") ? selectItem(item) : unselectItem(item);
+                //             });
+                //     },
+                //     align: "center",
+                //     width: 50
+                // },
+                { title: "ID", name: "id", type: "number", inserting: false, editing: false, filtering: true, validate: "required", width: 10 },
+                { title: "Username", name: "username", type: "text", filtering: true, width: 20 },
+                { title: "Name", name: "name", type: "text", filtering: true, width: 20 },
+                { title: "E-Mail", name: "email", type: "text", filtering: false, width: 40 },
+                // { title: "IM", type: "text", filtering: true, width: 40 },
+                // { title: "mVoip", type: "text", filtering: true, width: 40 },
+                { title: "Enabled", name: "enabled", type: "checkbox", width: 10 },
                 {
                     type: "control",
                     editButton: true,                               // show edit button
                     deleteButton: true,                             // show delete button
                     clearFilterButton: true,                        // show clear filter button
-                    modeSwitchButton: true,                         // show switching filtering/inserting button
+                    modeSwitchButton: true,                        // show switching filtering/inserting button
 
                     align: "center",                                // center content alignment
-                    width: 50,                                      // default column width is 50px
+                    width: 10,                                      // default column width is 50px
                     filtering: false,                               // disable filtering for column
                     inserting: false,                               // disable inserting for column
                     editing: false,                                 // disable editing for column
@@ -142,59 +125,128 @@
 
             $(document).ready(function () {
 
-                $("#jsGrid").jsGrid({
+                var jsGrid = $("#jsGrid").jsGrid({
                     width: "100%",
-                    height: "400px",
+                    height: "410px",
 
-                    filtering: true,
-                    // inserting: true,
-                    editing: false,
+                    paging: true, // 
                     sorting: true,
-                    paging: true,
-                    autoload: true,
-                    pageLoading: true,
+                    filtering: true,
+                    editing: true,
+                    inserting: true,
+                    pageLoading: true, // 페이지별로 데이터를 로딩할지 여부
+                    scrolling: true,
 
-                    pageSize: 15,
-                    pageButtonCount: 1,
-                    pagerFormat: "{first} {prev} {pages} {next} {last} {itemCount}",
                     deleteConfirm: "Do you really want to delete the client?",
 
-                    // data: clients,
+                    pageSize: 15,
+                    pageButtonCount: 5,
+                    pagerFormat: "Total: {itemCount} , Page: {pageIndex} / {pageCount} &nbsp;&nbsp; {first} {prev} {pages} {next} {last}",
+                    pagePrevText: '<span class="glyphicon glyphicon-backward"></span>',
+                    pageNextText: '<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>',
+                    pageFirstText: '<span class="glyphicon glyphicon-fast-backward"></span>',
+                    pageLastText: '<span class="glyphicon glyphicon-fast-forward"></span>',
 
-                    // fields: [
-                    //     { name: "Name", type: "text", width: 150, validate: "required" },
-                    //     { name: "Age", type: "number", width: 50 },
-                    //     { name: "Address", type: "text", width: 200 },
-                    //     { name: "Country", type: "select", items: countries, valueField: "Id", textField: "Name" },
-                    //     { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
-                    //     { type: "control" }
-                    // ],
-                    fields: [
-                        { title: "ID", name: "id", type: "number", filtering: true },
-                        { title: "Username", name: "username", type: "text" },
-                        // { title: "Name", name: "name", type: "text", filtering: false },
-                        // { title: "Email", name: "email", type: "text", filtering: false },
-                        { title: "Enabled", name: "enabled", type: "checkbox" }
-                    ],
+                    // data: clients,
+                    autoload: false, // controller 를 사용할지 여부
+                    fields: custFields,
                     onDataLoaded: function (o) {
-                        console.log(o.data.itemsCount);
+                        // console.log(o.data.itemsCount);
                     },
                     controller: {
+                        // insertItem: $.noop,
+                        // updateItem: $.noop,
+                        // deleteItem: $.noop,
                         loadData: function (filter) {
-                            console.log(filter);
+                            // console.log(filter);
                             return $.ajax({
                                 type: "GET",
                                 url: "jsgrid-list",
                                 data: filter
                             });
                         },
-                        insertItem: $.noop,
-                        updateItem: $.noop,
-                        deleteItem: $.noop
+                        updateItem: function (item) {
+                            // console.log(row);
+                            return $.ajax({
+                                type: "PUT",
+                                contentType: 'application/json',
+                                url: "../api/members",
+                                dataType: 'json',
+                                data: JSON.stringify(item),
+                                success: function (data) {
+                                    //On ajax success do this
+                                    // alert(data);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //On error do this
+                                    if (xhr.status == 200) {
+                                        alert(ajaxOptions);
+                                    }
+                                    else {
+                                        alert(xhr.status);
+                                        alert(thrownError);
+                                    }
+                                }
+                            });
+                        },
+                        deleteItem: function (item) {
+                            return $.ajax({
+                                type: "DELETE",
+                                contentType: 'application/json',
+                                url: "../api/members/" + item.id,
+                                // dataType: 'json',
+                                // data: JSON.stringify(item),
+                                success: function (data) {
+                                    //On ajax success do this
+                                    // alert(data);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //On error do this
+                                    if (xhr.status == 200) {
+                                        alert(ajaxOptions);
+                                    }
+                                    else {
+                                        alert(xhr.status);
+                                        alert(thrownError);
+                                    }
+                                }
+                            });
+                        },
+                        insertItem: function (item) {
+                            return $.ajax({
+                                type: "POST",
+                                contentType: 'application/json',
+                                url: "../api/members",
+                                dataType: 'json',
+                                data: JSON.stringify(item),
+                                success: function (data) {
+                                    //On ajax success do this
+                                    // alert(data);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //On error do this
+                                    if (xhr.status == 200) {
+                                        alert(ajaxOptions);
+                                    }
+                                    else {
+                                        alert(xhr.status);
+                                        alert(thrownError);
+                                    }
+                                }
+                            });
+                        }
                     }
-
-
                 });
+
+                // turn off filtering right after grid initialization
+                // $("#jsGrid").jsGrid("option", "filtering", false);
+
+                // function toggleFilter() {
+                // $("#jsGrid").jsGrid("option", "filtering", !$("#jsGrid").jsGrid("option", "filtering"));
+                // }
+
+                // $("#grid").jsGrid("sort", { field: "id", order: "desc" });
+                jsGrid.jsGrid("sort", { field: "id", order: "desc" });
 
             });
         </script>

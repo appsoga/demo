@@ -24,7 +24,7 @@ import sangmok.util.datatables.DataTablesRequest;
 import sangmok.util.datatables.DataTablesResponse;
 import sangmok.util.datatables.SpecificationFactory;
 
-@RequestMapping(value = "app/member")
+@RequestMapping(value = { "app/member", "app/members" })
 @Controller
 public class MemberController {
 
@@ -33,7 +33,7 @@ public class MemberController {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	@RequestMapping(value = "list.html")
+	@RequestMapping(value = { "", "list.html" })
 	public void member_list(Model model) {
 		logger.debug("model: {}", model);
 

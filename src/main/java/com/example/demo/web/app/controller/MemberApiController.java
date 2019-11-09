@@ -26,8 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-@RequestMapping(value = "api/member")
+import sangmok.util.jsgrid.JsGridRequest;
+import sangmok.util.jsgrid.JsGridResponse;
+
 @RestController
+@RequestMapping(path = "api/members")
 public class MemberApiController {
 
     private static Logger logger = LoggerFactory.getLogger(MemberApiController.class);
@@ -35,32 +38,31 @@ public class MemberApiController {
     @Autowired
     private MemberService memberService;
 
-    @PostMapping(path = "create")
-    // @RequestMapping(value = "create", method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody Member e1, UriComponentsBuilder ucBuilder) {
         logger.info("create member: {}", e1);
+        if (e1.getUsername() == null || e1.getUsername().isEmpty()) {
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
         e1 = memberService.createMember(e1);
         return new ResponseEntity<Member>(e1, HttpStatus.OK);
     }
 
-    @GetMapping(path = "{username}")
-    // @RequestMapping(path = "{username}", method = RequestMethod.GET)
-    public ResponseEntity<?> get(@PathVariable(value = "username") String username) {
-        if (username == null)
+    @GetMapping(path = "{id}")
+    public ResponseEntity<?> read(@PathVariable(name = "id") Integer id) {
+        if (id == null)
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-        logger.debug("username is {}", username);
-        Member e1 = memberService.getMemberByUsername(username);
+        logger.debug("request id: {}", id);
+        Member e1 = memberService.getMember(id);
         if (e1 == null)
             return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<Member>(e1, HttpStatus.OK);
     }
 
-    @PutMapping(value = "{username}")
-    // @RequestMapping(value = "{username}", method = RequestMethod.PUT)
-    public ResponseEntity<?> update(@PathVariable(value = "username") String username, @RequestBody Member e1,
-            UriComponentsBuilder ucBuilder) {
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Member e1, UriComponentsBuilder ucBuilder) {
         logger.info("update member: {}", e1);
-        if (e1 == null || !e1.getUsername().equals(username))
+        if (e1.getId() == null || e1.getUsername() == null)
             return new ResponseEntity<Member>(e1, HttpStatus.BAD_REQUEST);
         e1 = memberService.modifyMember(e1);
         if (e1 == null)
@@ -68,13 +70,12 @@ public class MemberApiController {
         return new ResponseEntity<Member>(e1, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "{username}")
-    // @RequestMapping(path = "{username}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@PathVariable(value = "username") String username) {
-        if (username == null)
+    @DeleteMapping(path = "{id}")
+    public ResponseEntity<?> delete(@PathVariable(name = "id") Integer id) {
+        if (id == null)
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-        logger.debug("username is {}", username);
-        memberService.removeMemberByUsername(username);
+        memberService.removeMember(id);
+        logger.debug("deleted id: {}", id);
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 

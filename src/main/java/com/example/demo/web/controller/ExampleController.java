@@ -61,6 +61,8 @@ public class ExampleController {
 		return new JqGridResponse<Member>(page);
 	}
 
+	/** jsGrid를 위한 영역 */
+
 	@RequestMapping(value = "jsgrid.html")
 	public void app_jsgrid_html() {
 	}
@@ -75,11 +77,10 @@ public class ExampleController {
 			Specification<Member> spec1 = Specification.where(MemberSpecs.equalId(filter.getId()));
 			specs = Specification.where(specs).and(spec1);
 		}
-		if (!filter.getUsername().isEmpty()) {
+		if (filter.getUsername() != null && !filter.getUsername().isEmpty()) {
 			Specification<Member> spec1 = Specification.where(MemberSpecs.likeUsername(filter.getUsername()));
 			specs = Specification.where(specs).and(spec1);
 		}
-
 		if (filter.getEnabled() != null) {
 			Specification<Member> spec1 = Specification.where(MemberSpecs.equalEnabled(filter.getEnabled()));
 			specs = Specification.where(specs).and(spec1);
@@ -94,6 +95,9 @@ public class ExampleController {
 		return jtr;
 	}
 
+	/**
+	 * tTable을 위한 영역
+	 */
 	@RequestMapping(value = "jtable.html")
 	public void app_jtable_html() {
 	}
