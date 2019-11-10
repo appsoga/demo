@@ -12,6 +12,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -30,11 +32,9 @@ public class Member {
     @Column(name = "ID")
     private Integer id;
 
-    // @JsonIgnore
-    // @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-    // @Enumerated(EnumType.STRING)
-    // @Column(name = "MTYPE", length = 18, nullable = false)
-    // private MemberType type = MemberType.USER;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "MTYPE", length = 18, nullable = false)
+    private MemberType type = MemberType.USER;
 
     @Column(name = "NAME")
     private String name;

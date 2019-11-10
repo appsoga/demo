@@ -32,6 +32,11 @@
             border-style: groove;
             border-radius: 5px 5px 5px 5px;
         }
+
+        tr.jsgrid-clicked-row td {
+            font-weight: bold;
+            background-color: green;
+        }
     </style>
 </head>
 
@@ -51,9 +56,9 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">Untitled</h5>
                         <p class="card-text">
-                            Grid중에서 꽤 쓸만한 녀석이네, 목록요청에 대한 응답은 일반컨트롤러로 작업하고, CRUD는 RESTController로 작업된거 있음 쓰면 된다. 
-                            괜히 삽질하지 말아라. 넌 이미 삽질을 해 봤다. REST 컨트롤러에서 RequestBody 는 하나 밖에 선언할 수 없다. 
-                             tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 </p>
+                            Grid중에서 꽤 쓸만한 녀석이네, 목록요청에 대한 응답은 일반컨트롤러로 작업하고, CRUD는 RESTController로 작업된거 있음 쓰면 된다.
+                            괜히 삽질하지 말아라. 넌 이미 삽질을 해 봤다. REST 컨트롤러에서 RequestBody 는 하나 밖에 선언할 수 없다.
+                            tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 </p>
                         <div id="jsGrid"></div>
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                     </div>
@@ -85,6 +90,7 @@
                 // },
                 { title: "ID", name: "id", type: "number", inserting: false, editing: false, filtering: true, validate: "required", width: 10 },
                 { title: "Username", name: "username", type: "text", filtering: true, width: 20 },
+                { title: "Type", name: "type", type: "text", filtering: true, width: 20 },
                 { title: "Name", name: "name", type: "text", filtering: true, width: 20 },
                 { title: "E-Mail", name: "email", type: "text", filtering: false, width: 40 },
                 // { title: "IM", type: "text", filtering: true, width: 40 },
@@ -154,15 +160,26 @@
                     onDataLoaded: function (o) {
                         // console.log(o.data.itemsCount);
                     },
+                    rowClick: function (args) {
+                        var item = $(args.event.target).closest("tr");
+                        if (this._clicked_row != null) {
+                            this._clicked_row.removeClass('jsgrid-clicked-row');
+                        }
+                        this._clicked_row = item;
+                        item.addClass('jsgrid-clicked-row');
+                    },
+                    rowClass: function (item, itemIndex) {
+                        return itemIndex % 2 == 0 ? 'bg-red' : 'bg-green';
+                    },
                     controller: {
                         // insertItem: $.noop,
                         // updateItem: $.noop,
                         // deleteItem: $.noop,
                         loadData: function (filter) {
-                            console.log(filter);
+                            // console.log(filter);
                             return $.ajax({
                                 type: "GET",
-                                url: "jsgrid-list",
+                                url: "jsgrid.json",
                                 contentType: 'application/json',
                                 dataType: 'json',
                                 data: filter

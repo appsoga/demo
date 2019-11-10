@@ -58,21 +58,17 @@ public class MemberService implements InitializingBean {
     }
 
     public Member modifyMember(Member e1) {
-        if (e1 == null) {
+        logger.info("param e1: {}", e1);
+        if (e1 == null || e1.getId() == null) {
             logger.debug("entity is must not null.");
             return null;
         }
-        logger.info("param e1: {}", e1);
-        Member reade1 = getMemberByUsername(e1.getUsername());
-        if (reade1 == null) {
+        Member read1 = this.getMember(e1.getId());
+        if (read1 == null) {
             logger.debug("not found member: {}", e1);
             return null;
         }
-        if (e1.getName() != null)
-            reade1.setName(e1.getName());
-        if (e1.getEmail() != null)
-            reade1.setEmail(e1.getEmail());
-        return memberRepository.saveAndFlush(reade1);
+        return memberRepository.saveAndFlush(copyForUpdate(read1, e1));
     }
 
     public void removeMemberByUsername(String username) {
@@ -103,6 +99,19 @@ public class MemberService implements InitializingBean {
         memberRepository.deleteById(id);
     }
 
+    public Boolean changePassword(String username, String password) {
+        if (username == null || username.isEmpty())
+            return false;
+        if (password == null || password.isEmpty())
+            return false;
+        Member read1 = this.getMemberByUsername(username);
+        if (read1 == null)
+            return null;
+        read1.setPassword(password);
+        memberRepository.save(read1);
+        return true;
+    }
+
     public JsGridResponse<Member> getMembersForJsGrid(JsGridRequest jsr, Member filter) {
         logger.debug("jsGrid: request is {}, filter is {}", jsr, filter);
 
@@ -125,7 +134,7 @@ public class MemberService implements InitializingBean {
             }
         }
 
-        JsGridPageRequest pageable = new JsGridPageRequest(jsr.getPageIndex(), jsr.getPageSize(), jsr.getSort());
+        JsGridPageRequest pageable = new JsGridPageRequest(jsr.getPageIndex() - 1, jsr.getPageSize(), jsr.getSort());
         Page<Member> page = memberRepository.findAll(specs, pageable);
         // jsgrid response
         JsGridResponse<Member> jtr = new JsGridResponse<Member>();
@@ -134,11 +143,23 @@ public class MemberService implements InitializingBean {
         return jtr;
     }
 
+    public static Member copyForUpdate(Member t, Member s) {
+        // t.setUsername(s.getUsername());
+        // t.setPassword(s.getPassword());
+        t.setType(s.getType());
+        t.setName(s.getName());
+        t.setEmail(s.getEmail());
+        t.setEnabled(s.getEnabled());
+        t.setExpiresOn(s.getExpiresOn());
+        // t.setLastAccessedOn(s.getLastAccessedOn());
+        return t;
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         if (memberRepository.count() > 0)
             return;
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 300; i++) {
             Member e1 = new Member();
             e1.setEmail(String.format("user%d@xxx.com", i));
             e1.setExpiresOn(Calendar.getInstance().getTime());
