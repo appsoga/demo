@@ -4,17 +4,14 @@ import java.lang.reflect.Field;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.From;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.Attribute.PersistentAttributeType;
+
+import com.example.demo.data.Member;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import sangmok.util.datatables.Utils;
+import org.springframework.data.jpa.domain.Specification;
 
 public class JsGridSpecificationFactory {
 
@@ -34,40 +31,32 @@ public class JsGridSpecificationFactory {
         }
 
         @Override
-        public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+        public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+            Predicate predicate = cb.conjunction();
 
             for (Field f : obj.getClass().getDeclaredFields()) {
                 f.setAccessible(true);
                 try {
+                    Class<?> type = f.getType();
+                    String fname = f.getName();
                     Object val = f.get(obj);
-                    logger.info("{}={}", f.getName(), val);
+                    // logger.info("{}={}", fname, val);
+                    if (val == null)
+                        continue;
+
+                    if (val.toString().isEmpty())
+                        continue;
+
+                    Predicate p = cb.like(root.get(fname), String.format("%%%s%%", val));
+                    predicate = cb.and(predicate, p);
+
                 } catch (IllegalArgumentException | IllegalAccessException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                logger.info(predicate.toString());
             }
-            // TODO Auto-generated method stub
-
-            return null;
-        }
-
-        private static <S> Expression<S> getExpression(Root<?> root, String columnData, Class<S> clazz) {
-            if (!columnData.contains(Utils.ATTRIBUTE_SEPARATOR)) {
-                // columnData is like "attribute" so nothing particular to do
-                return root.get(columnData).as(clazz);
-            }
-            // columnData is like "joinedEntity.attribute" so add a join clause
-            String[] values = columnData.split(Utils.ESCAPED_ATTRIBUTE_SEPARATOR);
-            if (root.getModel().getAttribute(values[0])
-                    .getPersistentAttributeType() == PersistentAttributeType.EMBEDDED) {
-                // with @Embedded attribute
-                return root.get(values[0]).get(values[1]).as(clazz);
-            }
-            From<?, ?> from = root;
-            for (int i = 0; i < values.length - 1; i++) {
-                from = from.join(values[i], JoinType.LEFT);
-            }
-            return from.get(values[values.length - 1]).as(clazz);
+            return predicate;
         }
 
     }
@@ -75,6 +64,7 @@ public class JsGridSpecificationFactory {
     // public static void main(String[] arts) {
     // Member e1 = new Member();
     // e1.setUsername("admin");
+    // e1.setEnabled(true);
     // Specification<Object> specs = JsGridSpecificationFactory.toSpecification(e1);
     // specs.toPredicate(null, null, null);
     // }

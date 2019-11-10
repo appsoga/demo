@@ -13,13 +13,6 @@
         },
         {
             "type": "java",
-            "name": "CodeLens (Launch) - JsGridSpecificationUtils",
-            "request": "launch",
-            "mainClass": "sangmok.util.jsgrid.JsGridSpecificationUtils",
-            "projectName": "demo"
-        },
-        {
-            "type": "java",
             "name": "Debug (Launch)-DemoApplication<demo>",
             "request": "launch",
             "mainClass": "com.example.demo.DemoApplication",

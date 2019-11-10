@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import com.example.demo.data.Member;
 import com.example.demo.data.repository.MemberRepository;
-import com.example.demo.data.specs.MemberSpecs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 import sangmok.util.jsgrid.JsGridPageRequest;
 import sangmok.util.jsgrid.JsGridRequest;
 import sangmok.util.jsgrid.JsGridResponse;
+import sangmok.util.jsgrid.JsGridSpecificationFactory;
 
 @Service
 public class MemberService implements InitializingBean {
@@ -122,24 +122,26 @@ public class MemberService implements InitializingBean {
         }
 
         Specification<Member> specs = Specification.where(null);
-        if (filter != null) {
-            if (filter.getId() != null && !filter.getId().equals(0)) {
-                Specification<Member> spec1 = Specification.where(MemberSpecs.equalId(filter.getId()));
-                specs = Specification.where(specs).and(spec1);
-            }
-            if (filter.getUsername() != null && !filter.getUsername().isEmpty()) {
-                Specification<Member> spec1 = Specification.where(MemberSpecs.likeUsername(filter.getUsername()));
-                specs = Specification.where(specs).and(spec1);
-            }
-            if (filter.getEnabled() != null) {
-                Specification<Member> spec1 = Specification.where(MemberSpecs.equalEnabled(filter.getEnabled()));
-                specs = Specification.where(specs).and(spec1);
-            }
-        }
+        // if (filter != null) {
+        // if (filter.getId() != null && !filter.getId().equals(0)) {
+        // Specification<Member> spec1 =
+        // Specification.where(MemberSpecs.equalId(filter.getId()));
+        // specs = Specification.where(specs).and(spec1);
+        // }
+        // if (filter.getUsername() != null && !filter.getUsername().isEmpty()) {
+        // Specification<Member> spec1 =
+        // Specification.where(MemberSpecs.likeUsername(filter.getUsername()));
+        // specs = Specification.where(specs).and(spec1);
+        // }
+        // if (filter.getEnabled() != null) {
+        // Specification<Member> spec1 =
+        // Specification.where(MemberSpecs.equalEnabled(filter.getEnabled()));
+        // specs = Specification.where(specs).and(spec1);
+        // }
+        // }
 
-        // Specification<Member> specs4 =
-        // JsGridSpecificationFactory.toSpecification(filter);
-        // specs = Specification.where(specs).and(specs4);
+        Specification<Member> specs4 = JsGridSpecificationFactory.toSpecification(filter);
+        specs = Specification.where(specs).and(specs4);
 
         JsGridPageRequest pageable = new JsGridPageRequest(jsr.getPageIndex() - 1, jsr.getPageSize(), jsr.getSort());
         Page<Member> page = memberRepository.findAll(specs, pageable);
