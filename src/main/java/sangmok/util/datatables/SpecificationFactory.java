@@ -14,7 +14,8 @@ import javax.persistence.metamodel.Attribute.PersistentAttributeType;
 
 public class SpecificationFactory {
 
-  public static <T> org.springframework.data.jpa.domain.Specification<T> createSpecification(final DataTablesRequest request) {
+  public static <T> org.springframework.data.jpa.domain.Specification<T> createSpecification(
+      final DataTablesRequest request) {
     return new DataTablesSpecification<T>(request);
   }
 
@@ -35,7 +36,8 @@ public class SpecificationFactory {
       // check for each searchable column whether a filter value exists
       for (Column column : request.getColumns()) {
         String filterValue = column.getSearch().getValue();
-        boolean isColumnSearchable = column.getSearchable() && org.springframework.util.StringUtils.hasText(filterValue);
+        boolean isColumnSearchable = column.getSearchable()
+            && org.springframework.util.StringUtils.hasText(filterValue);
         if (!isColumnSearchable) {
           continue;
         }
@@ -58,8 +60,7 @@ public class SpecificationFactory {
           // the filter contains only one value, add a 'WHERE .. LIKE' clause
           if (Utils.isBoolean(filterValue)) {
             booleanExpression = getExpression(root, column.getData(), Boolean.class);
-            predicate =
-                cb.and(predicate, cb.equal(booleanExpression, Boolean.valueOf(filterValue)));
+            predicate = cb.and(predicate, cb.equal(booleanExpression, Boolean.valueOf(filterValue)));
           } else {
             stringExpression = getExpression(root, column.getData(), String.class);
             predicate = cb.and(predicate,
@@ -83,9 +84,12 @@ public class SpecificationFactory {
         }
         predicate = cb.and(predicate, matchOneColumnPredicate);
       }
-      // findAll method does a count query first, and then query for the actual data. Yet in the
-      // count query, adding a JOIN FETCH results in the following error 'query specified join
-      // fetching, but the owner of the fetched association was not present in the select list'
+      // findAll method does a count query first, and then query for the actual data.
+      // Yet in the
+      // count query, adding a JOIN FETCH results in the following error 'query
+      // specified join
+      // fetching, but the owner of the fetched association was not present in the
+      // select list'
       // see https://jira.spring.io/browse/DATAJPA-105
       boolean isCountQuery = query.getResultType() == Long.class;
       if (isCountQuery) {
@@ -93,14 +97,12 @@ public class SpecificationFactory {
       }
       // add JOIN FETCH when necessary
       for (Column column : request.getColumns()) {
-        boolean isJoinable =
-            column.getSearchable() && column.getData().contains(Utils.ATTRIBUTE_SEPARATOR);
+        boolean isJoinable = column.getSearchable() && column.getData().contains(Utils.ATTRIBUTE_SEPARATOR);
         if (!isJoinable) {
           continue;
         }
         String[] values = column.getData().split(Utils.ESCAPED_ATTRIBUTE_SEPARATOR);
-        if (root.getModel().getAttribute(values[0])
-            .getPersistentAttributeType() == PersistentAttributeType.EMBEDDED) {
+        if (root.getModel().getAttribute(values[0]).getPersistentAttributeType() == PersistentAttributeType.EMBEDDED) {
           continue;
         }
         Fetch<?, ?> fetch = null;
@@ -119,8 +121,7 @@ public class SpecificationFactory {
     }
     // columnData is like "joinedEntity.attribute" so add a join clause
     String[] values = columnData.split(Utils.ESCAPED_ATTRIBUTE_SEPARATOR);
-    if (root.getModel().getAttribute(values[0])
-        .getPersistentAttributeType() == PersistentAttributeType.EMBEDDED) {
+    if (root.getModel().getAttribute(values[0]).getPersistentAttributeType() == PersistentAttributeType.EMBEDDED) {
       // with @Embedded attribute
       return root.get(values[0]).get(values[1]).as(clazz);
     }

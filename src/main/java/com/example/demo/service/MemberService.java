@@ -137,6 +137,10 @@ public class MemberService implements InitializingBean {
             }
         }
 
+        // Specification<Member> specs4 =
+        // JsGridSpecificationFactory.toSpecification(filter);
+        // specs = Specification.where(specs).and(specs4);
+
         JsGridPageRequest pageable = new JsGridPageRequest(jsr.getPageIndex() - 1, jsr.getPageSize(), jsr.getSort());
         Page<Member> page = memberRepository.findAll(specs, pageable);
         // jsgrid response

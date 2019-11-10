@@ -34,7 +34,7 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "MTYPE", length = 18, nullable = false)
-    private MemberType type = MemberType.USER;
+    private MemberType type;
 
     @Column(name = "NAME")
     private String name;
