@@ -50,9 +50,10 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">Untitled</h5>
-                        <p class="card-text">j현재까지 Grid중에서 쓸만한 걸로 판단되었음. tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 목록요청에 대한
-                            응답은 일반컨트롤러로 작업하고, CRUD는 RESTController로 작업된거 있음 쓰면 된다. 목록까정 REST로 할라믄 POST를 사용해서 일반 CREATE와
-                            다른경로를 만들면 된다.</p>
+                        <p class="card-text">
+                            Grid중에서 꽤 쓸만한 녀석이네, 목록요청에 대한 응답은 일반컨트롤러로 작업하고, CRUD는 RESTController로 작업된거 있음 쓰면 된다. 
+                            괜히 삽질하지 말아라. 넌 이미 삽질을 해 봤다. REST 컨트롤러에서 RequestBody 는 하나 밖에 선언할 수 없다. 
+                             tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 </p>
                         <div id="jsGrid"></div>
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                     </div>
@@ -161,8 +162,7 @@
                             console.log(filter);
                             return $.ajax({
                                 type: "GET",
-                                // url: "jsgrid-list",
-                                url: "../api/members",
+                                url: "jsgrid-list",
                                 contentType: 'application/json',
                                 dataType: 'json',
                                 data: filter
