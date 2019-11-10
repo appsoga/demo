@@ -115,8 +115,11 @@ public class MemberService implements InitializingBean {
     public JsGridResponse<Member> getMembersForJsGrid(JsGridRequest jsr, Member filter) {
         logger.debug("jsGrid: request is {}, filter is {}", jsr, filter);
 
-        if (jsr == null)
+        if (jsr == null) {
             jsr = new JsGridRequest();
+            jsr.setPageIndex(1);
+            jsr.setPageSize(13);
+        }
 
         Specification<Member> specs = Specification.where(null);
         if (filter != null) {
@@ -149,7 +152,8 @@ public class MemberService implements InitializingBean {
         t.setType(s.getType());
         t.setName(s.getName());
         t.setEmail(s.getEmail());
-        t.setEnabled(s.getEnabled());
+        if (s.getEnabled() != null)
+            t.setEnabled(s.getEnabled());
         t.setExpiresOn(s.getExpiresOn());
         // t.setLastAccessedOn(s.getLastAccessedOn());
         return t;

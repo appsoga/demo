@@ -24,6 +24,9 @@
         .jsgrid-cell {
             padding-left: 3px;
             padding-right: 3px;
+            color: blue;
+            background-color: yellow;
+
         }
 
         .jsgrid input {
@@ -176,13 +179,48 @@
                         // updateItem: $.noop,
                         // deleteItem: $.noop,
                         loadData: function (filter) {
+
                             // console.log(filter);
+                            // filter.username = 'admin';
+                            // console.log(JSON.stringify(filter));
+
                             return $.ajax({
-                                type: "GET",
-                                url: "jsgrid.json",
+                                type: "POST",
+                                // url: "../api/members",
+                                url: "../api/members/jsgrid.json",
+                                // url: "jsgrid.json",
                                 contentType: 'application/json',
                                 dataType: 'json',
-                                data: filter
+                                data: JSON.stringify(filter),
+                                beforeSend: function (xhr, opts) {
+
+                                    // xhr.setRequestHeader("ApiKey", "asdfasxdfasdfasdf");
+                                    // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                                    // var params = getUrlParams(opts.url);
+                                    // params.username = 'admin';
+                                    // opts.data = params;
+                                    // console.log(params);
+
+                                    // when validation is false
+                                    if (false) {
+                                        xhr.abort();
+                                    }
+                                },
+                                success: function (data) {
+                                    //On ajax success do this
+                                    // alert(data);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //On error do this
+                                    if (xhr.status == 200) {
+                                        alert(ajaxOptions);
+                                    }
+                                    else {
+                                        alert(xhr.status);
+                                        alert(thrownError);
+                                    }
+                                }
                             });
                         },
                         updateItem: function (item) {

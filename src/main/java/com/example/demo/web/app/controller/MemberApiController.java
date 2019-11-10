@@ -8,8 +8,12 @@
  */
 package com.example.demo.web.app.controller;
 
+import com.example.demo.data.Member;
+import com.example.demo.service.MemberService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +27,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.demo.data.Member;
-import com.example.demo.service.MemberService;
+import sangmok.util.jsgrid.JsGridRequest;
+import sangmok.util.jsgrid.JsGridResponse;
 
 @RestController
 @RequestMapping(path = "api/members")
 public class MemberApiController {
 
+	@lombok.Data
+	public static class XXRequest {
+		private Integer pageIndex = 0;
+		private Integer pageSize = 10;
+		private String sortField;
+		private String sortOrder;
+
+		private Integer id;
+		private String username;
+		private String name;
+		private Boolean enabled;
+	}
+
 	private static Logger logger = LoggerFactory.getLogger(MemberApiController.class);
 
 	@Autowired
 	private MemberService memberService;
+
+	@PostMapping(path = "jsgrid.json")
+	public ResponseEntity<?> jsgrid(@RequestBody(required = false) XXRequest sr, UriComponentsBuilder ucBuilder) {
+
+		logger.info("sr is {}", sr);
+		JsGridRequest jsr = new JsGridRequest();
+		BeanUtils.copyProperties(sr, jsr);
+
+		Member filter = new Member();
+		BeanUtils.copyProperties(sr, filter);
+
+		JsGridResponse<Member> jtr = memberService.getMembersForJsGrid(jsr, filter);
+		return new ResponseEntity<JsGridResponse<Member>>(jtr, HttpStatus.OK);
+	}
 
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody Member e1, UriComponentsBuilder ucBuilder) {

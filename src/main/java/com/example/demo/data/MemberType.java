@@ -1,26 +1,28 @@
 package com.example.demo.data;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum MemberType {
 
-    ADMIN, USER
+    // ADMIN, USER
 
-    // ADMIN("Admin", 9), USER("User", 3);
+    ADMIN("Admin", 9), USER("User", 3);
 
-    // private String type;
-    // private final Integer value;
+    private String type;
+    private final Integer value;
 
-    // private MemberType(String type, Integer value) {
-    // this.type = type;
-    // this.value = value;
-    // }
+    private MemberType(String type, Integer value) {
+        this.type = type;
+        this.value = value;
+    }
 
-    // @JsonValue
-    // public Integer getValue() {
-    // return value;
-    // }
+    @JsonValue
+    public Integer getValue() {
+        return value;
+    }
 
-    // public String getName() {
-    // return type;
-    // }
+    public String getName() {
+        return type;
+    }
 
 }
