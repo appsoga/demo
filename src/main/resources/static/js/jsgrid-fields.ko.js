@@ -7,8 +7,8 @@ var codes = {
 	member: {
 		group: [
 			{ name: "", value: 0 },
-			{ value: "10", name: "ADMIN" },
-			{ value: "30", name: "USER" }
+			{ value: "30", name: "사용자" },
+			{ value: "10", name: "관리자" }
 		]
 	}
 };

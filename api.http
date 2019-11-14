@@ -3,11 +3,9 @@ content-type: application/json
 
 {
     "pageIndex": 1,
-    "pageSize": 2,
+    "pageSize": 10,
     "sortField": "username",
-    "sortOrder": "desc",
-    "id": 99,
-    "type": "30"
+    "sortOrder": "desc"
 }
 ### 사용자 추가
 POST http://localhost:8080/api/members HTTP/1.1
