@@ -7,7 +7,21 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import com.example.demo.data.GlobalEnum;
+
 public class JsGridSpecificationFactory {
+
+	private static java.util.List<Class<?>> equalTypes;
+
+	static {
+		equalTypes = new java.util.ArrayList<Class<?>>();
+		equalTypes.add(java.lang.Boolean.class);
+		equalTypes.add(java.lang.Integer.class);
+		equalTypes.add(java.lang.Long.class);
+		equalTypes.add(java.lang.Double.class);
+		equalTypes.add(java.math.BigDecimal.class);
+		equalTypes.add(java.math.BigInteger.class);
+	}
 
 	public static <T> org.springframework.data.jpa.domain.Specification<T> toSpecification(final Object obj) {
 		return new JsSpecification<T>(obj);
@@ -30,13 +44,12 @@ public class JsGridSpecificationFactory {
 			for (Field f : obj.getClass().getDeclaredFields()) {
 				f.setAccessible(true);
 				try {
-//                    Class<?> type = f.getType();
 					String fname = f.getName();
 					Object val = f.get(obj);
 					if (val == null)
 						continue;
-// TODO 유형별로 디버깅으로 해야 한다. 우선 Integer 는 오류
-					if (obj instanceof Boolean) {
+
+					if (equalTypes.contains(f.getType()) || val instanceof java.lang.Enum) {
 						Predicate p = cb.equal(root.get(fname), val);
 						predicate = cb.and(predicate, p);
 					} else {

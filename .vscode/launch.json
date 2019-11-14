@@ -6,13 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - JsGridSpecificationFactory",
-            "request": "launch",
-            "mainClass": "sangmok.util.jsgrid.JsGridSpecificationFactory",
-            "projectName": "demo"
-        },
-        {
-            "type": "java",
             "name": "Debug (Launch)-DemoApplication<demo>",
             "request": "launch",
             "mainClass": "com.example.demo.DemoApplication",

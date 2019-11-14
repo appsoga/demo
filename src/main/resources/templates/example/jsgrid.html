@@ -6,41 +6,6 @@
     <title th:text="#{label.menu.examples-jsgrid}">untitled</title>
     <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.css}" rel="stylesheet" />
     <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid-theme.min.css}" rel="stylesheet" />
-    <style>
-        .jsgrid {
-            font-size: small;
-        }
-
-        .jsgrid,
-        .jsgrid-header-row,
-        .jsgrid-header-cell,
-        .jsgrid-row,
-        .jsgrid-alt-row,
-        .jsgrid-cell {
-            padding: 0px;
-        }
-
-        .jsgrid-header-cell,
-        .jsgrid-cell {
-            padding-left: 3px;
-            padding-right: 3px;
-            color: blue;
-            background-color: yellow;
-
-        }
-
-        .jsgrid input {
-            padding-top: 0px;
-            padding-bottom: 0px;
-            border-style: groove;
-            border-radius: 5px 5px 5px 5px;
-        }
-
-        tr.jsgrid-clicked-row td {
-            font-weight: bold;
-            background-color: green;
-        }
-    </style>
 </head>
 
 <body>
@@ -71,67 +36,8 @@
     </article>
     <div th:fragment="javascript">
         <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jsgrid-fields.ko.js}"></script>
         <script type="text/javascript">
-
-            var custFields = [
-                // {
-                //     headerTemplate: function () {
-                //         return $("<button>").attr("type", "button").text("Delete")
-                //             .on("click", function () {
-                //                 // deleteSelectedItems();
-                //             });
-                //     },
-                //     itemTemplate: function (_, item) {
-                //         return $("<input>").attr("type", "checkbox")
-                //             .prop("checked", $.inArray(item, selectedItems) > -1)
-                //             .on("change", function () {
-                //                 $(this).is(":checked") ? selectItem(item) : unselectItem(item);
-                //             });
-                //     },
-                //     align: "center",
-                //     width: 50
-                // },
-                { title: "ID", name: "id", type: "number", inserting: false, editing: false, validate: "required", width: 10 },
-                { title: "Username", name: "username", type: "text", width: 20 },
-                { title: "Type", name: "type", type: "text", width: 20 },
-                { title: "Name", name: "name", type: "text", width: 20 },
-                { title: "E-Mail", name: "email", type: "text", filtering: false, width: 40 },
-                // { title: "IM", type: "text", filtering: true, width: 40 },
-                // { title: "mVoip", type: "text", filtering: true, width: 40 },
-                { title: "Enabled", name: "enabled", type: "checkbox", width: 10 },
-                {
-                    type: "control",
-                    editButton: true,                               // show edit button
-                    deleteButton: true,                             // show delete button
-                    clearFilterButton: true,                        // show clear filter button
-                    modeSwitchButton: true,                        // show switching filtering/inserting button
-
-                    align: "center",                                // center content alignment
-                    width: 10,                                      // default column width is 50px
-                    filtering: false,                               // disable filtering for column
-                    inserting: false,                               // disable inserting for column
-                    editing: false,                                 // disable editing for column
-                    sorting: false,                                 // disable sorting for column
-
-                    searchModeButtonTooltip: "Switch to searching", // tooltip of switching filtering/inserting button in inserting mode
-                    insertModeButtonTooltip: "Switch to inserting", // tooltip of switching filtering/inserting button in filtering mode
-                    editButtonTooltip: "Edit",                      // tooltip of edit item button
-                    deleteButtonTooltip: "Delete",                  // tooltip of delete item button
-                    searchButtonTooltip: "Search",                  // tooltip of search button
-                    clearFilterButtonTooltip: "Clear filter",       // tooltip of clear filter button
-                    insertButtonTooltip: "Insert",                  // tooltip of insert button
-                    updateButtonTooltip: "Update",                  // tooltip of update item button
-                    cancelEditButtonTooltip: "Cancel edit",         // tooltip of cancel editing button
-                }
-            ];
-
-            var countries = [
-                { Name: "", Id: 0 },
-                { Name: "United States", Id: 1 },
-                { Name: "Canada", Id: 2 },
-                { Name: "United Kingdom", Id: 3 }
-            ];
-
 
             $(document).ready(function () {
 
@@ -159,7 +65,7 @@
 
                     // data: clients,
                     autoload: false, // controller 를 사용할지 여부
-                    fields: custFields,
+                    fields: jsgridFields.member,
                     onDataLoaded: function (o) {
                         // console.log(o.data.itemsCount);
                     },
@@ -180,7 +86,7 @@
                         // deleteItem: $.noop,
                         loadData: function (filter) {
 
-                            // console.log(filter);
+                            console.log(filter);
                             // filter.username = 'admin';
                             // console.log(JSON.stringify(filter));
 
@@ -308,6 +214,44 @@
 
             });
         </script>
+
+        <style>
+            .jsgrid {
+                font-size: small;
+            }
+
+            .jsgrid,
+            .jsgrid-header-row,
+            .jsgrid-header-cell,
+            .jsgrid-row,
+            .jsgrid-alt-row,
+            .jsgrid-cell {
+                padding: 0px;
+            }
+
+            .jsgrid-header-cell,
+            .jsgrid-cell {
+                padding-left: 3px;
+                padding-right: 3px;
+                color: blue;
+                background-color: yellow;
+
+            }
+
+            .jsgrid input,
+            .jsgrid select {
+                
+                padding-top: 0px;
+                padding-bottom: 0px;
+                border-style: groove;
+                border-radius: 5px 5px 5px 5px;
+            }
+
+            tr.jsgrid-clicked-row td {
+                font-weight: bold;
+                background-color: green;
+            }
+        </style>
     </div>
 </body>
 

@@ -3,7 +3,7 @@ package com.example.demo.service;
 import java.util.Calendar;
 
 import com.example.demo.data.Member;
-import com.example.demo.data.MemberType;
+import com.example.demo.data.MemberGroup;
 import com.example.demo.data.repository.MemberRepository;
 
 import org.slf4j.Logger;
@@ -54,7 +54,7 @@ public class MemberService implements InitializingBean {
 		Member e1 = new Member();
 		e1.setUsername(username);
 		e1.setPassword(encode(password));
-		e1.setType(MemberType.USER);
+		e1.setGroup(MemberGroup.USER);
 		e1.setName(username);
 		e1.setEnabled(false);
 		return createMember(e1);
@@ -158,7 +158,7 @@ public class MemberService implements InitializingBean {
 	public static Member copyForUpdate(Member t, Member s) {
 		// t.setUsername(s.getUsername());
 		// t.setPassword(s.getPassword());
-		t.setType(s.getType());
+		t.setGroup(s.getGroup());
 		t.setName(s.getName());
 		t.setEmail(s.getEmail());
 		if (s.getEnabled() != null)
@@ -176,7 +176,7 @@ public class MemberService implements InitializingBean {
 			Member e1 = new Member();
 			e1.setUsername(String.format("user%d", i));
 			e1.setPassword(encode("password"));
-			e1.setType(MemberType.USER);
+			e1.setGroup(MemberGroup.USER);
 			e1.setName(String.format("user%d", i));
 			e1.setEmail(String.format("user%d@xxx.com", i));
 			e1.setExpiresOn(Calendar.getInstance().getTime());
@@ -186,7 +186,7 @@ public class MemberService implements InitializingBean {
 		logger.info("add sample users to db.");
 
 		Member admin = createMember("admin", "password");
-		// admin.setType(MemberType.ADMIN);
+		admin.setGroup(MemberGroup.ADMIN);
 		admin.setEnabled(true);
 		memberRepository.save(admin);
 		logger.info("add admin user to db.");

@@ -9,6 +9,7 @@
 package com.example.demo.web.app.controller;
 
 import com.example.demo.data.Member;
+import com.example.demo.data.MemberGroup;
 import com.example.demo.service.MemberService;
 
 import org.slf4j.Logger;
@@ -42,8 +43,9 @@ public class MemberApiController {
 		private String sortOrder;
 
 		private Integer id;
-		private String username;
 		private String name;
+		private String group;
+		private String username;
 		private Boolean enabled;
 	}
 
@@ -60,6 +62,7 @@ public class MemberApiController {
 		BeanUtils.copyProperties(sr, jsr);
 
 		Member filter = new Member();
+		filter.setGroup(MemberGroup.of(sr.getGroup()));
 		BeanUtils.copyProperties(sr, filter);
 
 		JsGridResponse<Member> jtr = memberService.getMembersForJsGrid(jsr, filter);

@@ -11,6 +11,7 @@ package com.example.demo.data;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -20,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.example.demo.data.converter.MemberGroupConverter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -32,9 +34,10 @@ public class Member {
 	@Column(name = "ID")
 	private Integer id;
 
+	@Convert(attributeName = "value", converter = MemberGroupConverter.class)
 	@Enumerated(EnumType.STRING)
 	@Column(name = "MTYPE", length = 18, nullable = false)
-	private MemberType type;
+	private MemberGroup group;
 
 	@Column(name = "NAME")
 	private String name;

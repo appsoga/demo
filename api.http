@@ -1,11 +1,13 @@
-GET http://localhost:8080/api/members HTTP/1.1
+POST http://localhost:8080/api/members/jsgrid.json HTTP/1.1
 content-type: application/json
 
 {
     "pageIndex": 1,
     "pageSize": 2,
     "sortField": "username",
-    "sortOrder": "desc"
+    "sortOrder": "desc",
+    "id": 99,
+    "type": "30"
 }
 ### 사용자 추가
 POST http://localhost:8080/api/members HTTP/1.1
@@ -40,6 +42,7 @@ content-type: application/json
 
 ### 사용자 삭제
 DELETE http://localhost:8080/api/members/1 HTTP/1.1
+
 
 
 ### datatable 테스트
