@@ -1,7 +1,5 @@
 package sangmok.util.jsgrid;
 
-import java.lang.reflect.Field;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -30,7 +28,18 @@ public class JsGridSpecificationFactory {
 	public static class JsSpecification<T> implements org.springframework.data.jpa.domain.Specification<T> {
 
 		private static final long serialVersionUID = 1L;
+		private static java.util.List<Class<?>> equalFilters;
 		private Object obj;
+
+		static {
+			equalFilters = new java.util.ArrayList<Class<?>>();
+			equalFilters.add(java.lang.Boolean.class);
+			equalFilters.add(java.lang.Integer.class);
+			equalFilters.add(java.lang.Long.class);
+			equalFilters.add(java.lang.Double.class);
+			equalFilters.add(java.math.BigInteger.class);
+			equalFilters.add(java.math.BigDecimal.class);
+		}
 
 		public JsSpecification(Object obj) {
 			this.obj = obj;
@@ -41,7 +50,7 @@ public class JsGridSpecificationFactory {
 
 			Predicate predicate = cb.conjunction();
 
-			for (Field f : obj.getClass().getDeclaredFields()) {
+			for (java.lang.reflect.Field f : obj.getClass().getDeclaredFields()) {
 				f.setAccessible(true);
 				try {
 					String fname = f.getName();

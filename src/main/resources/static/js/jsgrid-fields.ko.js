@@ -29,7 +29,7 @@ var jsgridFields = {
 		//             });
 		//     },
 		//     align: "center",
-		//     width: 50
+		//     widt
 		// },
 		{ title: "ID", name: "id", type: "number", inserting: false, editing: false, validate: "required", width: 10 },
 		{ title: "Username", name: "username", type: "text", width: 15 },
