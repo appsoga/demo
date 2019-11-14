@@ -22,7 +22,7 @@ content-type: application/json
 }
 
 ### 사용자 조회
-GET http://localhost:8080/api/members/1 HTTP/1.1
+GET http://localhost:8080/api/members/301 HTTP/1.1
 
 ### 사용자 수정
 PUT http://localhost:8080/api/members HTTP/1.1

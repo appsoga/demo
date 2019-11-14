@@ -72,11 +72,17 @@ public class MemberApiController {
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody Member e1, UriComponentsBuilder ucBuilder) {
 		logger.info("create member: {}", e1);
-		if (e1.getUsername() == null || e1.getUsername().isEmpty()) {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		try {
+			if (e1.getUsername() == null || e1.getUsername().isEmpty()) {
+				return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			}
+			e1 = memberService.createMember(e1);
+			return new ResponseEntity<Member>(e1, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(
+					"{timestamp: '2019-11-14T08:33:09.874+0000', status: 34, error: 'bad request', message: 'duplicated user'}",
+					HttpStatus.OK);
 		}
-		e1 = memberService.createMember(e1);
-		return new ResponseEntity<Member>(e1, HttpStatus.OK);
 	}
 
 	@GetMapping(path = "{id}")
