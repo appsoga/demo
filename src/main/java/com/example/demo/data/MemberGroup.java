@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * db에 ADMIN, USER로 되어 있는데... 값을 숫자로 가져오네.
  */
-public enum MemberGroup implements GlobalEnum {
+public enum MemberGroup implements EnumType {
 
 	ADMIN("관리자", 10), USER("사용자", 30);
 

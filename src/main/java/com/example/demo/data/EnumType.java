@@ -1,6 +1,6 @@
 package com.example.demo.data;
 
-public interface GlobalEnum {
+public interface EnumType {
 
     String getName();
 
