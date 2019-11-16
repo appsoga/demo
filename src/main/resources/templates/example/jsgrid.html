@@ -30,15 +30,20 @@
                             tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 </p>
                         <div id="jsGrid"></div>
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        <button class="btn btn-sm btn-info" id="btnSelectedItems">
+                            선택된레코드는?
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </article>
     <div th:fragment="javascript">
-        <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
+
+        <!-- <script th:src="@{/webjars/jQuery-contextMenu/1.6.5/jquery.contextMenu.js}"></script> -->
         <script type="text/javascript" th:src="@{/js/jsgrid-custom-field.js}"></script>
         <script type="text/javascript" th:src="@{/js/jsgrid-fields.ko.js}"></script>
+        <!-- <script th:src="@{/js/jquery.ui-contextmenu.min.js}"></script> -->
         <script type="text/javascript">
 
             $(document).ready(function () {
@@ -70,14 +75,19 @@
                     fields: jsgridFields.member,
                     onDataLoaded: function (o) {
                         // console.log(o.data.itemsCount);
+
+                        $(this).find("tr").each(function (index) {
+                            console.log(index);
+                        });
+
                     },
                     rowClick: function (args) {
-                        var item = $(args.event.target).closest("tr");
-                        if (this._clicked_row != null) {
-                            this._clicked_row.removeClass('jsgrid-clicked-row');
-                        }
-                        this._clicked_row = item;
-                        item.addClass('jsgrid-clicked-row');
+                        // var item = $(args.event.target).closest("tr");
+                        // if (this._clicked_row != null) {
+                        //     this._clicked_row.removeClass('jsgrid-clicked-row');
+                        // }
+                        // this._clicked_row = item;
+                        // item.addClass('jsgrid-clicked-row');
                     },
                     rowClass: function (item, itemIndex) {
                         return itemIndex % 2 == 0 ? 'bg-red' : 'bg-green';
@@ -215,7 +225,48 @@
                 // }
 
                 // $("#grid").jsGrid("sort", { field: "id", order: "desc" });
-                jsGrid.jsGrid("sort", { field: "id", order: "desc" });
+                jsGrid.jsGrid("sort", { field: "username", order: "asc" });
+
+
+                $("#btnSelectedItems").on("click", function (args) {
+                    var seleted = jsGrid.jsGrid("selectedItemsNo");
+                    console.log(seleted);
+                });
+
+                $("#btnSelectedItems").contextmenu({
+
+                    delegate: ".hasmenu",
+                    menu: [
+                        { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" }
+                    ],
+                    select: function (event, ui) {
+                        console.log("select " + ui.cmd + " on " + ui.targer.text());
+                    }
+
+                });
+
+
+
+
+
+
+
+
+
+                jsGrid.jsGrid("render").done(function () {
+                    console.log("rendering completed and data loaded");
+                    console.log(this);
+                    $(jsGrid).find("tr").each(function (idx, element) {
+
+                        console.log(idx, element);
+                        $(element).oncontextmenu = function () {
+                            console.log("onContextMenu::");
+                            return false;
+                        };
+
+                    });
+
+                });
 
             });
         </script>
@@ -225,36 +276,41 @@
                 font-size: small;
             }
 
-            .jsgrid,
-            .jsgrid-header-row,
-            .jsgrid-header-cell,
-            .jsgrid-row,
-            .jsgrid-alt-row,
-            .jsgrid-cell {
-                padding: 0px;
+            th.jsgrid-header-cell,
+            td.jsgrid-cell,
+            td.jsgrid-cell input,
+            td.jsgrid-cell select,
+            div.jsgrid-pager,
+            div.jsgrid-pager span,
+            div.jsgrid-pager-nav-button {
+                /* font-size: small; */
+                padding-top: 3px;
+                padding-bottom: 3px;
             }
 
-            .jsgrid-header-cell,
-            .jsgrid-cell {
-                padding-left: 3px;
-                padding-right: 3px;
-                color: blue;
-                background-color: yellow;
-
+            td.jsgrid-cell {
+                /* font-size: small; */
+                white-space: nowrap;
             }
 
-            .jsgrid input,
-            .jsgrid select {
-
-                padding-top: 0px;
-                padding-bottom: 0px;
-                border-style: groove;
-                border-radius: 5px 5px 5px 5px;
+            td.jsgrid-cell input,
+            td.jsgrid-cell select {
+                border-radius: 5px;
+                border: 1px gray solid;
+                padding-top: 1px;
+                padding-bottom: 1px;
             }
 
-            tr.jsgrid-clicked-row td {
-                font-weight: bold;
-                background-color: green;
+            tr.jsgrid-highlight-row td.jsgrid-cell {
+                background: #c4e2ff;
+                border-color: #c4e2ff;
+            }
+
+            tr.jsgrid-clicked-row td.jsgrid-cell {
+                background: #f5b8b8;
+                border-color: #c29292;
+                color: rgb(10, 10, 10);
+                font-size: bold;
             }
         </style>
     </div>

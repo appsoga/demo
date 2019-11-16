@@ -24,6 +24,7 @@ $.datepicker.setDefaults({
 });
 
 
+
 /*******************************************************************************
  * 
  * Fields of record
@@ -45,24 +46,7 @@ var selectedItems = [],
 	selectedItem,
 	jsgridFields = {
 		member: [
-			{
-				// headerTemplate: function () {
-				// 	return $("<button>").attr("type", "button").text("X")
-				// 		.on("click", function () {
-				// 			// deleteSelectedItems();
-				// 		});
-				// },
-				itemTemplate: function (_, item) {
-					return $("<input>").attr("type", "checkbox")
-						.prop("checked", $.inArray(item, selectedItems) > -1)
-						.on("change", function () {
-							// $(this).is(":checked") ? selectItem(item) : unselectItem(item);
-						});
-				},
-				width: 5,
-				sorting: false,
-				align: "center"
-			},
+			{ type: "multiselect" },
 			{ title: "ID", name: "id", type: "number", inserting: false, editing: false, validate: "required", width: 10 },
 			{ title: "Username", name: "username", type: "text", width: 10 },
 			{ title: "Group", name: "group", type: "select", width: 10, items: codes.member.group, valueField: "value", textField: "name" },
