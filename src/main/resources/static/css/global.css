@@ -13,7 +13,7 @@ body {
 .navbar {
   background-color: rgb(238, 239, 240);
   color: rgb(252, 121, 117);
-  height: 36px;
+  height: 33px;
   border-bottom: 1px rgb(197, 197, 197) solid;
 }
 .navbar-nav .nav-item {
@@ -40,16 +40,16 @@ body {
 } 
 .navbar-nav .nav-item .dropdown-menu .dropdown-divider {
   margin-top: 6px;
-  margin-bottom: 1px;
-  padding-top: 3px;
-  padding-bottom: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 3px;
 } 
 .navbar-nav .nav-item .dropdown-menu .dropdown-item {
   font-size: small;
-  margin-top: 1px;
-  margin-bottom: 1px;
-  padding-top: 1px;
-  padding-bottom: 1px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding-top: 3px;
+  padding-bottom: 6px;
 } 
 
 

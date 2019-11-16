@@ -1,67 +1,76 @@
 <!DOCTYPE html>
-<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Please sign in</title>
-    <link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet" />
-    <link th:href="@{/css/sign-in.css}" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <div w3-include-html="fragments/head.html"></div>
+    <title>powerTalk</title>
+    <!-- <link href="css/signin.css" rel="stylesheet"> -->
+    <style>
+        body {
+            height: 100%;
+            background-color: white;
+        }
+    </style>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <!-- <link th:href="@{/css/global.css}" rel="stylesheet"> -->
+    <link th:href="@{/css/floating-labels.css}" rel="stylesheet">
 </head>
 
-<body th:attr="data-language=${#locale.language}">
-    <div class="container">
-        <form class="form-signin" method="post" th:action="@{/app/login-process}">
-            <h2 class="form-signin-heading" th:text="#{label.sign-in.msg}">Please sign in</h2>
-            <div class="alert alert-info">
-            	admin/password
-            </div>
-            <div th:if="${param.error}" class="alert alert-danger alert-dismissible"
-                role="alert">
-                <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}">!!</span>
-            </div>
-            <p>
-                <label for="username" class="sr-only" th:text="#{label.username}">Username</label>
-                <input type="text" id="username" name="username" class="form-control" th:placeholder="#{label.username}" required
-                    autofocus>
-            </p>
-            <p>
-                <label for="password" class="sr-only" th:text="#{label.password}">Password</label>
-                <input type="password" id="password" name="password" class="form-control" th:placeholder="#{label.password}"
-                    required>
-            </p>
-            <p>
-				<label for="localeSelect" class="sr-only" th:text="#{label.lang}">Language</label>
-				<select id="localeSelect" name="locale" class="form-control" 
-					th:value="${#locale.language}"
-					th:placeholder="#{label.lang}">
-				  <option value="ko" th:text="#{label.lang.ko}">Option 1</option>
-				  <option value="en" th:text="#{label.lang.en}">Option 2</option>
-				</select>
-			</p>
-            <input name="_csrf" type="hidden" value="63b7a2b3-99f9-4a49-8433-323739bfdca2" />
-            <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{label.sign-in}">Sign in</button>
-        </form>
-    </div>
-    <script type="text/ecmascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
-	<script type="text/ecmascript" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
-	<script type="text/ecmascript" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.bundle.min.js}"></script>
-    <script type="text/javascript">
-    $(document).ready(function() {
-    	var lang = (navigator.language || navigator.systemLanguage || navigator.userLanguage || 'en').substr(0, 2).toLowerCase();
-    	lang = $("body").attr("data-language");
-    	if (console) console.log(lang);
-    	$("#localeSelect").val(lang).attr("selected", true);
-    	$("#localeSelect").on("change", function(xhr){
-    		var val = $("#localeSelect").val();
-    		location.href = '?locale=' + val;
-    	});
-    	
-	});
-    </script>
+<body>
+
+    <form class="form-signin" method="post" th:action="@{/app/login-process}">
+        <div class="text-center mb-4">
+            <img class="mb-4" th:src="@{/images/login-key.png}" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">파워톡 3.0</h1>
+            <p><code>LTE 네트워크 무전 서비스</code> 관리자입니다. 비밀번호를 잃어 버리셨다면 <a href="request-change-password.html">비밀번호 재설정</a>
+                하시기 바랍니다. 비밀번호 변경화면을 보시려면 <a href="change-password.html">여기</a>를 클릭하세요</p>
+        </div>
+
+        <div class="form-label-group">
+            <input type="text" name="username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <label for="inputEmail">Username</label>
+        </div>
+
+        <div class="form-label-group">
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <label for="inputPassword">Password</label>
+        </div>
+
+        <!-- <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div> -->
+        <button class="btn btn-lg btn-secondary btn-block" type="submit">로그인</button>
+        <p class="mt-5 mb-3 text-muted text-center">&copy; POWERTALK 2020</p>
+    </form>
+
+
+    <!-- Optional JavaScript -->
+    <!-- <script src="js/global.js"></script> -->
 </body>
 
 </html>
