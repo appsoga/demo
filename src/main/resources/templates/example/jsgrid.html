@@ -41,6 +41,7 @@
     <div th:fragment="javascript">
 
         <!-- <script th:src="@{/webjars/jQuery-contextMenu/1.6.5/jquery.contextMenu.js}"></script> -->
+        <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
         <script type="text/javascript" th:src="@{/js/jsgrid-custom-field.js}"></script>
         <script type="text/javascript" th:src="@{/js/jsgrid-fields.ko.js}"></script>
         <!-- <script th:src="@{/js/jquery.ui-contextmenu.min.js}"></script> -->
@@ -233,40 +234,18 @@
                     console.log(seleted);
                 });
 
-                $("#btnSelectedItems").contextmenu({
+                // $("#btnSelectedItems").contextmenu({
 
-                    delegate: ".hasmenu",
-                    menu: [
-                        { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" }
-                    ],
-                    select: function (event, ui) {
-                        console.log("select " + ui.cmd + " on " + ui.targer.text());
-                    }
+                //     delegate: ".hasmenu",
+                //     menu: [
+                //         { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" }
+                //     ],
+                //     select: function (event, ui) {
+                //         console.log("select " + ui.cmd + " on " + ui.targer.text());
+                //     }
 
-                });
+                // });
 
-
-
-
-
-
-
-
-
-                jsGrid.jsGrid("render").done(function () {
-                    console.log("rendering completed and data loaded");
-                    console.log(this);
-                    $(jsGrid).find("tr").each(function (idx, element) {
-
-                        console.log(idx, element);
-                        $(element).oncontextmenu = function () {
-                            console.log("onContextMenu::");
-                            return false;
-                        };
-
-                    });
-
-                });
 
             });
         </script>

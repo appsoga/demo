@@ -1,12 +1,12 @@
 
-$.jgrid.defaults.hidegrid = false;
-$.jgrid.defaults.autowidth = true;
-$.jgrid.defaults.responsive = true;
-$.jgrid.defaults.ignoreCase = true;
-$.jgrid.defaults.page = 1;
-$.jgrid.defaults.rowNum = 10;
-$.jgrid.defaults.rowList = [10, 20, 50, 100, 500, 1024];
-$.jgrid.defaults.viewrecords = true;
+// $.jgrid.defaults.hidegrid = false;
+// $.jgrid.defaults.autowidth = true;
+// $.jgrid.defaults.responsive = true;
+// $.jgrid.defaults.ignoreCase = true;
+// $.jgrid.defaults.page = 1;
+// $.jgrid.defaults.rowNum = 10;
+// $.jgrid.defaults.rowList = [10, 20, 50, 100, 500, 1024];
+// $.jgrid.defaults.viewrecords = true;
 
 function getUrlParams(url) {
     var params = {};
