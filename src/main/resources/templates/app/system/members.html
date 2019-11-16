@@ -16,26 +16,27 @@
         <div class="page-path row">
             <div class="col">
                 <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-                &nbsp;<span>Home</span> &gt; <span>Examples</span> &gt; <span class="page-current-path"
-                    th:text="#{label.menu.examples-jsgrid}">About</span>
+                &nbsp;<span>Home</span> &gt; <span class="page-current-path"
+                    th:text="#{label.menu.members}">About</span>
             </div>
         </div>
         <div class="page-body row">
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">Untitled</h5>
-                        <p class="card-text" id="welcomeMessage">
+                        <h5 class="card-title" th:text="#{label.menu.members}">Untitled</h5>
+                        <p class="card-text" id="welcomeMessage" th:text="#{label.menu.members.welcome-message}">
                             Grid중에서 꽤 쓸만한 녀석이네, 목록요청에 대한 응답은 일반컨트롤러로 작업하고, CRUD는 RESTController로 작업된거 있음 쓰면 된다.
                             괜히 삽질하지 말아라. 넌 이미 삽질을 해 봤다. REST 컨트롤러에서 RequestBody 는 하나 밖에 선언할 수 없다.
                             tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 </p>
                         <div id="jsGrid"></div>
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                        <button class="btn btn-sm btn-info" id="btnSelectedItems">
-                            선택된레코드는?
-                        </button>
 
-
+                        <div class="text-right" style="margin-top: 15px;">
+                            <button class="btn btn-sm btn-info" id="btnSelectedItems">
+                                선택된레코드는?
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
