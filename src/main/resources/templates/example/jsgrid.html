@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">Untitled</h5>
-                        <p class="card-text">
+                        <p class="card-text" id="welcomeMessage">
                             Grid중에서 꽤 쓸만한 녀석이네, 목록요청에 대한 응답은 일반컨트롤러로 작업하고, CRUD는 RESTController로 작업된거 있음 쓰면 된다.
                             괜히 삽질하지 말아라. 넌 이미 삽질을 해 봤다. REST 컨트롤러에서 RequestBody 는 하나 밖에 선언할 수 없다.
                             tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 </p>
@@ -33,6 +33,13 @@
                         <button class="btn btn-sm btn-info" id="btnSelectedItems">
                             선택된레코드는?
                         </button>
+
+                        <div id="contextMenu">
+                            <div class="hasmenu">AAA</div>
+                            <div class="hasmenu">BBB</div>
+                            <div class="hasmenu">CCC</div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -41,10 +48,10 @@
     <div th:fragment="javascript">
 
         <!-- <script th:src="@{/webjars/jQuery-contextMenu/1.6.5/jquery.contextMenu.js}"></script> -->
+        <script th:src="@{/js/jquery.ui-contextmenu.min.js}"></script>
         <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
         <script type="text/javascript" th:src="@{/js/jsgrid-custom-field.js}"></script>
         <script type="text/javascript" th:src="@{/js/jsgrid-fields.ko.js}"></script>
-        <!-- <script th:src="@{/js/jquery.ui-contextmenu.min.js}"></script> -->
         <script type="text/javascript">
 
             $(document).ready(function () {
@@ -234,17 +241,23 @@
                     console.log(seleted);
                 });
 
-                // $("#btnSelectedItems").contextmenu({
-
-                //     delegate: ".hasmenu",
-                //     menu: [
-                //         { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" }
-                //     ],
-                //     select: function (event, ui) {
-                //         console.log("select " + ui.cmd + " on " + ui.targer.text());
-                //     }
-
-                // });
+                $("#jsGrid").contextmenu({
+                    delegate: ".jsgrid-grid-body .jsgrid-cell",
+                    menu: [
+                        { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
+                        { title: "----" },
+                        {
+                            title: "More", children: [
+                                { title: "Sub 1", cmd: "sub1" },
+                                { title: "Sub 2", cmd: "sub1" }
+                            ]
+                        }
+                    ],
+                    select: function (event, ui) {
+                        console.log("select " + ui.cmd + " on " + ui.target.text());
+                        console.log(event, ui);
+                    }
+                });
 
 
             });
@@ -290,6 +303,11 @@
                 border-color: #c29292;
                 color: rgb(10, 10, 10);
                 font-size: bold;
+            }
+
+
+            .ui-menu-item-wrapper {
+                width: 150px;
             }
         </style>
     </div>
