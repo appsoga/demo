@@ -20,6 +20,16 @@ public class HomeController {
 		logger.info("locale is {}", locale);
 	}
 
+	@RequestMapping(value = "request-change-password.html")
+	public void requestChangePassword_html(Locale locale, Model model) {
+		logger.info("locale: {}", locale);
+	}
+
+	@RequestMapping(value = "change-password.html")
+	public void changePassword_html(Locale locale, Model model) {
+		logger.info("locale: {}", locale);
+	}
+
 	@RequestMapping(value = "dashboard.html")
 	public void dashboard_html(Locale locale, Model model) {
 		logger.info("locale: {}", locale);

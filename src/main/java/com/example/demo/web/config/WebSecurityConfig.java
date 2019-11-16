@@ -46,12 +46,12 @@ public class WebSecurityConfig {
 
             http.antMatcher("/app/**").authorizeRequests()
                     //
-                    .antMatchers("/app/login", "/app/**/*.json").permitAll()
+                    .antMatchers("/app/login", "/app/request-change-password.html", "/app/**/*.json").permitAll()
                     //
                     // .antMatchers("/app/dashbord/**").hasRole("USER")
                     //
-                   .anyRequest().authenticated();
-                    // .anyRequest().permitAll();
+                    .anyRequest().authenticated();
+            // .anyRequest().permitAll();
             http.csrf().disable();
             http.formLogin()
                     //
