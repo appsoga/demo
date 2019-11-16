@@ -7,49 +7,44 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}" rel="stylesheet" media="screen" />
+	<!-- <link th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}" rel="stylesheet" media="screen" />
 	<link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet" />
-	<link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap-grid.min.css}" rel="stylesheet" />
-	<link th:href="@{/jqgrid/5.4.0/css/ui.jqgrid-bootstrap4.css}" rel="stylesheet" media="screen" />
+	<link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap-grid.min.css}" rel="stylesheet" /> -->
+	<!-- <link th:href="@{/jqgrid/5.4.0/css/ui.jqgrid-bootstrap4.css}" rel="stylesheet" media="screen" />
 	<link th:href="@{/jqgrid/5.4.0/css/ui.jqgrid-bootstrap-ui.css}" rel="stylesheet" media="screen" />
-	<link th:href="@{/jqgrid/5.4.0/css/ui.jqgrid.css}" rel="stylesheet" media="screen" />
+	<link th:href="@{/jqgrid/5.4.0/css/ui.jqgrid.css}" rel="stylesheet" media="screen" /> -->
 	<!--   
 	<link th:href="@{/webjars/free-jqgrid/4.15.4/css/ui.jqgrid.min.css}" rel="stylesheet" media="screen" />
  	<link th:href="@{/webjars/font-awesome/5.11.2/css/all.min.css}" rel="stylesheet" media="screen" />
  -->
 	<link th:href="@{/css/global.css}" rel="stylesheet" media="screen" />
 
-
-
-	<style type="text/css">
-		div.page-path {
-			padding: 5px;
-			font-size: small;
-		}
-
-		footer.layout {
-			background-color: white;
-			margin-top: 30px;
-			padding: 20px;
-			font-size: small;
-		}
-	</style>
-
 </head>
 
 <body th:attr="data-language=${#locale.language}">
-	<header th:replace="fragments/header :: header" ></header>
-	<nav th:replace="fragments/header :: nav" class="navbar sticky-top">
+
+	<header th:replace="fragments/header :: header" >
+		이곳은 fragments/header.html 의 header 태그로 치환됩니다.
+	</header>
+
+	<nav th:replace="fragments/header :: nav">
+		이곳은 fragments/header.html의 nav 태크로 치환됩니다.
 	</nav>
-	<th:block layout:fragment="content"></th:block>
-	<div th:replace="fragments/footer :: footer">&copy; 2019 The Static Templates</div>
+
+	<th:block layout:fragment="content">
+		이곳에 호출된 페이지의 컨텐츠가 표시됩니다.
+	</th:block>
+
+	<div th:replace="fragments/footer :: footer">
+		&copy; 2019 &copy;SANGMOK.
+	</div>
 	
 	<!-- <script type="text/ecmascript" th:src="@{/webjars/jquery/1.12.4/jquery.min.js}"></script> -->
 	<script type="text/ecmascript" th:src="@{/webjars/jquery/2.2.4/jquery.min.js}"></script>
 	<!-- <script type="text/ecmascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script> -->
-	
 	<script type="text/ecmascript" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
 	<script type="text/ecmascript" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.bundle.min.js}"></script>
+	
 	<script type="text/ecmascript"
 		th:src="@{${'/jqgrid/5.4.0/js/i18n/grid.locale-' + #locale.language + '.js'}}"></script>
 	<script type="text/ecmascript" th:src="@{/jqgrid/5.4.0/js/jquery.jqGrid.min.js}"></script>
