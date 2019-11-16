@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SystemController {
 
-	private static Logger logger = LoggerFactory.getLogger(MemberController.class);
+	private static Logger logger = LoggerFactory.getLogger(SystemController.class);
 
 	@RequestMapping(value = { "" })
 	public String _system(Model model) {
