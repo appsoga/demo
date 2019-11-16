@@ -29,13 +29,15 @@ PUT http://localhost:8080/api/members HTTP/1.1
 content-type: application/json
 
 {
-  "id": 1,
-  "name": "jhon smith",
-  "email": "root@linux.com",
-  "username": "user1",
-  "expiresOn": null,
-  "lastAccessedOn": null,
-  "enabled": true
+    "id":301,
+    "group":10,
+    "name":"admin",
+    "email":"",
+    "username":"admin",
+    "password":"{bcrypt}$2a$10$3uLLZOWt4W/Pa0Fq50Q87.xA/o7UaVjbQsTZ6yZSTYump0i/zlf9i",
+    "enabled":true,
+    "expiresOn":"2020-12-31T02:18:00.612Z",
+    "lastAccessedOn":"2019-11-16T02:18:00.612Z"
 }
 
 ### 사용자 삭제

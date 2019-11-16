@@ -8,6 +8,8 @@
  */
 package com.example.demo.web.app.controller;
 
+import java.util.Date;
+
 import com.example.demo.data.Member;
 import com.example.demo.data.MemberGroup;
 import com.example.demo.service.MemberService;
@@ -46,6 +48,9 @@ public class MemberApiController {
 		private String name;
 		private String group;
 		private String username;
+		private String email;
+		private Date expiresOn;
+		private Date lastAccessedOn;
 		private Boolean enabled;
 	}
 
@@ -62,7 +67,7 @@ public class MemberApiController {
 		BeanUtils.copyProperties(sr, jsr);
 
 		Member filter = new Member();
-		filter.setGroup(MemberGroup.of(sr.getGroup()));
+		filter.setGroup(MemberGroup.of(sr.getGroup())); // 기본속성이 아니라 복사가 안됨. 그래서 추가
 		BeanUtils.copyProperties(sr, filter);
 
 		JsGridResponse<Member> jtr = memberService.getMembersForJsGrid(jsr, filter);

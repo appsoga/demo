@@ -5,8 +5,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import com.example.demo.data.GlobalEnum;
-
 public class JsGridSpecificationFactory {
 
 	private static java.util.List<Class<?>> equalTypes;
@@ -57,8 +55,10 @@ public class JsGridSpecificationFactory {
 					Object val = f.get(obj);
 					if (val == null)
 						continue;
-
 					if (equalTypes.contains(f.getType()) || val instanceof java.lang.Enum) {
+						Predicate p = cb.equal(root.get(fname), val);
+						predicate = cb.and(predicate, p);
+					} else if (val instanceof java.util.Date) {
 						Predicate p = cb.equal(root.get(fname), val);
 						predicate = cb.and(predicate, p);
 					} else {

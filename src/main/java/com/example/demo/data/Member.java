@@ -55,12 +55,10 @@ public class Member {
 	@Column(name = "ENABLED", nullable = false, length = 1)
 	private Boolean enabled;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	@Temporal(TemporalType.DATE)
 	@Column(name = "EXPIRES_ON")
 	private Date expiresOn;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_ACCESSS_ON")
 	private Date lastAccessedOn;

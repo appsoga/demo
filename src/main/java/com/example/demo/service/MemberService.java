@@ -164,7 +164,7 @@ public class MemberService implements InitializingBean {
 		if (s.getEnabled() != null)
 			t.setEnabled(s.getEnabled());
 		t.setExpiresOn(s.getExpiresOn());
-		// t.setLastAccessedOn(s.getLastAccessedOn());
+		t.setLastAccessedOn(s.getLastAccessedOn());
 		return t;
 	}
 

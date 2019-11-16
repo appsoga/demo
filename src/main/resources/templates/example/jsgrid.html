@@ -37,6 +37,7 @@
     </article>
     <div th:fragment="javascript">
         <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jsgrid-custom-field.js}"></script>
         <script type="text/javascript" th:src="@{/js/jsgrid-fields.ko.js}"></script>
         <script type="text/javascript">
 
@@ -87,10 +88,6 @@
                         // deleteItem: $.noop,
                         loadData: function (filter) {
 
-                            console.log(filter);
-                            // filter.username = 'admin';
-                            // console.log(JSON.stringify(filter));
-
                             return $.ajax({
                                 type: "POST",
                                 // url: "../api/members",
@@ -108,6 +105,10 @@
                                     // params.username = 'admin';
                                     // opts.data = params;
                                     // console.log(params);
+
+                                    // filter.username = 'admin';
+                                    console.log(JSON.stringify(filter));
+                                    // console.log(filter);
 
                                     // when validation is false
                                     if (false) {
@@ -138,6 +139,9 @@
                                 contentType: 'application/json',
                                 dataType: 'json',
                                 data: JSON.stringify(item),
+                                beforeSend: function (xhr, opts) {
+                                    console.log(JSON.stringify(item));
+                                },
                                 success: function (data) {
                                     //On ajax success do this
                                     // alert(data);
