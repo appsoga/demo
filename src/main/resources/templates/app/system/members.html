@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout/bootstrap}">
+
+<head>
+    <title th:text="#{label.menu.examples-jsgrid}">untitled</title>
+    <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid-theme.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/jsgrid-mystyle.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+    <article class="container-fluid" layout:fragment="content">
+
+        <div class="page-path row">
+            <div class="col">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                &nbsp;<span>Home</span> &gt; <span>Examples</span> &gt; <span class="page-current-path"
+                    th:text="#{label.menu.examples-jsgrid}">About</span>
+            </div>
+        </div>
+        <div class="page-body row">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">Untitled</h5>
+                        <p class="card-text" id="welcomeMessage">
+                            Grid중에서 꽤 쓸만한 녀석이네, 목록요청에 대한 응답은 일반컨트롤러로 작업하고, CRUD는 RESTController로 작업된거 있음 쓰면 된다.
+                            괜히 삽질하지 말아라. 넌 이미 삽질을 해 봤다. REST 컨트롤러에서 RequestBody 는 하나 밖에 선언할 수 없다.
+                            tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 </p>
+                        <div id="jsGrid"></div>
+                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        <button class="btn btn-sm btn-info" id="btnSelectedItems">
+                            선택된레코드는?
+                        </button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div th:fragment="javascript">
+
+        <!-- <script th:src="@{/webjars/jQuery-contextMenu/1.6.5/jquery.contextMenu.js}"></script> -->
+        <script th:src="@{/js/jquery.ui-contextmenu.min.js}"></script>
+        <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jsgrid-custom.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jsgrid-fields.ko.js}"></script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                var jsGrid = $("#jsGrid").jsGrid({
+                    width: "100%",
+                    height: "410px",
+
+                    paging: true, // 
+                    sorting: true,
+                    filtering: true,
+                    editing: true,
+                    inserting: true,
+                    pageLoading: true, // 페이지별로 데이터를 로딩할지 여부
+                    scrolling: true,
+
+                    deleteConfirm: "Do you really want to delete the client?",
+
+                    pageSize: 15,
+                    pageButtonCount: 5,
+                    pagerFormat: "Total: {itemCount} , Page: {pageIndex} / {pageCount} &nbsp;&nbsp; {first} {prev} {pages} {next} {last}",
+                    pagePrevText: '<span class="glyphicon glyphicon-backward"></span>',
+                    pageNextText: '<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>',
+                    pageFirstText: '<span class="glyphicon glyphicon-fast-backward"></span>',
+                    pageLastText: '<span class="glyphicon glyphicon-fast-forward"></span>',
+
+                    // data: clients,
+                    autoload: false, // controller 를 사용할지 여부
+                    fields: jsgridFields.member,
+                    onDataLoaded: function (o) {
+                        // console.log(o.data.itemsCount);
+
+                        $(this).find("tr").each(function (index) {
+                            console.log(index);
+                        });
+
+                    },
+                    rowClick: function (args) {
+                        // var item = $(args.event.target).closest("tr");
+                        // if (this._clicked_row != null) {
+                        //     this._clicked_row.removeClass('jsgrid-clicked-row');
+                        // }
+                        // this._clicked_row = item;
+                        // item.addClass('jsgrid-clicked-row');
+                    },
+                    rowClass: function (item, itemIndex) {
+                        return itemIndex % 2 == 0 ? 'bg-red' : 'bg-green';
+                    },
+                    controller: {
+                        // insertItem: $.noop,
+                        // updateItem: $.noop,
+                        // deleteItem: $.noop,
+                        loadData: function (filter) {
+
+                            return $.ajax({
+                                type: "POST",
+                                // url: "../api/members",
+                                url: "../../api/members/jsgrid.json",
+                                // url: "jsgrid.json",
+                                contentType: 'application/json',
+                                dataType: 'json',
+                                data: JSON.stringify(filter),
+                                beforeSend: function (xhr, opts) {
+
+                                    // xhr.setRequestHeader("ApiKey", "asdfasxdfasdfasdf");
+                                    // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                                    // var params = getUrlParams(opts.url);
+                                    // params.username = 'admin';
+                                    // opts.data = params;
+                                    // console.log(params);
+
+                                    // filter.username = 'admin';
+                                    console.log(JSON.stringify(filter));
+                                    // console.log(filter);
+
+                                    // when validation is false
+                                    if (false) {
+                                        xhr.abort();
+                                    }
+                                },
+                                success: function (data) {
+                                    //On ajax success do this
+                                    // alert(data);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //On error do this
+                                    if (xhr.status == 200) {
+                                        alert(ajaxOptions);
+                                    }
+                                    else {
+                                        alert(xhr.status);
+                                        alert(thrownError);
+                                    }
+                                }
+                            });
+                        },
+                        updateItem: function (item) {
+                            // console.log(row);
+                            return $.ajax({
+                                type: "PUT",
+                                url: "../../api/members",
+                                contentType: 'application/json',
+                                dataType: 'json',
+                                data: JSON.stringify(item),
+                                beforeSend: function (xhr, opts) {
+                                    console.log(JSON.stringify(item));
+                                },
+                                success: function (data) {
+                                    //On ajax success do this
+                                    // alert(data);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //On error do this
+                                    if (xhr.status == 200) {
+                                        alert(ajaxOptions);
+                                    }
+                                    else {
+                                        alert(xhr.status);
+                                        alert(thrownError);
+                                    }
+                                }
+                            });
+                        },
+                        deleteItem: function (item) {
+                            return $.ajax({
+                                type: "DELETE",
+                                contentType: 'application/json',
+                                url: "../../api/members/" + item.id,
+                                // dataType: 'json',
+                                // data: JSON.stringify(item),
+                                success: function (data) {
+                                    //On ajax success do this
+                                    // alert(data);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //On error do this
+                                    if (xhr.status == 200) {
+                                        alert(ajaxOptions);
+                                    }
+                                    else {
+                                        alert(xhr.status);
+                                        alert(thrownError);
+                                    }
+                                }
+                            });
+                        },
+                        insertItem: function (item) {
+                            return $.ajax({
+                                type: "POST",
+                                contentType: 'application/json',
+                                url: "../../api/members",
+                                dataType: 'json',
+                                data: JSON.stringify(item),
+                                success: function (data) {
+                                    //On ajax success do this
+                                    // alert(data);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //On error do this
+                                    if (xhr.status == 200) {
+                                        alert(ajaxOptions);
+                                    }
+                                    else {
+                                        alert(xhr.status);
+                                        alert(thrownError);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+                // turn off filtering right after grid initialization
+                // $("#jsGrid").jsGrid("option", "filtering", false);
+
+                // function toggleFilter() {
+                // $("#jsGrid").jsGrid("option", "filtering", !$("#jsGrid").jsGrid("option", "filtering"));
+                // }
+
+                // $("#grid").jsGrid("sort", { field: "id", order: "desc" });
+                jsGrid.jsGrid("sort", { field: "username", order: "asc" });
+
+
+                $("#btnSelectedItems").on("click", function (args) {
+                    var seleted = jsGrid.jsGrid("selectedItemsNo");
+                    console.log(seleted);
+                });
+
+                $("#jsGrid").contextmenu({
+                    delegate: ".jsgrid-grid-body .jsgrid-cell",
+                    menu: [
+                        { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
+                        { title: "----" },
+                        {
+                            title: "More", children: [
+                                { title: "Sub 1", cmd: "sub1" },
+                                { title: "Sub 2", cmd: "sub1" }
+                            ]
+                        }
+                    ],
+                    select: function (event, ui) {
+                        console.log("select " + ui.cmd + " on " + ui.target.text());
+                        console.log(event, ui);
+                    }
+                });
+
+
+            });
+        </script>
+
+        <style>
+            .ui-menu-item-wrapper {
+                width: 150px;
+            }
+        </style>
+    </div>
+</body>
+
+</html>

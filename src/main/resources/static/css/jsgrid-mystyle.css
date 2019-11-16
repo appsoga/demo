@@ -1,0 +1,41 @@
+
+.jsgrid {
+    font-size: small;
+}
+
+th.jsgrid-header-cell,
+td.jsgrid-cell,
+td.jsgrid-cell input,
+td.jsgrid-cell select,
+div.jsgrid-pager,
+div.jsgrid-pager span,
+div.jsgrid-pager-nav-button {
+    /* font-size: small; */
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+td.jsgrid-cell {
+    /* font-size: small; */
+    white-space: nowrap;
+}
+
+td.jsgrid-cell input,
+td.jsgrid-cell select {
+    border-radius: 5px;
+    border: 1px gray solid;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+tr.jsgrid-highlight-row td.jsgrid-cell {
+    background: #c4e2ff;
+    border-color: #c4e2ff;
+}
+
+tr.jsgrid-clicked-row td.jsgrid-cell {
+    background: #f5b8b8;
+    border-color: #c29292;
+    color: rgb(10, 10, 10);
+    font-size: bold;
+}
