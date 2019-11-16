@@ -13,7 +13,7 @@ body {
 .navbar {
   background-color: rgb(238, 239, 240);
   color: rgb(252, 121, 117);
-  height: 33px;
+  height: 36px;
   border-bottom: 1px rgb(197, 197, 197) solid;
 }
 .navbar-nav .nav-item {

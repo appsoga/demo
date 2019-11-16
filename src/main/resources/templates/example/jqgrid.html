@@ -1,143 +1,136 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-	layout:decorate="~{layout/bootstrap}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout/bootstrap}">
 
 <head>
-<title th:text="#{label.menu.examples-jqgrid}">Untitled</title>
-<style>
-table.orgin {
-	font-size: small;
-}
+    <title th:text="#{label.menu.examples-jqgrid}">Untitled</title>
+    <style>
+        table.orgin {
+            font-size: small;
+        }
 
-table.orgin th {
-	background-color: lightgray;
-}
-</style>
+        table.orgin th {
+            background-color: lightgray;
+        }
+    </style>
 </head>
 
 <body>
 
-	<article class="container-fluid" layout:fragment="content">
-		<div class="page-path row">
-			<div class="col">
-				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-				Home > <span class="page-current-path" th:text="#{label.menu.examples-jqgrid}">About</span>
-			</div>
-		</div>
-		<div class="page-body row">
-			<div class="col-sm-12">
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title" th:text="#{label.menu.examples-jqgrid}">TITLE</h5>
-						<p class="card-text">With supporting text below as a natural
-							lead-in to additional content.</p>
-							<div id="jqGridContainer">
-								Employee name: <input type="text" name="username" id="username" style="width:250px" />
-		                        <table id="jqGrid" style="width:100%"></table>
-		                        <div id="jqGridPager"></div>
-							</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</article>
-	<div th:fragment="javascript">
-		<script type="text/javascript">
-		$("#jqGrid").jqGrid({
-            url: 'jqgrid-list',
-            mtype: "GET",
-            datatype: "json",
-            // postData: { username: 'admin' },
-            loadBeforeSend: function (xhr, grid) {
-                if (console.log(grid.url));
-            },
-            loadComplete: function (data) {
-                if (console.log(data));
-            },
-            loadError: function (xhr, status, error) {
-                alert("실패>>" + error);
-            },
-            colModel: [
-                { label: '번호', name: 'id', key: true, index: 'id', sortable: true, sorttype: 'number', width: 70, align: 'right' },
-                { label: '아이디', name: 'username', width: 150 },
-                { label: '성명', name: 'name', index: 'name', sortable: true, sorttype: 'text' },
-                { label: '전자메일', name: 'email', width: 250 },
-                {
-                    label: '만료일자', name: 'expiresOn', index: 'expiresOn', sortable: true, sorttype: 'date', formatter: 'date',
-                    formatoptions: { srcformat: 'ISO8601Long', newformat: 'Y-m-d' }
+    <article class="container-fluid" layout:fragment="content">
+        <div class="page-path row">
+            <div class="col">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                Home > <span class="page-current-path" th:text="#{label.menu.examples-jqgrid}">About</span>
+            </div>
+        </div>
+        <div class="page-body row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="#{label.menu.examples-jqgrid}">TITLE</h5>
+                        <p class="card-text">With supporting text below as a natural
+                            lead-in to additional content.</p>
+                        <div id="jqGridContainer">
+                            Employee name: <input type="text" name="username" id="username" style="width:250px" />
+                            <table id="jqGrid" style="width:100%"></table>
+                            <div id="jqGridPager"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div th:fragment="javascript">
+        <link th:href="@{/jqgrid/5.4.0/css/ui.jqgrid-bootstrap-ui.css}" rel="stylesheet" media="screen" />
+        <link th:href="@{/jqgrid/5.4.0/css/ui.jqgrid.css}" rel="stylesheet" media="screen" />
+        <script type="text/ecmascript"
+            th:src="@{${'/jqgrid/5.4.0/js/i18n/grid.locale-' + #locale.language + '.js'}}"></script>
+        <script type="text/ecmascript" th:src="@{/js/jqgrid-fields.ko.js}"></script>
+        <script type="text/ecmascript" th:src="@{/jqgrid/5.4.0/js/jquery.jqGrid.min.js}"></script>
+        <script type="text/javascript">
+            $("#jqGrid").jqGrid({
+                url: 'jqgrid-list',
+                mtype: "GET",
+                datatype: "json",
+                // postData: { username: 'admin' },
+                loadBeforeSend: function (xhr, grid) {
+                    if (console.log(grid.url));
                 },
-                { label: '사용여부', name: 'enabled', formatter: 'checkbox' }
-            ],
-            height: 250,
-            //autowidth: true,
-            ignoreCase: true,
-            sortable: true,
-            multiselect: true,
-            rowNum: 9,
-            rowList: [10, 20, 50, 100],
-            scroll: false,
-            viewrecords: true,
-            //styleUI : 'Bootstrap',
-            page: 1,
-            pager: "#jqGridPager",
-            caption: "JqGrid Sample By sangmok"
-        });
-		jQuery("#jqGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
-        $("#jqGrid").jqGrid('bindKeys');
+                loadComplete: function (data) {
+                    if (console.log(data));
+                },
+                loadError: function (xhr, status, error) {
+                    alert("실패>>" + error);
+                },
+                colModel: jqgridFields.member,
+                height: 250,
+                //autowidth: true,
+                ignoreCase: true,
+                sortable: true,
+                multiselect: true,
+                rowNum: 9,
+                rowList: [10, 20, 50, 100],
+                scroll: false,
+                viewrecords: true,
+                //styleUI : 'Bootstrap',
+                page: 1,
+                pager: "#jqGridPager",
+                caption: "JqGrid Sample By sangmok"
+            });
+            jQuery("#jqGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: true, defaultSearch: "cn" });
+            $("#jqGrid").jqGrid('bindKeys');
 
-        // add navigation bar with some built in actions for the grid
-        $('#jqGrid').navGrid('#jqGridPager',
-            {
-                edit: true,
-                add: true,
-                del: true,
-                search: true,
-                refresh: true,
-                view: true,
-                position: "left",
-                cloneToTop: false
+            // add navigation bar with some built in actions for the grid
+            $('#jqGrid').navGrid('#jqGridPager',
+                {
+                    edit: true,
+                    add: true,
+                    del: true,
+                    search: true,
+                    refresh: true,
+                    view: true,
+                    position: "left",
+                    cloneToTop: false
+                });
+
+
+            $("#username").on('change keyup paste', function () {
+
+                // Fetch the text from our <input> control 
+                var searchString = $("#username").val();
+                // Prepare to pass a new search filter to our jqGrid 
+                var f = { groupOp: "AND", rules: [] };
+                // Remember to change the following line to reflect the jqGrid column you want to search for your string in 
+                // In this example, I'm searching through the UserName column. 
+                f.rules.push({ field: "username", op: "cn", data: searchString });
+
+                if (console)
+                    console.log(JSON.stringify(f));
+
+                var grid = $('#jqGrid');
+                grid[0].p.search = f.rules.length > 0;
+                $.extend(grid[0].p.postData, { filters: JSON.stringify(f) });
+                grid.trigger("reloadGrid", [{ page: 1 }]);
+
             });
 
 
-        $("#username").on('change keyup paste', function () {
+            $(window).on('resize.jqGrid', function () {
+                var width = $("#jqGridContainer").width();
+                console.log(width);
+                jQuery("#jqGrid").jqGrid('setGridWidth', $("#jqGridContainer").width());
+            });
 
-            // Fetch the text from our <input> control 
-            var searchString = $("#username").val();
-            // Prepare to pass a new search filter to our jqGrid 
-            var f = { groupOp: "AND", rules: [] };
-            // Remember to change the following line to reflect the jqGrid column you want to search for your string in 
-            // In this example, I'm searching through the UserName column. 
-            f.rules.push({ field: "username", op: "cn", data: searchString });
 
-            if (console)
-                console.log(JSON.stringify(f));
 
-            var grid = $('#jqGrid');
-            grid[0].p.search = f.rules.length > 0;
-            $.extend(grid[0].p.postData, { filters: JSON.stringify(f) });
-            grid.trigger("reloadGrid", [{ page: 1 }]);
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
 
-        });
-        
-        
-        $(window).on('resize.jqGrid', function () {
-        	var width = $("#jqGridContainer").width();
-        	console.log(width);
-            jQuery("#jqGrid").jqGrid( 'setGridWidth', $("#jqGridContainer").width() );
-        });
-
-        
-		</script>
-		<script type="text/javascript">
-	        $(document).ready(function () {
-	
-	        });
-		</script>
-	</div>
+            });
+        </script>
+    </div>
 </body>
 
 </html>
-
-
