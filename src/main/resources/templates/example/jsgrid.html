@@ -129,7 +129,7 @@
                                     // console.log(params);
 
                                     // filter.username = 'admin';
-                                    console.log(JSON.stringify(filter));
+                                    // console.log(JSON.stringify(filter));
                                     // console.log(filter);
 
                                     // when validation is false
@@ -296,7 +296,7 @@
             });
         </script>
 
-        <script src="../js/jquery-json2csv.js"></script>
+        <script src="../js/jsexport-appsoga.js"></script>
         <script>
 
             $(document).ready(function () {
@@ -347,7 +347,7 @@
 
                             var ex = new jsExport("test.csv");
                             ex.fromJSON(data.data);
-                            
+
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
                             //On error do this
