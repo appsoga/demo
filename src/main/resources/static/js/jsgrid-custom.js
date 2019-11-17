@@ -277,6 +277,11 @@ jsGrid.Grid.prototype.selectedItemsNo = function () {
  */
 jsGrid.Grid.prototype.exportCSV = function (filename) {
 
+    // 필터로 다시 쿼리를 해야 할까?
+    // var result = this.getFilter();
+    // console.log(result);
+    // return false;
+
     var titleKey = "title", nameKey = "name";
     var headerColumn = [], column = [], rows = [];
     this.fields.forEach(function (element, index, array) {
@@ -326,4 +331,7 @@ jsGrid.Grid.prototype.exportCSV = function (filename) {
 
 }
 
+jsGrid.Grid.prototype.onDataExporting = function (args) {
+    console.log(args);
 
+};
