@@ -44,7 +44,7 @@ date.prototype = new jsGrid.Field({
         return value;
     },
     insertValue: function () {
-        var value = this._editPicker.datepicker("getDate");
+        var value = this._insertPicker.datepicker("getDate");
         if (value) return value.toISOString();
         return value;
     },
@@ -108,7 +108,7 @@ datetime.prototype = new jsGrid.Field({
         return value;
     },
     insertValue: function () {
-        var value = this._editPicker.datepicker("getDate");
+        var value = this._insertPicker.datepicker("getDate");
         if (value) return value.toISOString();
         return value;
     },
@@ -129,16 +129,18 @@ datetime.prototype = new jsGrid.Field({
 
 });
 
+
 var multiselect = function (config) {
     jsGrid.Field.call(this, config);
 };
 multiselect.prototype = new jsGrid.Field({
-    // headerTemplate: function () {
-    //     return $("<button>").attr("type", "button").text("X")
-    //         .on("click", function () {
-    //             console.log("call selectedItems")
-    //         });
-    // },
+    headerTemplate: function () {
+        var box = this;
+        return $("<input>").attr("type", "checkbox").addClass("header-checkbox");
+        // .on("change", function () {
+        //     onChangeMultiSelectHeader(box);
+        // });
+    },
     itemTemplate: function (value, item) {
         return $("<input>").attr("type", "checkbox")
             .attr("data-primary-key", item.id ? item.id : 0)
@@ -150,6 +152,11 @@ multiselect.prototype = new jsGrid.Field({
     align: "center"
 });
 
+/**
+ * jsgrid의 초기값 설정 및 기능 확장(멀티선택, CSV 출력)
+ * 
+ * required: jquery 2.2.4, jsgrid 1.5.3
+ */
 jsGrid.fields.date = date;
 jsGrid.fields.datetime = datetime;
 jsGrid.fields.multiselect = multiselect;
@@ -163,27 +170,57 @@ jsGrid.Grid.prototype.pageFirstText = '<span class="glyphicon glyphicon-fast-bac
 jsGrid.Grid.prototype.pageLastText = '<span class="glyphicon glyphicon-fast-forward"></span>';
 jsGrid.Grid.prototype.pageLoading = true; // 페이지별로 데이터를 로딩할지 여부
 jsGrid.Grid.prototype.autoload = true; // 초기에 데이터를 자동으로 로딩할지 여부, 컨트롤러를 사용
+jsGrid.Grid.prototype.inserting = false;
+
 jsGrid.Grid.prototype.rowClick = function (args) {
+    var selectItem = this._selectRow;
+    var deSelectItem = this._unSelectRow;
     var tr = $(args.event.target).closest("tr");
     var multiselectTd = $(tr).find("td")[0];
     $(multiselectTd).find("input").each(function () {
-        if (this.checked) {
-            this.checked = false;
-            $(tr).removeClass("jsgrid-clicked-row");
-        }
-        else {
-            this.checked = true;
-            $(tr).addClass("jsgrid-clicked-row");
-        }
+        if (this.checked)
+            deSelectItem(tr);
+        else
+            selectItem(tr);
     });
 };
 
+jsGrid.Grid.prototype._selectRow = function (tr) { // tr
+    var multiselectTd = $(tr).find("td")[0];
+    $(multiselectTd).find("input").each(function () {
+        this.checked = true;
+        $(tr).addClass("jsgrid-clicked-row");
+    });
+};
+
+jsGrid.Grid.prototype._unSelectRow = function (tr) { // tr
+    var multiselectTd = $(tr).find("td")[0];
+    $(multiselectTd).find("input").each(function () {
+        this.checked = false;
+        $(tr).removeClass("jsgrid-clicked-row");
+    });
+};
+
+jsGrid.Grid.prototype.selectAll = function (container) {
+    var selectItem = this._selectRow;
+    $(this._content).find("tr").each(function (args) {
+        selectItem(this);
+    });
+};
+
+jsGrid.Grid.prototype.deSelectAll = function (container) {
+    var deSelectItem = this._unSelectRow;
+    $(this._content).find("tr").each(function (args) {
+        deSelectItem(this);
+    });
+};
 
 // jsGrid.Grid.prototype.rowByIndex = function (index) {
 //     //this._content.find("tr")[arg] returns a DOM element instead of a jQuery object
 //     //Pass the DOM element to the find method to get a jQuery object representing it
 //     return this._content.find(this._content.find("tr")[index]);
 // };
+
 
 jsGrid.Grid.prototype.selectedItems = function () {
     var selectedKeys = [];
@@ -220,11 +257,11 @@ jsGrid.Grid.prototype.selectedItemsNo = function () {
         includeHeaders: true, //Include header row in output
         encapsulate: true, //Surround each field with qoutation marks; needed for some systems
         newline: "\r\n", //Newline character to use
-
+ 
         //Takes each item and returns true if it should be included in output.
         //Executed only on the records within the given subset above.
         filter: function (item) { return true },
-
+ 
         //Transformations are a way to modify the display value of the output.
         //Provide a key of the field name, and a function that takes the current value.
         transformations: {

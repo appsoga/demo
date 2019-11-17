@@ -235,6 +235,15 @@
                     }
                 });
 
+                var myGrid1SelectAll = $("#jsGrid").find("input[class='header-checkbox']");
+                $(myGrid1SelectAll).on("change", function (event, args) {
+                    var state = $(event.target).prop("checked");
+                    if (state)
+                        jsGrid.jsGrid("selectAll");
+                    else
+                        jsGrid.jsGrid("deSelectAll");
+                });
+
                 // turn off filtering right after grid initialization
                 // $("#jsGrid").jsGrid("option", "filtering", false);
 

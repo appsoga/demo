@@ -33,7 +33,6 @@ $.datepicker.setDefaults({
 var codes = {
 	member: {
 		group: [
-			{ name: "", value: 0 },
 			{ value: "30", name: "사용자" },
 			{ value: "10", name: "관리자" }
 		]
@@ -46,12 +45,12 @@ var jsgridFields = {
 	member: [
 		{ type: "multiselect" },
 		{ title: "ID", name: "id", type: "number", inserting: false, editing: false, validate: "required", width: 10 },
-		{ title: "Username", name: "username", type: "text", width: 10 },
-		{ title: "Group", name: "group", type: "select", width: 10, items: codes.member.group, valueField: "value", textField: "name" },
-		{ title: "Name", name: "name", type: "text", width: 10 },
+		{ title: "Username", name: "username", type: "text", validate: "required", width: 10 },
+		{ title: "Group", name: "group", type: "select", validate: "required", width: 10, items: codes.member.group, valueField: "value", textField: "name" },
+		{ title: "Name", name: "name", type: "text", validate: "required", width: 10 },
 		{ title: "E-Mail", name: "email", type: "text", width: 20, filtering: true, editing: true },
 		{ title: "ExpiresOn", name: "expiresOn", type: "date", width: 10, filtering: true },
-		{ title: "lastAccessedOn", name: "lastAccessedOn", type: "datetime", width: 15, align: "center", filtering: false, inserting: false, editing: false },
+		{ title: "lastAccessedOn", name: "lastAccessedOn", type: "datetime", width: 20, align: "center", filtering: false, inserting: false, editing: false },
 		{ title: "Enabled", name: "enabled", type: "checkbox", width: 5 },
 		{
 			type: "control",
