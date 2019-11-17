@@ -30,9 +30,18 @@
                             tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 </p>
                         <div id="jsGrid"></div>
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                        <button class="btn btn-sm btn-info" id="btnSelectedItems">
-                            선택된레코드는?
-                        </button>
+
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-info" id="btnSelectedItems">
+                                선택된레코드는?
+                            </button>
+                            <a class="btn btn-info" download="somedata.csv"
+                                href="data:application/csv;charset=utf-8,Col1%2CCol2%2CCol3%0AVal1%2CVal2%2CVal3%0AVal11%2CVal22%2CVal33%0AVal111%2CVal222%2CVal333">ExportCSV</a>
+                            <button class="btn btn-sm btn-primary" id="btnExportCSV">
+                                ExportCSV 2
+                            </button>
+                        </div>
+
 
 
                     </div>
@@ -236,29 +245,31 @@
                     console.log(seleted);
 
 
-                    // var csv = $("#jsGrid").jsGrid("exportData", {
-                    //     type: "csv", //Only CSV supported
-                    //     subset: "all" | "visible", //Visible will only output the currently displayed page
-                    //     delimiter: "|", //If using csv, the character to seperate fields
-                    //     includeHeaders: true, //Include header row in output
-                    //     encapsulate: true, //Surround each field with qoutation marks; needed for some systems
-                    //     newline: "\r\n", //Newline character to use
+                    var csv = $("#jsGrid").jsGrid("exportData", {
+                        type: "csv", //Only CSV supported
+                        subset: "all" | "visible", //Visible will only output the currently displayed page
+                        delimiter: "|", //If using csv, the character to seperate fields
+                        includeHeaders: true, //Include header row in output
+                        encapsulate: true, //Surround each field with qoutation marks; needed for some systems
+                        newline: "\r\n", //Newline character to use
 
-                    //     //Takes each item and returns true if it should be included in output.
-                    //     //Executed only on the records within the given subset above.
-                    //     filter: function (item) { return true },
+                        //Takes each item and returns true if it should be included in output.
+                        //Executed only on the records within the given subset above.
+                        filter: function (item) { return true },
 
-                    //     //Transformations are a way to modify the display value of the output.
-                    //     //Provide a key of the field name, and a function that takes the current value.
-                    //     transformations: {
-                    //         "Married": function (value) {
-                    //             if (value === true)
-                    //                 return "Yes"
-                    //             if (value !== false)
-                    //                 return "No"
-                    //         }
-                    //     }
-                    // });
+                        //Transformations are a way to modify the display value of the output.
+                        //Provide a key of the field name, and a function that takes the current value.
+                        transformations: {
+                            "Married": function (value) {
+                                if (value === true)
+                                    return "Yes"
+                                if (value !== false)
+                                    return "No"
+                            }
+                        }
+                    });
+
+
 
                 });
 
@@ -281,6 +292,79 @@
                 });
 
 
+
+            });
+        </script>
+
+        <script src="../js/jquery-json2csv.js"></script>
+        <script>
+
+            $(document).ready(function () {
+
+                // json 형식을 cvs로 변환해 보기
+                $("#btnExportCSV").on("click", function () {
+
+                    var filter = {
+                        "pageIndex": 1,
+                        "pageSize": 10,
+                        "sortField": "username",
+                        "sortOrder": "asc"
+                    };
+
+                    var response = $.ajax({
+                        type: "POST",
+                        // url: "../api/members",
+                        url: "../api/members/jsgrid.json",
+                        // url: "jsgrid.json",
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        data: JSON.stringify(filter),
+                        beforeSend: function (xhr, opts) {
+
+                            // xhr.setRequestHeader("ApiKey", "asdfasxdfasdfasdf");
+                            // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                            // var params = getUrlParams(opts.url);
+                            // params.username = 'admin';
+                            // opts.data = params;
+                            // console.log(params);
+
+                            // filter.username = 'admin';
+                            // console.log(JSON.stringify(filter));
+                            // console.log(filter);
+
+                            // when validation is false
+                            if (false) {
+                                xhr.abort();
+                            }
+                        },
+                        success: function (data) {
+                            //On ajax success do this
+                            // alert(data);
+                            // var filename = "mydata.csv";
+                            // var csvFile = arrayToCSV(data.data);
+                            // download(csvFile, "mydata.csv", "text/csv:encoding:utf-8");
+
+                            var ex = new jsExport("test.csv");
+                            ex.fromJSON(data.data);
+                            
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            //On error do this
+                            if (xhr.status == 200) {
+                                console.log(ajaxOpeions);
+                                // alert(ajaxOptions);
+                            }
+                            else {
+                                // alert(xhr.status);
+                                // alert(thrownError);
+                                console.log(xhr.status, thrownError);
+                            }
+                        }
+                    });
+
+
+                });
             });
         </script>
 
