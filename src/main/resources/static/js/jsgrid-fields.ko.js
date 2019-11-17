@@ -33,6 +33,7 @@ $.datepicker.setDefaults({
 var codes = {
 	member: {
 		group: [
+			{ value: "", name: "" },
 			{ value: "30", name: "사용자" },
 			{ value: "10", name: "관리자" }
 		]
