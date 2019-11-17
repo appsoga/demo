@@ -6,7 +6,6 @@
     <title th:text="#{label.menu.examples-jsgrid}">untitled</title>
     <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.css}" rel="stylesheet" />
     <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid-theme.min.css}" rel="stylesheet" />
-    <link th:href="@{/css/jsgrid-mystyle.css}" rel="stylesheet" />
 </head>
 
 <body>
@@ -16,27 +15,53 @@
         <div class="page-path row">
             <div class="col">
                 <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-                &nbsp;<span>Home</span> &gt; <span class="page-current-path"
-                    th:text="#{label.menu.members}">About</span>
+                &nbsp;<span>Home</span> &gt; <span>Examples</span> &gt; <span class="page-current-path"
+                    th:text="#{label.menu.examples-jsgrid}">About</span>
             </div>
         </div>
         <div class="page-body row">
             <div class="col-sm">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="#{label.menu.members}">Untitled</h5>
-                        <p class="card-text" id="welcomeMessage" th:text="#{label.menu.members.welcome-message}">
+                        <h5 class="card-title" th:text="#{label.menu.examples-jsgrid}">Untitled</h5>
+                        <p class="card-text" id="welcomeMessage">
                             Grid중에서 꽤 쓸만한 녀석이네, 목록요청에 대한 응답은 일반컨트롤러로 작업하고, CRUD는 RESTController로 작업된거 있음 쓰면 된다.
                             괜히 삽질하지 말아라. 넌 이미 삽질을 해 봤다. REST 컨트롤러에서 RequestBody 는 하나 밖에 선언할 수 없다.
                             tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 </p>
-                        <div id="jsGrid"></div>
-                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
 
-                        <div class="text-right" style="margin-top: 15px;">
-                            <button class="btn btn-sm btn-info" id="btnSelectedItems">
-                                선택된레코드는?
-                            </button>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-danger" id="btnSelectedItems">
+                                        선택된레코드는?
+                                    </button>
+                                    <a class="btn btn-info btn-sm" download="somedata.csv"
+                                        href="data:application/csv;charset=utf-8,Col1%2CCol2%2CCol3%0AVal1%2CVal2%2CVal3%0AVal11%2CVal22%2CVal33%0AVal111%2CVal222%2CVal333">ExportCSV2</a>
+                                </div>
+                                <div id="myGrid1Pager"></div>
+                            </div>
+                            <div class="col-4 text-right">
+                                <div class="btn-group">
+                                    <select id="gridPageSizeSelect">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="500">500</option>
+                                        <option value="100000">10,000</option>
+                                    </select>
+                                    <button class="btn btn-sm btn-primary" id="btnExportCSV">
+                                        ExportCSV
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <div id="jsGrid">여기에 그리드가 표시됩니다.</div>
+                            </div>
+                        </div>
+                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                     </div>
                 </div>
             </div>
@@ -65,18 +90,14 @@
                     pageLoading: true, // 페이지별로 데이터를 로딩할지 여부
                     scrolling: true,
 
-                    deleteConfirm: "Do you really want to delete the client?",
+                    // deleteConfirm: "Do you really want to delete the client?",
 
-                    pageSize: 15,
-                    pageButtonCount: 5,
-                    pagerFormat: "Total: {itemCount} , Page: {pageIndex} / {pageCount} &nbsp;&nbsp; {first} {prev} {pages} {next} {last}",
-                    pagePrevText: '<span class="glyphicon glyphicon-backward"></span>',
-                    pageNextText: '<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>',
-                    pageFirstText: '<span class="glyphicon glyphicon-fast-backward"></span>',
-                    pageLastText: '<span class="glyphicon glyphicon-fast-forward"></span>',
+                    // pageSize: 10,
+                    // pageButtonCount: 5,
+                    // pagerContainer: "#myGrid1Pager",
 
                     // data: clients,
-                    autoload: false, // controller 를 사용할지 여부
+                    autoload: true, // controller 를 사용할지 여부
                     fields: jsgridFields.member,
                     onDataLoaded: function (o) {
                         // console.log(o.data.itemsCount);
@@ -85,14 +106,6 @@
                             console.log(index);
                         });
 
-                    },
-                    rowClick: function (args) {
-                        // var item = $(args.event.target).closest("tr");
-                        // if (this._clicked_row != null) {
-                        //     this._clicked_row.removeClass('jsgrid-clicked-row');
-                        // }
-                        // this._clicked_row = item;
-                        // item.addClass('jsgrid-clicked-row');
                     },
                     rowClass: function (item, itemIndex) {
                         return itemIndex % 2 == 0 ? 'bg-red' : 'bg-green';
@@ -122,7 +135,7 @@
                                     // console.log(params);
 
                                     // filter.username = 'admin';
-                                    console.log(JSON.stringify(filter));
+                                    // console.log(JSON.stringify(filter));
                                     // console.log(filter);
 
                                     // when validation is false
@@ -222,6 +235,15 @@
                     }
                 });
 
+                var myGrid1SelectAll = $("#jsGrid").find("input[class='header-checkbox']");
+                $(myGrid1SelectAll).on("change", function (event, args) {
+                    var state = $(event.target).prop("checked");
+                    if (state)
+                        jsGrid.jsGrid("selectAll");
+                    else
+                        jsGrid.jsGrid("deSelectAll");
+                });
+
                 // turn off filtering right after grid initialization
                 // $("#jsGrid").jsGrid("option", "filtering", false);
 
@@ -230,12 +252,13 @@
                 // }
 
                 // $("#grid").jsGrid("sort", { field: "id", order: "desc" });
-                jsGrid.jsGrid("sort", { field: "username", order: "asc" });
-
+                // jsGrid.jsGrid("sort", { field: "username", order: "asc" });
 
                 $("#btnSelectedItems").on("click", function (args) {
-                    var seleted = jsGrid.jsGrid("selectedItemsNo");
-                    console.log(seleted);
+                    var selected = jsGrid.jsGrid("selectedItemsNo");
+                    if (selected.length)
+                        alert(selected);
+                    console.log(selected);
                 });
 
                 $("#jsGrid").contextmenu({
@@ -257,10 +280,100 @@
                 });
 
 
+
+            });
+        </script>
+
+        <script>
+
+            $(document).ready(function () {
+
+                // 화면에 보여주는 레코드의 갯수를 변경한다.
+                var pageSize = $("#jsGrid").jsGrid("option", "pageSize");
+                $("#gridPageSizeSelect").val(pageSize);
+                $("#gridPageSizeSelect").on("change", function (args) {
+                    $("#jsGrid").jsGrid("option", "pageSize", args.target.value);
+                });
+
+                // json 형식을 cvs로 변환해 보기
+                $("#btnExportCSV").on("click", function () {
+                    $("#jsGrid").jsGrid("exportCSV", "text.csv");
+
+
+                    // var csv = $("#jsGrid").jsGrid("exportData", {
+                    //     type: "csv", //Only CSV supported
+                    //     subset: "all" | "visible", //Visible will only output the currently displayed page
+                    //     delimiter: "|", //If using csv, the character to seperate fields
+                    //     includeHeaders: true, //Include header row in output
+                    //     encapsulate: true, //Surround each field with qoutation marks; needed for some systems
+                    //     newline: "\r\n", //Newline character to use
+
+                    //     //Takes each item and returns true if it should be included in output.
+                    //     //Executed only on the records within the given subset above.
+                    //     filter: function (item) { return true },
+
+                    //     //Transformations are a way to modify the display value of the output.
+                    //     //Provide a key of the field name, and a function that takes the current value.
+                    //     transformations: {
+                    //         "Married": function (value) {
+                    //             if (value === true)
+                    //                 return "Yes"
+                    //             if (value !== false)
+                    //                 return "No"
+                    //         }
+                    //     }
+                    // });
+
+
+
+                });
+
             });
         </script>
 
         <style>
+            .jsgrid {
+                font-size: small;
+            }
+
+            th.jsgrid-header-cell,
+            td.jsgrid-cell,
+            td.jsgrid-cell input,
+            td.jsgrid-cell select,
+            div.jsgrid-pager,
+            div.jsgrid-pager span,
+            div.jsgrid-pager-nav-button {
+                /* font-size: small; */
+                padding-top: 3px;
+                padding-bottom: 3px;
+            }
+
+            td.jsgrid-cell {
+                /* font-size: small; */
+                white-space: nowrap;
+            }
+
+            td.jsgrid-cell input,
+            td.jsgrid-cell select {
+                border-radius: 5px;
+                border: 1px gray solid;
+                padding-top: 1px;
+                padding-bottom: 1px;
+            }
+
+            tr.jsgrid-highlight-row td.jsgrid-cell {
+                background: #c4e2ff;
+                border-color: #c4e2ff;
+            }
+
+            tr.jsgrid-clicked-row td.jsgrid-cell {
+                background: #f5b8b8;
+                border-color: #c29292;
+                color: rgb(10, 10, 10);
+                font-size: bold;
+            }
+
+
             .ui-menu-item-wrapper {
                 width: 150px;
             }
