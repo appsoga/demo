@@ -23,13 +23,21 @@
 
 <body th:attr="data-language=${#locale.language}">
 
+	<a class="skippy sr-only sr-only-focusable" href="#content">
+		<span class="skippy-text">Skip to main content</span>
+	</a>
+
+	<div class="container">
+		<span>프로그램 개발에 필요한 라이브러리 사용법을 연구하면서 만들어 가는 곳입니다.</span>
+	</div>
+
 	<header th:replace="fragments/header :: header" >
 		이곳은 fragments/header.html 의 header 태그로 치환됩니다.
 	</header>
 
-	<nav th:replace="fragments/header :: nav">
+	<!-- <nav th:replace="fragments/header :: nav">
 		이곳은 fragments/header.html의 nav 태크로 치환됩니다.
-	</nav>
+	</nav> -->
 
 	<th:block layout:fragment="content">
 		이곳에 호출된 페이지의 컨텐츠가 표시됩니다.

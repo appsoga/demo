@@ -2,60 +2,67 @@
 @import url("glyphicon.css");
 @import url("/webjars/jquery-ui/1.12.1/jquery-ui.min.css");
 @import url("/webjars/bootstrap/4.3.1/css/bootstrap.min.css");
-@import url("/webjars/bootstrap/4.3.1/css/bootstrap-grid.min.css");
+/* @import url("/webjars/bootstrap/4.3.1/css/bootstrap-custom.min.css"); */
+/* @import url("/webjars/bootstrap/4.3.1/css/bootstrap-grid.min.css"); */
 
 body { 
-    background-color: white; 
-    margin-top: -15px;
+    background-color: rgb(212, 194, 203); 
+    /* margin-top: -15px; */
 }
-
 
 .navbar {
+  color: rgb(247, 90, 84);
   background-color: rgb(238, 239, 240);
-  color: rgb(252, 121, 117);
-  height: 33px;
   border-bottom: 1px rgb(197, 197, 197) solid;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
-.navbar-nav .nav-item {
-  /* color: rgb(25, 172, 25); */
-  font-size: medium;
+
+.navbar a {
+  color: rgb(169, 169, 221);
 }
-.navbar-light .navbar-brand,
+
 .navbar-nav .nav-item a.nav-link,
 .navbar-nav .nav-item a.nav-link:link,
 .navbar-nav .nav-item a.nav-link:visited,
 .navbar-nav .nav-item a.nav-link:hover,
 .navbar-nav .nav-item a.nav-link:active {
-  /* color: white; */
-  font-weight: bold;
+  /* color: rgb(150, 56, 56);  */
   padding-top: 3px;
   padding-bottom: 3px;
 }
-.navbar-nav .nav-item .dropdown-menu {
-  font-size: small;
+
+.navbar-nav .nav-item .dropdown-menu,
+.navbar-nav .nav-item .dropdown-menu a {
+  /* font-size: small; */
+  color: black;
   margin-top: 0px;
   margin-bottom: 1px;
   padding-top: 1px;
   padding-bottom: 1px;
 } 
-.navbar-nav .nav-item .dropdown-menu .dropdown-divider {
+.navbar-nav .nav-item .dropdown-item.active, 
+.navbar-nav .nav-item .dropdown-item:active
+{
+  background-color: rgb(204, 202, 194);
+}
+.navbar-nav .nav-item .dropdown-menu a:hover
+{
+  background-color: rgb(167, 162, 143);
+}
+.dropdown-menu .dropdown-divider {
   margin-top: 6px;
   margin-bottom: 0px;
   padding-top: 0px;
   padding-bottom: 3px;
 } 
-.navbar-nav .nav-item .dropdown-menu .dropdown-item {
-  font-size: small;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  padding-top: 3px;
-  padding-bottom: 6px;
+.dropdown-menu .dropdown-item {
+  font-size: medium;
 } 
 
-
 article {
-	/* background-color: white;  */
-	padding: 15px;
+  padding: 15px;
+  padding-top: 0px;
 }
 article > .page-path {
   font-size: small;

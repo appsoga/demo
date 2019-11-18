@@ -10,25 +10,16 @@
 
 <body>
 
-    <header th:fragment="header">
-        <div class="container">
-            <!-- <span>locale.language</span>=<span th:text="${#locale.language}">lang</span> -->
-        </div>
-    </header>
+    <header th:fragment="header" class="navbar navbar-expand navbar-dark bg-dark sticky-top flex-column flex-md-row">
+        <a class="navbar-brand mr-0 mr-md-2" th:href="@{/}" aria-label="Bootstrap"><img width="30px;"
+                th:src="@{/images/logo.svg}" /></a>
 
-    <nav th:fragment="nav" class="navbar sticky-top navbar-expand-lg navbar-light container-fluid">
-        <a class="navbar-brand" th:href="@{/}" th:text="#{label.product-name}">Navbar</a>
-        <small th:text="#{label.product-desc}">Description</small>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-            </ul>
-            <ul class="navbar-nav mr-auto">
+        <small class="d-none d-lg-inline-block" th:text="#{label.product-desc}">Description</small>
 
-                <li class="nav-item"><a class="nav-link" th:href="@{/app/integrated/manager.html}"
+        <div class="navbar-nav-scroll">
+            <ul class="navbar-nav bd-navbar-nav flex-row">
+
+                <li class="nav-item"><a class="nav-link active" th:href="@{/app/dashboard.html}"
                         th:text="#{label.menu.dashboard}">Link</a></li>
 
                 <li class="nav-item dropdown">
@@ -55,35 +46,49 @@
                         th:text="#{label.menu.members}">Link</a></li>
 
                 <li class="nav-item"><a class="nav-link" th:href="@{/app/about.html}"
-                        th:text="#{label.menu.about}">Link</a></li>
-            </ul>
-            &nbsp;&nbsp;&nbsp;
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link btn btn-sm" th:href="@{/app/mypage.html}">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span
-                            th:text="#{label.mypage}">MyPage</span>
-                    </a>
+                        th:text="#{label.menu.about}">Link</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-sm" th:href="@{/app/logout}">
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span
-                            th:text="#{label.sign-out}">Logout</span>
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" th:text="#{label.lang}"
-                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="?locale=ko" th:text="#{label.lang.ko}">Action</a>
-                        <a class="dropdown-item" href="?locale=en" th:text="#{label.lang.en}">Action</a>
-                    </div>
-                </li>
+
             </ul>
         </div>
-    </nav>
+
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+
+            <li class="nav-item">
+                <a class="nav-link btn btn-sm" th:href="@{/app/mypage.html}">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span
+                        th:text="#{label.mypage}">MyPage</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link btn btn-sm" th:href="@{/app/logout}">
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span
+                        th:text="#{label.sign-out}">Logout</span>
+                </a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="av-item nav-link dropdown-toggle mr-md-2" href="#" id="my-locale" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" th:text="#{'label.lang.' + ${#locale.language}}">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="my-locale">
+                    <a th:class="'dropdown-item ' + (${#locale.language} == 'ko'? 'active':'')" href="?locale=ko" th:text="#{label.lang.ko}">Action</a>
+                    <a th:class="'dropdown-item ' + (${#locale.language} == 'en'? 'active':'')" href="?locale=en" th:text="#{label.lang.en}">Action</a>
+                </div>
+            </li>
+
+        </ul>
+
+        <span class="d-none d-md-inline-block mb-3 mb-md-0 ml-md-3" th:text="${#locale.language}">md</span>
+        <span class="d-none d-md-inline-block mb-3 mb-md-0 ml-md-3">md</span>
+        <span class="d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3">lg</span>
+        <span class="d-none d-xl-inline-block mb-3 mb-md-0 ml-md-3">xl</span>
+        <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="#">link</a>
+
+    </header>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

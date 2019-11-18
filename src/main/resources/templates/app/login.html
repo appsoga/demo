@@ -49,6 +49,11 @@
                 하시기 바랍니다. 비밀번호 변경화면을 보시려면 <a href="change-password.html">여기</a>를 클릭하세요</p>
         </div>
 
+        <div th:if="${param.error}" class="alert alert-danger alert-dismissible"
+                role="alert">
+                <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}">!!</span>
+        </div>
+
         <div class="form-label-group">
             <input type="text" name="username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
             <label for="inputEmail">Username</label>
