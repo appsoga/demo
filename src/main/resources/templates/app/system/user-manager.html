@@ -1,0 +1,299 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout/service}">
+
+<head>
+    <link type="text/css" rel="stylesheet" th:href="@{/webjs/jsgrid/1.5.3/css/jsgrid.min.css}" />
+    <link type="text/css" rel="stylesheet" th:href="@{/webjs/jsgrid/1.5.3/css/jsgrid-theme.min.css}" />
+    <title th:text="#{label.menu.operation.user-manager}">Untitled</title>
+    <style>
+        table.orgin {
+            font-size: x-small;
+        }
+
+        table.orgin th {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="fixed-top" w3-include-html="/fragments/header.html"></header>
+
+
+    <article class="container-fluid" layout:fragment="content">
+        <div class="page-path row">
+            <div class="col">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> <span
+                    th:text="#{label.menu.home}">Home</span> &gt; <span th:text="#{label.topmenu.operation}">서비스</span>
+                &gt; <span class="page-current-path" th:text="#{label.menu.operation.user-manager}">Untitled</span>
+            </div>
+        </div>
+        <div class="card" style="width: 100%;">
+            <!-- <img src="..." class="card-img-top" alt="..."> -->
+            <div class="card-body">
+                <h5 class="card-title" th:text="#{label.menu.operation.user-manager}">운용자관리</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+
+                <div><span th:text="#{label.total}">총</span> <span id="totalcount-grid1">1024</span> <span
+                        th:text="#{label.count}">건</span></div>
+                <div id="grid1"></div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editFormModal"
+                        id="btnAdd1">
+                        <span class="glyphicon glyphicon-plus">&nbsp;</span><span th:text="label.add">추가</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="editFormModal">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4">Username</label>
+                                    <input type="text" class="form-control" id="inputEmail4" placeholder="Username">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Password</label>
+                                    <input type="password" class="form-control" id="inputPassword4"
+                                        placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress">Name</label>
+                                <input type="text" class="form-control" id="inputAddress" placeholder="홍길동">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputPermision">Permision</label>
+                                    <select id="inputPermision" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option>...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputState">State</label>
+                                    <select id="inputState" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option>...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="btnSave1">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </article>
+
+    <div th:fragment="javascript">
+        <script th:src="@{/webjs/jsgrid/1.5.3/js/jsgrid.min.js}" type="text/javascript"></script>
+        <script th:src="@{/js/jsgrid-fields.ko.js}"></script>
+        <script type="text/javascript">
+
+            var totalcountGrid1 = $("#totalcount-grid1"),
+                statusGrid1 = $("#grid1").jsGrid({
+                    width: "100%",
+                    height: "420px",
+                    sorting: true,
+                    editing: true,
+                    filtering: true,
+                    autoload: true,
+                    pageLoading: true,
+                    paging: true,
+                    pageSize: 8,
+                    pageButtonCount: 5,
+                    // pagerFormat: "Page: {pageIndex} &nbsp;&nbsp; {first} {prev} {next} {last}",
+                    // pagePrevText: '<span class="glyphicon glyphicon-backward"></span>',
+                    // pageNextText: '<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>',
+                    // pageFirstText: '<span class="glyphicon glyphicon-fast-backward"></span>',
+                    // pageLastText: '<span class="glyphicon glyphicon-fast-forward"></span>',
+                    fields: operationFields.user,
+                    onDataLoaded: function (o) {
+                        totalcountGrid1.text(o.data.itemsCount);
+                    },
+                    rowClass: function (item, itemIndex) {
+                        // return "key-" + itemIndex;
+                    },
+                    rowClick: function (args) {
+
+                        // 선택된 아이팀을 변수에 보관하고, 배경생을 변경한다.
+                        // if (selectedRow) { selectedRow.removeClass('jsgrid-highlight-row'); }
+                        // var $row = this.rowByItem(args.item);
+                        // $row.addClass('jsgrid-highlight-row');
+                        // selectedRow = $row;
+
+                        // 선택된 정보를 이용해 다른 그리드의 데이터를 불러온다.
+                        //     var bunchId = item.item.id;
+                        //     // $("#custGrid").jsGrid("loadData", { id: bunchId });
+
+                    },
+                    controller: {
+                        loadData: function (request) {
+                            console.log(request);
+                            return $.ajax({
+                                type: "post",
+                                url: "/api/members",
+                                contentType: 'application/json',
+                                dataType: "json",
+                                data: JSON.stringify({
+                                    filter: {
+                                        "username" : request.username,
+                                        "name": request.name
+                                    },
+                                    page: request.pageIndex - 1,
+                                    pageSize: request.pageSize,
+                                    sortField: request.sortField,
+                                    sortOrder: request.sortOrder
+                                }),
+                                beforeSend: function (xhr, opts) { // 보내기전의 데이터를 변경할 수 있음.
+                                    // console.log(opts.data);
+                                },
+                                dataFilter: function (data, type) { // 받은데이터의 포멧을 변경할 수 있음.
+                                    var result = JSON.parse(data);
+                                    var newData = JSON.stringify({
+                                        itemsCount: result.totalRecords,
+                                        data: result.records
+                                    });
+                                    return newData;
+                                },
+                                success: function (response, status) {
+                                    // console.log(response, status);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //On error do this
+                                    if (xhr.status == 200) {
+                                        console.log(ajaxOptions);
+                                    }
+                                    else {
+                                        console.log(xhr.status);
+                                        console.log(thrownError);
+                                    }
+                                }
+                            });
+                        },
+                        insertItem: $.noop,
+                        updateItem: $.noop,
+                        deleteItem: $.noop
+                    }
+                });
+
+            $(document).ready(function () {
+
+                var formSearch1 = $("#formSearch1"),
+                    btnAdd1 = $("#btnAdd1"),
+                    btnSave1 = $("#btnSave1");
+
+                btnAdd1.on("click", function () {
+                    //     alert('Unimplement');
+                });
+
+                btnSave1.on("click", function () {
+                    alert('Unimplement');
+                });
+
+                // console.log(apis.getUrl("/ptt/com/1.0/operator"));
+
+                // var myData = {
+                //     "page": 3,
+                //     "pageSize": 8,
+                //     "sortField": "id",
+                //     "sortOrder": "desc",
+                //     "filter": {
+                //         "name": "admin",
+                //         "username": "admin"
+                //     }
+                // };
+
+                // var res = $.ajax({
+                //     type: "POST",
+                //     url: "/api/members",
+                //     contentType: 'application/json',
+                //     dataType: "json",
+                //     data: JSON.stringify(myData),
+                //     beforeSend: function (jqXHR, settings) {
+
+                //         var filter = JSON.parse(settings.data);
+
+                //         console.log(filter);
+
+                //         settings.data = JSON.stringify({
+                //             page: filter.page,
+                //             pageSize: filter.pageSize
+                //         });
+
+                //         // settings.data = $.extend(settings.data, {
+                //         //     "page": 1,
+                //         //     "pageSize": 8,
+                //         //     "sortField": "id",
+                //         //     "sortOrder": "desc",
+                //         //     "filter": {
+                //         //         "name": "admin",
+                //         //         "username": "admin"
+                //         //     }
+                //         // });
+                //         // console.log(settings.data);
+                //     },
+                //     success: function (response) {
+                //         // console.log(response);
+                //     },
+                //     error: function (xhr, ajaxOptions, thrownError) {
+                //         //On error do this
+                //         if (xhr.status == 200) {
+                //             // alert(ajaxOptions);
+                //         }
+                //         else {
+                //             // alert(xhr.status);
+                //             // alert(thrownError);
+                //         }
+                //     }
+
+                // });
+
+                // // console.log(res);
+
+
+            });
+        </script>
+        <style>
+            .data-filter label {
+                font-weight: bolder;
+            }
+
+            .data-filter input,
+            .data-filter select {
+                border: 1px gray solid;
+                border-radius: 4px;
+                max-width: 100px;
+            }
+
+            .data-filter input[type="date"] {
+                max-width: 150px;
+            }
+        </style>
+    </div>
+
+    <footer w3-include-html="/fragments/footer.html">
+        footer
+    </footer>
+
+</body>
+
+</html>
