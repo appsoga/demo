@@ -6,7 +6,7 @@
  * -----
  * Copyright 2019 - 2019 APPSOGA Inc.
  */
-package com.example.demo.web.app.controller;
+package com.example.demo.web.api.controller;
 
 import java.util.Date;
 
@@ -35,7 +35,7 @@ import sangmok.util.jsgrid.JsGridResponse;
 
 @RestController
 @RequestMapping(path = "api/members")
-public class MemberApiController {
+public class ApiMemberController {
 
 	@lombok.Data
 	public static class XXRequest {
@@ -54,7 +54,7 @@ public class MemberApiController {
 		private Boolean enabled;
 	}
 
-	private static Logger logger = LoggerFactory.getLogger(MemberApiController.class);
+	private static Logger logger = LoggerFactory.getLogger(ApiMemberController.class);
 
 	@Autowired
 	private MemberService memberService;
