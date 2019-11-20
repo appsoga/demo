@@ -1,0 +1,82 @@
+
+####
+POST http://localhost:8080/api/dummy/members
+Content-Type: application/json
+Accept: application/json
+Access_Token: abc
+TranID: abcd
+ID: workerId
+
+###
+POST http://localhost:8080/api/dummy/members/create
+Content-Type: application/json
+Accept: application/json
+Access_Token: abc
+TranID: abcd
+ID: workerId
+
+{
+    "webApi": {
+        "id": 1,
+        "username": "username1",
+        "password": null,
+        "group": "O",
+        "expiresOn": "2019-11-20T13:33:25.476+0000",
+        "lastAccessedOn": "2019-11-20T13:33:25.476+0000",
+        "locked": false,
+        "enabled": true,
+        "name": "name1",
+        "email": "user1@mail.com",
+        "modifiedOn": "2019-11-20T13:33:25.476+0000",
+        "worker": 1
+    }
+}
+###
+PUT http://localhost:8080/api/dummy/members/1
+Content-Type: application/json
+Accept: application/json
+Access_Token: abc
+TranID: abcd
+ID: workerId
+
+{
+    "webApi": {
+        "id": 1,
+        "username": "username1",
+        "password": null,
+        "group": "O",
+        "expiresOn": "2019-11-20T13:33:25.476+0000",
+        "lastAccessedOn": "2019-11-20T13:33:25.476+0000",
+        "locked": false,
+        "enabled": true,
+        "name": "name1",
+        "email": "user1@mail.com",
+        "modifiedOn": "2019-11-20T13:33:25.476+0000",
+        "worker": 1
+    }
+}
+###
+DELETE http://localhost:8080/api/dummy/members/1
+Content-Type: application/json
+Accept: application/json
+Access_Token: abc
+TranID: abcd
+ID: workerId
+
+{
+    "webApi": {
+        "id": 1,
+        "username": "username1",
+        "password": null,
+        "group": "O",
+        "expiresOn": "2019-11-20T13:33:25.476+0000",
+        "lastAccessedOn": "2019-11-20T13:33:25.476+0000",
+        "locked": false,
+        "enabled": true,
+        "name": "name1",
+        "email": "user1@mail.com",
+        "modifiedOn": "2019-11-20T13:33:25.476+0000",
+        "worker": 1
+    }
+}
+###

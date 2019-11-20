@@ -1,12 +1,18 @@
 package com.example.demo.web.api.controller;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import com.example.demo.service.MemberDummyService;
+import com.example.demo.service.MemberDummyService.Member;
+import com.example.demo.web.api.model.ApiPagingRequest;
+import com.example.demo.web.api.model.ApiPagingRequest.Paging;
+import com.example.demo.web.api.model.ApiPagingRequest.WebApiRequest;
+import com.example.demo.web.api.model.ApiPagingResponse;
+import com.example.demo.web.api.model.ApiRequest;
+import com.example.demo.web.api.model.ApiResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,59 +26,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.demo.web.api.model.ApiPagingRequest;
-import com.example.demo.web.api.model.ApiPagingRequest.Paging;
-import com.example.demo.web.api.model.ApiPagingRequest.WebApiRequest;
-import com.example.demo.web.api.model.ApiPagingResponse;
-import com.example.demo.web.api.model.ApiPagingResponse.WebApiResponse;
-import com.example.demo.web.api.model.ApiRequest;
-import com.example.demo.web.api.model.ApiResponse;
-
 @RestController
 @RequestMapping(value = { "api/dummy/members" })
 public class ApiDummyContoller {
 
-	@lombok.Data
-	public static class Member {
-		private Integer id;
-		private String username;
-		private String password;
-		private String group;
-		private Date expiresOn;
-		private Date lastAccessedOn;
-		private Boolean locked;
-		private Boolean enabled;
-		private String name;
-		private String email;
-		private Date modifiedOn;
-		private Integer worker;
-	}
+	@Autowired
+	private MemberDummyService memberService;
 
 	private static Logger logger = LoggerFactory.getLogger(ApiDummyContoller.class);
 
-	private Member createMember(int i) {
-		Member e1 = new Member();
-		e1.setId(i);
-		e1.setUsername(String.format("username%d", i));
-		e1.setGroup((i % 5 == 3 ? "A" : "O"));
-		e1.setExpiresOn(Calendar.getInstance().getTime());
-		e1.setLastAccessedOn(Calendar.getInstance().getTime());
-		e1.setLocked(i % 3 == 0 ? true : false);
-		e1.setName(String.format("name%d", i));
-		e1.setEmail(String.format("user%d@mail.com", i));
-		e1.setModifiedOn(Calendar.getInstance().getTime());
-		e1.setEnabled((i % 3 == 1 ? true : false));
-		e1.setWorker(1);
-		return e1;
-	}
-
 	@PostMapping
-	public ResponseEntity<ApiPagingResponse<?>> inspect(@RequestHeader(value = "accept") String accept,
-			@RequestHeader(value = "access_token") String accessToken,
-			@RequestHeader(value = "content-type") String contentType, @RequestHeader(value = "tranId") String tranId,
-			@RequestHeader(value = "id") String id, @RequestHeader(value = "host") String host,
+	public ResponseEntity<ApiPagingResponse<?>> inspect(@RequestHeader(value = "content-type") String contentType,
+			@RequestHeader(value = "accept") String accept, @RequestHeader(value = "access_token") String accessToken,
+			@RequestHeader(value = "tranId") String tranId, @RequestHeader(value = "id") String worker,
+			@RequestHeader(value = "host") String host, @RequestBody(required = false) ApiPagingRequest sr,
+			UriComponentsBuilder ucBuilder) {
 
-			@RequestBody(required = false) ApiPagingRequest sr, UriComponentsBuilder ucBuilder) {
 		if (sr == null) {
 			Paging paging = new Paging();
 			WebApiRequest webApi = new WebApiRequest();
@@ -85,118 +54,103 @@ public class ApiDummyContoller {
 		logger.info("content-type: {}", contentType);
 		logger.info("access_token: {}", accessToken);
 		logger.info("tranId: {}", tranId);
-		logger.info("id: {}", id);
+		logger.info("worker: {}", worker);
 		logger.info("host: {}", host);
 		logger.info("request: {}", sr);
 
-		/*
-		 * 가상의 결과값을 생성한다.
-		 */
-		List<Member> operatorList = new ArrayList<Member>();
-		Integer totalCnt = 3043;
-
-		int pageIndex = sr.getWebApi().getPaging().getPageIndex();
-		int lineCnt = sr.getWebApi().getPaging().getLineCount();
-
-		int index = ((pageIndex - 1) * lineCnt) + 1;
-		int limit = pageIndex * lineCnt;
-		limit = (limit < totalCnt) ? limit : totalCnt;
-		for (int i = index; i <= limit; i++) {
-			Member e1 = createMember(i);
-			operatorList.add(e1);
-		}
 		//
-		WebApiResponse<Member> webApi = new WebApiResponse<Member>();
-		webApi.setOperatorList(operatorList);
-		webApi.setTotalCnt(totalCnt);
-		//
-		ApiPagingResponse<Member> mr = new ApiPagingResponse<Member>();
-		mr.setWebApi(webApi);
-
+		ApiPagingResponse<Member> mr = memberService.findAll(sr);
 		return new ResponseEntity<ApiPagingResponse<?>>(mr, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "create")
-	public ResponseEntity<?> insert(@RequestHeader(value = "accept") String accept,
-			@RequestHeader(value = "access_token") String accessToken,
-			@RequestHeader(value = "content-type") String contentType, @RequestHeader(value = "tranId") String tranId,
-			@RequestHeader(value = "id") String id, @RequestHeader(value = "host") String host,
-
-			@RequestBody ApiRequest<Member> e1, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<?> insert(@RequestHeader(value = "content-type") String contentType,
+			@RequestHeader(value = "accept") String accept, @RequestHeader(value = "access_token") String accessToken,
+			@RequestHeader(value = "tranId") String tranId, @RequestHeader(value = "id") String worker,
+			@RequestHeader(value = "host") String host, @RequestBody ApiRequest<Member> sr,
+			UriComponentsBuilder ucBuilder) {
 
 		logger.info("### insert --------------");
 		logger.info("content-type: {}", contentType);
 		logger.info("access_token: {}", accessToken);
 		logger.info("tranId: {}", tranId);
-		logger.info("id: {}", id);
+		logger.info("worker: {}", worker);
 		logger.info("host: {}", host);
+		logger.info("request: {}", sr);
 
-		logger.info("request: {}", e1);
-
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		Member e1 = new Member();
+		BeanUtils.copyProperties(sr.getWebApi(), e1);
+		//
+		Member er = memberService.createMember(e1);
+		return new ResponseEntity<Object>(er, HttpStatus.OK);
 	}
 
 	@GetMapping(path = "{id}")
-	public ResponseEntity<?> selectOne(@RequestHeader(value = "accept") String accept,
-			@RequestHeader(value = "access_token") String accessToken,
-			@RequestHeader(value = "content-type") String contentType, @RequestHeader(value = "tranId") String tranId,
-			@RequestHeader(value = "id") String id, @RequestHeader(value = "host") String host,
-
-			@PathVariable(value = "id") Integer rId) {
+	public ResponseEntity<?> selectOne(@RequestHeader(value = "content-type") String contentType,
+			@RequestHeader(value = "accept") String accept, @RequestHeader(value = "access_token") String accessToken,
+			@RequestHeader(value = "tranId") String tranId, @RequestHeader(value = "id") String worker,
+			@RequestHeader(value = "host") String host, @PathVariable(value = "id") Integer id) {
 
 		logger.info("### selectOne --------------");
 		logger.info("content-type: {}", contentType);
 		logger.info("access_token: {}", accessToken);
 		logger.info("tranId: {}", tranId);
-		logger.info("id: {}", id);
+		logger.info("worker: {}", worker);
 		logger.info("host: {}", host);
+		logger.info("request: rid: {}", id);
 
-		logger.info("request: rid: {}", rId);
-
-		Member e1 = createMember(rId);
+		Member e1 = memberService.findMember(id);
+		//
 		ApiResponse<Member> mr = new ApiResponse<Member>();
 		mr.setWebApi(e1);
 		return new ResponseEntity<ApiResponse<Member>>(mr, HttpStatus.OK);
 	}
 
 	@PutMapping(path = "{id}")
-	public ResponseEntity<?> update(@RequestHeader(value = "accept") String accept,
-			@RequestHeader(value = "access_token") String accessToken,
-			@RequestHeader(value = "content-type") String contentType, @RequestHeader(value = "tranId") String tranId,
-			@RequestHeader(value = "id") String id, @RequestHeader(value = "host") String host,
-
-			@RequestBody ApiRequest<Member> e1, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<?> update(@RequestHeader(value = "content-type") String contentType,
+			@RequestHeader(value = "accept") String accept, @RequestHeader(value = "access_token") String accessToken,
+			@RequestHeader(value = "tranId") String tranId, @RequestHeader(value = "id") String worker,
+			@RequestHeader(value = "host") String host, @PathVariable(value = "id") Integer id,
+			@RequestBody ApiRequest<Member> sr, UriComponentsBuilder ucBuilder) {
 
 		logger.info("### update --------------");
 		logger.info("content-type: {}", contentType);
 		logger.info("access_token: {}", accessToken);
 		logger.info("tranId: {}", tranId);
-		logger.info("id: {}", id);
+		logger.info("worker: {}", worker);
 		logger.info("host: {}", host);
+		logger.info("request: {}", sr);
 
-		logger.info("request: {}", e1);
+		Member e1 = new Member();
+		BeanUtils.copyProperties(sr.getWebApi(), e1);
 
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		Member er = memberService.modifyMember(e1);
+
+		return new ResponseEntity<Object>(er, HttpStatus.OK);
 	}
 
 	@DeleteMapping(path = "{id}")
-	public ResponseEntity<?> delete(@RequestHeader(value = "accept") String accept,
-			@RequestHeader(value = "access_token") String accessToken,
-			@RequestHeader(value = "content-type") String contentType, @RequestHeader(value = "tranId") String tranId,
-			@RequestHeader(value = "id") String id, @RequestHeader(value = "host") String host,
-
-			@RequestBody ApiRequest<Member> e1, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<?> delete(@RequestHeader(value = "content-type") String contentType,
+			@RequestHeader(value = "accept") String accept, @RequestHeader(value = "access_token") String accessToken,
+			@RequestHeader(value = "tranId") String tranId, @RequestHeader(value = "id") String worker,
+			@RequestHeader(value = "host") String host, @PathVariable(value = "id") Integer id,
+			@RequestBody ApiRequest<Member> sr, UriComponentsBuilder ucBuilder) {
 
 		logger.info("### delete --------------");
 		logger.info("content-type: {}", contentType);
 		logger.info("access_token: {}", accessToken);
 		logger.info("tranId: {}", tranId);
-		logger.info("id: {}", id);
+		logger.info("worker: {}", worker);
 		logger.info("host: {}", host);
+		logger.info("request: {}", sr);
 
-		logger.info("request: {}", e1);
+		Member e1 = new Member();
+		BeanUtils.copyProperties(sr.getWebApi(), e1);
 
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		memberService.removeMember(id);
+
+		ApiResponse<Member> mr = new ApiResponse<Member>();
+		return new ResponseEntity<ApiResponse<Member>>(mr, HttpStatus.OK);
 	}
 
 }
