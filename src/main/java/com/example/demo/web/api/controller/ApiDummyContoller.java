@@ -39,8 +39,9 @@ public class ApiDummyContoller {
 	public ResponseEntity<ApiPagingResponse<?>> inspect(@RequestHeader(value = "content-type") String contentType,
 			@RequestHeader(value = "accept") String accept, @RequestHeader(value = "access_token") String accessToken,
 			@RequestHeader(value = "tranId") String tranId, @RequestHeader(value = "id") String worker,
-			@RequestHeader(value = "host") String host, @RequestBody(required = false) ApiPagingRequest sr,
-			UriComponentsBuilder ucBuilder) {
+			@RequestHeader(value = "host") String host,
+			//
+			@RequestBody(required = false) ApiPagingRequest sr, UriComponentsBuilder ucBuilder) {
 
 		if (sr == null) {
 			Paging paging = new Paging();
@@ -67,8 +68,9 @@ public class ApiDummyContoller {
 	public ResponseEntity<?> insert(@RequestHeader(value = "content-type") String contentType,
 			@RequestHeader(value = "accept") String accept, @RequestHeader(value = "access_token") String accessToken,
 			@RequestHeader(value = "tranId") String tranId, @RequestHeader(value = "id") String worker,
-			@RequestHeader(value = "host") String host, @RequestBody ApiRequest<Member> sr,
-			UriComponentsBuilder ucBuilder) {
+			@RequestHeader(value = "host") String host,
+			//
+			@RequestBody ApiRequest<Member> sr, UriComponentsBuilder ucBuilder) {
 
 		logger.info("### insert --------------");
 		logger.info("content-type: {}", contentType);
@@ -92,7 +94,9 @@ public class ApiDummyContoller {
 	public ResponseEntity<?> selectOne(@RequestHeader(value = "content-type") String contentType,
 			@RequestHeader(value = "accept") String accept, @RequestHeader(value = "access_token") String accessToken,
 			@RequestHeader(value = "tranId") String tranId, @RequestHeader(value = "id") String worker,
-			@RequestHeader(value = "host") String host, @PathVariable(value = "id") Integer id) {
+			@RequestHeader(value = "host") String host,
+			//
+			@PathVariable(value = "id") Integer id) {
 
 		logger.info("### selectOne --------------");
 		logger.info("content-type: {}", contentType);
@@ -113,8 +117,10 @@ public class ApiDummyContoller {
 	public ResponseEntity<?> update(@RequestHeader(value = "content-type") String contentType,
 			@RequestHeader(value = "accept") String accept, @RequestHeader(value = "access_token") String accessToken,
 			@RequestHeader(value = "tranId") String tranId, @RequestHeader(value = "id") String worker,
-			@RequestHeader(value = "host") String host, @PathVariable(value = "id") Integer id,
-			@RequestBody ApiRequest<Member> sr, UriComponentsBuilder ucBuilder) {
+			@RequestHeader(value = "host") String host,
+			//
+			@PathVariable(value = "id") Integer id, @RequestBody ApiRequest<Member> sr,
+			UriComponentsBuilder ucBuilder) {
 
 		logger.info("### update --------------");
 		logger.info("content-type: {}", contentType);
@@ -137,8 +143,10 @@ public class ApiDummyContoller {
 	public ResponseEntity<?> delete(@RequestHeader(value = "content-type") String contentType,
 			@RequestHeader(value = "accept") String accept, @RequestHeader(value = "access_token") String accessToken,
 			@RequestHeader(value = "tranId") String tranId, @RequestHeader(value = "id") String worker,
-			@RequestHeader(value = "host") String host, @PathVariable(value = "id") Integer id,
-			@RequestBody ApiRequest<Member> sr, UriComponentsBuilder ucBuilder) {
+			@RequestHeader(value = "host") String host,
+			//
+			@PathVariable(value = "id") Integer id, @RequestBody ApiRequest<Member> sr,
+			UriComponentsBuilder ucBuilder) {
 
 		logger.info("### delete --------------");
 		logger.info("content-type: {}", contentType);
