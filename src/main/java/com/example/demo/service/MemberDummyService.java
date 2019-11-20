@@ -9,13 +9,23 @@ import com.example.demo.web.api.model.ApiPagingRequest;
 import com.example.demo.web.api.model.ApiPagingResponse;
 import com.example.demo.web.api.model.ApiPagingResponse.WebApiResponse;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberDummyService {
 
     @lombok.Data
+    @lombok.EqualsAndHashCode(of = "id")
     public static class Member {
+        public Member() {
+            ;
+        }
+
+        public Member(Integer id) {
+            this.id = id;
+        }
+
         private Integer id;
         private String username;
         private String password;
@@ -30,12 +40,32 @@ public class MemberDummyService {
         private Integer worker;
     }
 
-    private Member createMember(int i) {
+    private static final int TOTALCNT = 1024;
+
+    private static List<Member> mdb;
+
+    private static int lastId;
+
+    static {
+        mdb = new ArrayList<Member>();
+        for (int i = 1; i < TOTALCNT; i++) {
+            mdb.add(createMember(i));
+        }
+        lastId = mdb.size();
+    }
+
+    private static Member createMember(int i) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
         Member e1 = new Member();
         e1.setId(i);
         e1.setUsername(String.format("username%d", i));
         e1.setGroup((i % 5 == 3 ? "A" : "O"));
-        e1.setExpiresOn(Calendar.getInstance().getTime());
+        e1.setExpiresOn(cal.getTime());
         e1.setLastAccessedOn(Calendar.getInstance().getTime());
         e1.setLocked(i % 3 == 0 ? true : false);
         e1.setName(String.format("name%d", i));
@@ -52,17 +82,16 @@ public class MemberDummyService {
          * 가상의 결과값을 생성한다.
          */
         List<Member> operatorList = new ArrayList<Member>();
-        Integer totalCnt = 3043;
+        Integer totalCnt = mdb.size();
 
         int pageIndex = sr.getWebApi().getPaging().getPageIndex();
         int lineCnt = sr.getWebApi().getPaging().getLineCount();
 
-        int index = ((pageIndex - 1) * lineCnt) + 1;
+        int index = ((pageIndex - 1) * lineCnt);
         int limit = pageIndex * lineCnt;
-        limit = (limit < totalCnt) ? limit : totalCnt;
+        limit = (limit < totalCnt) ? limit : totalCnt - 1;
         for (int i = index; i <= limit; i++) {
-            Member e1 = createMember(i);
-            operatorList.add(e1);
+            operatorList.add(mdb.get(i));
         }
         //
         WebApiResponse<Member> webApi = new WebApiResponse<Member>();
@@ -74,21 +103,25 @@ public class MemberDummyService {
         return mr;
     }
 
-    public Member findMember(Integer id) {
-        return createMember(id);
+    public Member findMember(Member e1) {
+        int index = mdb.indexOf(e1);
+        return mdb.get(index);
     }
 
     public Member createMember(Member e1) {
+        e1.setId(++lastId);
+        mdb.add(e1);
         return e1;
     }
 
     public Member modifyMember(Member e1) {
-        return e1;
+        Member mr = findMember(e1);
+        BeanUtils.copyProperties(e1, mr, "id", "username", "password");
+        return mr;
     }
 
     public void removeMember(Integer id) {
-        // TODO: removce record here.
-
+        mdb.remove(new Member(id));
     }
 
 }

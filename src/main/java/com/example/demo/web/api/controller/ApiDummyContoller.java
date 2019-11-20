@@ -81,8 +81,11 @@ public class ApiDummyContoller {
 		Member e1 = new Member();
 		BeanUtils.copyProperties(sr.getWebApi(), e1);
 		//
-		Member er = memberService.createMember(e1);
-		return new ResponseEntity<Object>(er, HttpStatus.OK);
+		e1 = memberService.createMember(e1);
+		//
+		ApiResponse<Member> mr = new ApiResponse<Member>();
+		mr.setWebApi(e1);
+		return new ResponseEntity<Object>(mr, HttpStatus.OK);
 	}
 
 	@GetMapping(path = "{id}")
@@ -99,7 +102,7 @@ public class ApiDummyContoller {
 		logger.info("host: {}", host);
 		logger.info("request: rid: {}", id);
 
-		Member e1 = memberService.findMember(id);
+		Member e1 = memberService.findMember(new Member(id));
 		//
 		ApiResponse<Member> mr = new ApiResponse<Member>();
 		mr.setWebApi(e1);
@@ -120,13 +123,14 @@ public class ApiDummyContoller {
 		logger.info("worker: {}", worker);
 		logger.info("host: {}", host);
 		logger.info("request: {}", sr);
-
+		//
 		Member e1 = new Member();
 		BeanUtils.copyProperties(sr.getWebApi(), e1);
-
-		Member er = memberService.modifyMember(e1);
-
-		return new ResponseEntity<Object>(er, HttpStatus.OK);
+		e1 = memberService.modifyMember(e1);
+		//
+		ApiResponse<Member> mr = new ApiResponse<Member>();
+		mr.setWebApi(e1);
+		return new ResponseEntity<ApiResponse<Member>>(mr, HttpStatus.OK);
 	}
 
 	@DeleteMapping(path = "{id}")
