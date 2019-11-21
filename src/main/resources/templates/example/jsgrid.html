@@ -72,8 +72,8 @@
         <!-- <script th:src="@{/webjars/jQuery-contextMenu/1.6.5/jquery.contextMenu.js}"></script> -->
         <script th:src="@{/js/jquery.ui-contextmenu.min.js}"></script>
         <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
-        <script type="text/javascript" th:src="@{/js/jsgrid-custom.js}"></script>
-        <script type="text/javascript" th:src="@{/js/jsgrid-fields.ko.js}"></script>
+        <script type="text/javascript" th:src="@{/custom/jsgrid/js/jsgrid-custom.js}"></script>
+        <script type="text/javascript" th:src="@{/custom/jsgrid/js/i18n/jsgrid-fields.ko.js}"></script>
         <script type="text/javascript">
 
             $(document).ready(function () {
@@ -86,16 +86,10 @@
                     sorting: true,
                     filtering: true,
                     editing: true,
-                    inserting: true,
+                    // inserting: true,
                     pageLoading: true, // 페이지별로 데이터를 로딩할지 여부
                     scrolling: true,
-
-                    // deleteConfirm: "Do you really want to delete the client?",
-
-                    // pageSize: 10,
-                    // pageButtonCount: 5,
                     // pagerContainer: "#myGrid1Pager",
-
                     // data: clients,
                     autoload: true, // controller 를 사용할지 여부
                     fields: jsgridFields.member,
