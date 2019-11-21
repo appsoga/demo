@@ -46,6 +46,7 @@
 /* 마우스가 오버할 경우 */
 .jsgrid-selected-row .jsgrid-cell {
     background-color: #d47b7b;
+    border-color: #f89d9d;
 }
 
 /* selectcheckbox 에서 선택된 */

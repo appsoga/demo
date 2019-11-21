@@ -3,10 +3,11 @@
     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout/bootstrap}">
 
 <head>
-    <title th:text="#{label.menu.members}">untitled</title>
     <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.css}" rel="stylesheet" />
     <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid-theme.min.css}" rel="stylesheet" />
     <link th:href="@{/css/jsgrid-mystyle.css}" rel="stylesheet" />
+
+    <title th:text="#{label.menu.members}">untitled</title>
 </head>
 
 <body>
@@ -76,13 +77,17 @@
             </div>
         </div>
     </article>
+
+
+
     <div th:fragment="javascript">
 
         <!-- <script th:src="@{/webjars/jQuery-contextMenu/1.6.5/jquery.contextMenu.js}"></script> -->
         <script th:src="@{/js/jquery.ui-contextmenu.min.js}"></script>
         <script th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
-        <script type="text/javascript" th:src="@{/js/jsgrid-custom.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jsgrid-mystyle.js}"></script>
         <script type="text/javascript" th:src="@{/js/jsgrid-fields.ko.js}"></script>
+
         <script type="text/javascript">
 
             $(document).ready(function () {
@@ -110,7 +115,7 @@
                     autoload: true, // controller 를 사용할지 여부
                     fields: jsgridFields.member,
                     onDataLoaded: function (o) {
-                        console.log(o, o.data.itemsCount);
+                        // console.log(o, o.data.itemsCount);
 
                         // $(this).find("tr").each(function (index) {
                         //     console.log(index);
@@ -121,7 +126,7 @@
                         return itemIndex % 2 == 0 ? 'bg-dark' : 'bg-light';
                     },
                     rowClick: function (item, index, e) {
-                        console.log(e);
+                        // console.log(e);
                     },
                     controller: {
                         // insertItem: $.noop,

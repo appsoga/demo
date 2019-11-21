@@ -206,6 +206,7 @@
 // type: multiselect
 (function (jsGrid, $, undefined) {
 
+
     function MultiSelectControlField(config) {
 
         this.name = "id";
@@ -216,8 +217,6 @@
     }
 
     MultiSelectControlField.prototype = new jsGrid.Field({
-
-        _selectedItemControls: [],
 
         headerTemplate: function () {
 
@@ -238,13 +237,14 @@
 
             return $result;
         },
-        itemTemplate: function (value, item) {
+        itemTemplate: function (_, item) {
 
-            var css = this.selectedCss,
-                name = this.name;
+            var css = this.selectedCss;
+            var doSelect = this._selectItem,
+                doUnselect = this._unselectItem;
 
             var $result = $("<input>").attr("type", "checkbox")
-                .attr("data-primary-key", item[name] ? item[name] : 0)
+                .attr("data-primary-key", item[this.name] ? item[this.name] : 0)
                 .prop("checked", false);
 
             $result.on("change", function (e) {
@@ -253,15 +253,31 @@
                 var td = $(this).parent().get(0);
                 var tr = $(td).parent().get(0);
 
-                if (val)
+                if (val) {
+                    doSelect(item);
                     $(tr).addClass(css);
-                else
+                } else {
+                    doUnselect(item);
                     $(tr).removeClass(css);
+                }
+
             });
             this._selectedItemControls.push($result);
 
             return $result;
         },
+
+        _selectItem: function (item) {
+            jsGrid.Grid.prototype.selectedItems_.push(item);
+        },
+
+        _unselectItem: function (item) {
+            jsGrid.Grid.prototype.selectedItems_ = $.grep(jsGrid.Grid.prototype.selectedItems_, function (i) {
+                return i !== item;
+            });
+        },
+
+        _selectedItemControls: [],
         width: 10,
         sorting: false,
         align: "center"
@@ -290,7 +306,7 @@
     jsGrid.Grid.prototype.filtering = false;
     jsGrid.Grid.prototype.inserting = false;
     jsGrid.Grid.prototype.paging = true;
-    jsGrid.Grid.prototype.pageSize = 16; 
+    jsGrid.Grid.prototype.pageSize = 16;
     jsGrid.Grid.prototype.pageButtonCount = 7;
     jsGrid.Grid.prototype.pagerFormat = "Total: {itemCount} , Page: {pageIndex} / {pageCount} &nbsp;&nbsp; {first} {prev} {pages} {next} {last}";
     jsGrid.Grid.prototype.pagePrevText = '<span class="glyphicon glyphicon-backward"></span>';
@@ -300,6 +316,7 @@
     jsGrid.Grid.prototype.pageLoading = true; // 페이지별로 데이터를 로딩할지 여부
     jsGrid.Grid.prototype.sorting = false;
 
+    jsGrid.Grid.prototype.selectedItems_ = [];
 
     // jsGrid.Grid.prototype.rowClick = function (args) {
     //     var selectItem = this._selectRow;
@@ -322,21 +339,23 @@
 
 
     jsGrid.Grid.prototype.selectedItems = function () {
-        var data = this.data,
-            _selectedItems = [];
-        var trs = this._content.find("tr");
-        $(trs).each(function (index) {
-            var selected = $(this).find("td")[0],
-                isSelected = false;
+        // var data = this.data,
+        //     _selectedItems = [];
+        // var trs = this._content.find("tr");
+        // $(trs).each(function (index) {
+        //     var selected = $(this).find("td")[0],
+        //         isSelected = false;
 
-            $(selected).find("input").each(function (col) {
-                isSelected = $(this).is(":checked");
-            });
+        //     $(selected).find("input").each(function (col) {
+        //         isSelected = $(this).is(":checked");
+        //     });
 
-            if (isSelected)
-                _selectedItems.push(data[index]);
-        });
-        return _selectedItems;
+        //     if (isSelected)
+        //         _selectedItems.push(data[index]);
+        // });
+        // return _selectedItems;
+
+        return jsGrid.Grid.prototype.selectedItems_;
     };
 
 
