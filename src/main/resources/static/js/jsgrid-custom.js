@@ -206,36 +206,69 @@
 // type: multiselect
 (function (jsGrid, $, undefined) {
 
-    function MultiSelectCheckboxField(config) {
+    function MultiSelectControlField(config) {
 
-        this.min = "";
-        this.max = "";
+        this.name = "id";
+        this.sorting = false;
+        this.selectedCss = "jsgrid-is-selected";
 
         jsGrid.Field.call(this, config);
     }
 
-    MultiSelectCheckboxField.prototype = new jsGrid.Field({
+    MultiSelectControlField.prototype = new jsGrid.Field({
+
+        _selectedItemControls: [],
 
         headerTemplate: function () {
-            var box = this;
-            return $("<input>").attr("type", "checkbox").addClass("header-checkbox");
-            // .on("change", function () {
-            //     onChangeMultiSelectHeader(box);
-            // });
+
+            var grid = this._grid;
+            var css = this.selectedCss;
+            var selectedItemControls = this._selectedItemControls;
+
+            var $result = this.headerControl = $("<input>").attr("type", "checkbox");
+
+            $result.on("change", function (e) {
+                var val = this.checked;
+
+                $(selectedItemControls).each(function (idx, el) {
+                    el.prop("checked", !val);
+                    el.click();
+                });
+            });
+
+            return $result;
         },
         itemTemplate: function (value, item) {
-            return $("<input>").attr("type", "checkbox")
-                .attr("data-primary-key", item.id ? item.id : 0)
-                .addClass("jsgrid-is-selected")
+
+            var css = this.selectedCss,
+                name = this.name;
+
+            var $result = $("<input>").attr("type", "checkbox")
+                .attr("data-primary-key", item[name] ? item[name] : 0)
                 .prop("checked", false);
+
+            $result.on("change", function (e) {
+
+                var val = $(this).prop("checked")
+                var td = $(this).parent().get(0);
+                var tr = $(td).parent().get(0);
+
+                if (val)
+                    $(tr).addClass(css);
+                else
+                    $(tr).removeClass(css);
+            });
+            this._selectedItemControls.push($result);
+
+            return $result;
         },
-        width: 5,
+        width: 10,
         sorting: false,
         align: "center"
 
     });
 
-    jsGrid.fields.multiselect = jsGrid.MultiSelectCheckboxField = MultiSelectCheckboxField;
+    jsGrid.fields.selectcheckbox = jsGrid.MultiSelectControlField = MultiSelectControlField;
 
 }(jsGrid, jQuery));
 
@@ -251,13 +284,13 @@
 (function (jsGrid, $, undefined) {
 
     jsGrid.Grid.prototype.width = "100%";
-    jsGrid.Grid.prototype.height = "420px";
-    jsGrid.Grid.prototype.autoload = true; // 초기에 데이터를 자동으로 로딩할지 여부, 컨트롤러를 사용
+    jsGrid.Grid.prototype.height = "auto";
+    jsGrid.Grid.prototype.autoload = false; // 초기에 데이터를 자동으로 로딩할지 여부, 컨트롤러를 사용
     jsGrid.Grid.prototype.editing = false;
     jsGrid.Grid.prototype.filtering = false;
     jsGrid.Grid.prototype.inserting = false;
     jsGrid.Grid.prototype.paging = true;
-    jsGrid.Grid.prototype.pageSize = 25;
+    jsGrid.Grid.prototype.pageSize = 16; 
     jsGrid.Grid.prototype.pageButtonCount = 7;
     jsGrid.Grid.prototype.pagerFormat = "Total: {itemCount} , Page: {pageIndex} / {pageCount} &nbsp;&nbsp; {first} {prev} {pages} {next} {last}";
     jsGrid.Grid.prototype.pagePrevText = '<span class="glyphicon glyphicon-backward"></span>';
@@ -268,49 +301,18 @@
     jsGrid.Grid.prototype.sorting = false;
 
 
-    jsGrid.Grid.prototype.rowClick = function (args) {
-        var selectItem = this._selectRow;
-        var deSelectItem = this._unSelectRow;
-        var tr = $(args.event.target).closest("tr");
-        var multiselectTd = $(tr).find("td")[0];
-        $(multiselectTd).find("input").each(function () {
-            if (this.checked)
-                deSelectItem(tr);
-            else
-                selectItem(tr);
-        });
-    };
-
-
-    jsGrid.Grid.prototype._selectRow = function (tr) { // tr
-        var multiselectTd = $(tr).find("td")[0];
-        $(multiselectTd).find("input").each(function () {
-            this.checked = true;
-            $(tr).addClass("jsgrid-clicked-row");
-        });
-    };
-
-    jsGrid.Grid.prototype._unSelectRow = function (tr) { // tr
-        var multiselectTd = $(tr).find("td")[0];
-        $(multiselectTd).find("input").each(function () {
-            this.checked = false;
-            $(tr).removeClass("jsgrid-clicked-row");
-        });
-    };
-
-    jsGrid.Grid.prototype.selectAll = function (container) {
-        var selectItem = this._selectRow;
-        $(this._content).find("tr").each(function (args) {
-            selectItem(this);
-        });
-    };
-
-    jsGrid.Grid.prototype.deSelectAll = function (container) {
-        var deSelectItem = this._unSelectRow;
-        $(this._content).find("tr").each(function (args) {
-            deSelectItem(this);
-        });
-    };
+    // jsGrid.Grid.prototype.rowClick = function (args) {
+    //     var selectItem = this._selectRow;
+    //     var deSelectItem = this._unSelectRow;
+    //     var tr = $(args.event.target).closest("tr");
+    //     var multiselectTd = $(tr).find("td")[0];
+    //     $(multiselectTd).find("input").each(function () {
+    //         if (this.checked)
+    //             deSelectItem(tr);
+    //         else
+    //             selectItem(tr);
+    //     });
+    // };
 
     // jsGrid.Grid.prototype.rowByIndex = function (index) {
     //     //this._content.find("tr")[arg] returns a DOM element instead of a jQuery object
@@ -320,28 +322,21 @@
 
 
     jsGrid.Grid.prototype.selectedItems = function () {
-        var selectedKeys = [];
+        var data = this.data,
+            _selectedItems = [];
         var trs = this._content.find("tr");
         $(trs).each(function (index) {
             var selected = $(this).find("td")[0],
-                isSelectedRow = false,
-                selectedKey;
-            $(selected).find("input").each(function (col) {
-                isSelectedRow = $(this).is(":checked");
-                selectedKey = $(this).attr("data-primary-key");
-            });
-            if (isSelectedRow)
-                selectedKeys.push(selectedKey);
-        });
-        return selectedKeys;
-    };
+                isSelected = false;
 
-    jsGrid.Grid.prototype.selectedItemsNo = function () {
-        var selectedNoKeys = [];
-        $(this.selectedItems()).each(function (idex) {
-            selectedNoKeys.push(Number(this));
+            $(selected).find("input").each(function (col) {
+                isSelected = $(this).is(":checked");
+            });
+
+            if (isSelected)
+                _selectedItems.push(data[index]);
         });
-        return selectedNoKeys;
+        return _selectedItems;
     };
 
 

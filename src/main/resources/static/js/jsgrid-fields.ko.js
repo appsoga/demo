@@ -44,24 +44,24 @@ var codes = {
 var jsgridFields = {
 
 	member: [
-		{ type: "multiselect" },
-		{ title: "ID", name: "id", type: "number", inserting: false, editing: false, validate: "required", width: 10 },
-		{ title: "Username", name: "username", type: "text", validate: "required", width: 10 },
-		{ title: "Group", name: "group", type: "select", validate: "required", width: 10, items: codes.member.group, valueField: "value", textField: "name" },
-		{ title: "Name", name: "name", type: "text", validate: "required", width: 10 },
-		{ title: "E-Mail", name: "email", type: "text", width: 20, filtering: true, editing: true },
-		{ title: "ExpiresOn", name: "expiresOn", type: "date", width: 10, filtering: true },
-		{ title: "lastAccessedOn", name: "lastAccessedOn", type: "datetime", width: 20, align: "center", filtering: false, inserting: false, editing: false },
-		{ title: "Enabled", name: "enabled", type: "checkbox", width: 5 },
+		{ type: "selectcheckbox", name: "id" },
+		{ title: "ID", name: "id", type: "number", inserting: false, editing: false, validate: "required", width: 30 },
+		{ title: "Username", name: "username", type: "text", validate: "required", width: 30 },
+		{ title: "Group", name: "group", type: "select", validate: "required", width: 30, items: codes.member.group, valueField: "value", textField: "name" },
+		{ title: "Name", name: "name", type: "text", validate: "required", width: 30 },
+		{ title: "E-Mail", name: "email", type: "text", width: 50, filtering: true, editing: true },
+		{ title: "ExpiresOn", name: "expiresOn", type: "date", width: 50, filtering: true },
+		{ title: "lastAccessedOn", name: "lastAccessedOn", type: "datetime", width: 50, align: "center", filtering: false, inserting: false, editing: false },
+		{ title: "Enabled", name: "enabled", type: "checkbox", width: 30 },
 		{
 			type: "control",
 			editButton: true,                               // show edit button
 			deleteButton: true,                             // show delete button
 			clearFilterButton: true,                        // show clear filter button
-			modeSwitchButton: true,                        // show switching filtering/inserting button
+			modeSwitchButton: false,                        // show switching filtering/inserting button
 
 			align: "center",                                // center content alignment
-			width: 10,                                      // default column width is 50px
+			width: 20,                                      // default column width is 50px
 			filtering: false,                               // disable filtering for column
 			inserting: false,                               // disable inserting for column
 			editing: false,                                 // disable editing for column

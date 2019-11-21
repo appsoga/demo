@@ -6,6 +6,7 @@
     <title th:text="#{label.menu.members}">untitled</title>
     <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.css}" rel="stylesheet" />
     <link th:href="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid-theme.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/jsgrid-mystyle.css}" rel="stylesheet" />
 </head>
 
 <body>
@@ -25,26 +26,23 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="#{label.menu.members}">Untitled</h5>
                         <p class="card-text" id="welcomeMessage">
-                            Grid중에서 꽤 쓸만한 녀석이네, 목록요청에 대한 응답은 일반컨트롤러로 작업하고, CRUD는 RESTController로 작업된거 있음 쓰면 된다.
-                            괜히 삽질하지 말아라. 넌 이미 삽질을 해 봤다. REST 컨트롤러에서 RequestBody 는 하나 밖에 선언할 수 없다.
-                            tTable과 혼용해서 사용하면 편하게 작업할수 있을듯 하다. 그런데 </p>
+                            jsGrid를 사용해서 작성한 페이지, 컨트롤러 및 필드는 사용자가 얼마든지 추가 확장 할 수 있어서 쓸만하다.</p>
 
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-7">
                                 <div class="btn-group">
                                     <button class="btn btn-sm btn-danger" id="btnSelectedItems">
-                                        선택된레코드는?
+                                        선택레코드는?
                                     </button>
-                                    <a class="btn btn-info btn-sm" download="somedata.csv"
-                                        href="data:application/csv;charset=utf-8,Col1%2CCol2%2CCol3%0AVal1%2CVal2%2CVal3%0AVal11%2CVal22%2CVal33%0AVal111%2CVal222%2CVal333">ExportCSV2</a>
+                                    <input type="text" id="inputSelectedItems" readonly />
                                 </div>
-                                <div id="myGrid1Pager"></div>
+
                             </div>
-                            <div class="col-4 text-right">
+                            <div class="col-5 text-right">
                                 <div class="btn-group">
                                     <select id="gridPageSizeSelect">
                                         <option value="10">10</option>
-                                        <option value="25">25</option>
+                                        <option value="25">20</option>
                                         <option value="50">50</option>
                                         <option value="100">100</option>
                                         <option value="500">500</option>
@@ -59,6 +57,17 @@
                         <div class="row">
                             <div class="col">
                                 <div id="jsGrid">여기에 그리드가 표시됩니다.</div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 6px;">
+                            <div class="col-8">
+                                <div id="myGrid1Pager">여기에 페이지가 표시됩니다.</div>
+                            </div>
+                            <div class="col-4 text-right">
+                                <button class="btn btn-sm btn-secondary" id="btnAddMemberItem">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    <span>추가</span>
+                                </button>
                             </div>
                         </div>
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -79,36 +88,40 @@
             $(document).ready(function () {
 
                 var jsGrid = $("#jsGrid").jsGrid({
-                    width: "100%",
-                    height: "410px",
+                    // width: "100%",
+                    // height: "410px",
 
-                    paging: true, // 
+                    paging: true, // true일 때만 onDataLoaded 호출되네..
                     sorting: true,
                     filtering: true,
                     editing: true,
-                    inserting: true,
+                    // inserting: true,
                     pageLoading: true, // 페이지별로 데이터를 로딩할지 여부
-                    scrolling: true,
-
+                    // scrolling: true,
                     // deleteConfirm: "Do you really want to delete the client?",
 
                     // pageSize: 10,
                     // pageButtonCount: 5,
-                    // pagerContainer: "#myGrid1Pager",
+                    pagerContainer: "#myGrid1Pager",
+
+                    // pageClass: "btn btn-sm btn-info",
 
                     // data: clients,
                     autoload: true, // controller 를 사용할지 여부
                     fields: jsgridFields.member,
                     onDataLoaded: function (o) {
-                        // console.log(o.data.itemsCount);
+                        console.log(o, o.data.itemsCount);
 
-                        $(this).find("tr").each(function (index) {
-                            console.log(index);
-                        });
+                        // $(this).find("tr").each(function (index) {
+                        //     console.log(index);
+                        // });
 
                     },
                     rowClass: function (item, itemIndex) {
-                        return itemIndex % 2 == 0 ? 'bg-red' : 'bg-green';
+                        return itemIndex % 2 == 0 ? 'bg-dark' : 'bg-light';
+                    },
+                    rowClick: function (item, index, e) {
+                        console.log(e);
                     },
                     controller: {
                         // insertItem: $.noop,
@@ -235,14 +248,6 @@
                     }
                 });
 
-                var myGrid1SelectAll = $("#jsGrid").find("input[class='header-checkbox']");
-                $(myGrid1SelectAll).on("change", function (event, args) {
-                    var state = $(event.target).prop("checked");
-                    if (state)
-                        jsGrid.jsGrid("selectAll");
-                    else
-                        jsGrid.jsGrid("deSelectAll");
-                });
 
                 // turn off filtering right after grid initialization
                 // $("#jsGrid").jsGrid("option", "filtering", false);
@@ -255,30 +260,31 @@
                 // jsGrid.jsGrid("sort", { field: "username", order: "asc" });
 
                 $("#btnSelectedItems").on("click", function (args) {
-                    var selected = jsGrid.jsGrid("selectedItemsNo");
-                    if (selected.length)
-                        alert(selected);
-                    console.log(selected);
+                    var ids = [];
+                    var selctedItems = jsGrid.jsGrid("selectedItems");
+                    $(selctedItems).each(function (idx, el) {
+                        ids.push(el.id);
+                    });
+                    $("#inputSelectedItems").val(ids);
                 });
 
-                $("#jsGrid").contextmenu({
-                    delegate: ".jsgrid-grid-body .jsgrid-cell",
-                    menu: [
-                        { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
-                        { title: "----" },
-                        {
-                            title: "More", children: [
-                                { title: "Sub 1", cmd: "sub1" },
-                                { title: "Sub 2", cmd: "sub1" }
-                            ]
-                        }
-                    ],
-                    select: function (event, ui) {
-                        console.log("select " + ui.cmd + " on " + ui.target.text());
-                        console.log(event, ui);
-                    }
-                });
-
+                // $("#jsGrid").contextmenu({
+                //     delegate: ".jsgrid-grid-body .jsgrid-cell",
+                //     menu: [
+                //         { title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy" },
+                //         { title: "----" },
+                //         {
+                //             title: "More", children: [
+                //                 { title: "Sub 1", cmd: "sub1" },
+                //                 { title: "Sub 2", cmd: "sub1" }
+                //             ]
+                //         }
+                //     ],
+                //     select: function (event, ui) {
+                //         console.log("select " + ui.cmd + " on " + ui.target.text());
+                //         console.log(event, ui);
+                //     }
+                // });
 
 
             });
@@ -298,7 +304,6 @@
                 // json 형식을 cvs로 변환해 보기
                 $("#btnExportCSV").on("click", function () {
                     $("#jsGrid").jsGrid("exportCSV", "text.csv");
-
 
                     // var csv = $("#jsGrid").jsGrid("exportData", {
                     //     type: "csv", //Only CSV supported
@@ -331,7 +336,7 @@
             });
         </script>
 
-        <style>
+        <!-- <style>
             .jsgrid {
                 font-size: small;
             }
@@ -373,11 +378,19 @@
                 font-size: bold;
             }
 
-
             .ui-menu-item-wrapper {
                 width: 150px;
             }
-        </style>
+
+
+
+            tr.jsgrid-is-selected td.jsgrid-cell {
+                background: #f5b8b8;
+                /* border-color: #c29292; */
+                color: rgb(10, 10, 10);
+                font-size: bold;
+            }
+        </style> -->
     </div>
 </body>
 
