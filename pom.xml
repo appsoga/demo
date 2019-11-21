@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -84,7 +82,6 @@
 			<artifactId>bootstrap</artifactId>
 			<version>4.3.1</version>
 		</dependency>
-
 
 
 		<dependency>
@@ -171,6 +168,94 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>com.samaxes.maven</groupId>
+				<artifactId>minify-maven-plugin</artifactId>
+				<version>1.7.6</version>
+				<executions>
+					<execution>
+						<id>minify</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>minify</goal>
+						</goals>
+						<configuration>
+							<charset>utf-8</charset>
+							<skipMerge>true</skipMerge>
+							<nosuffix>true</nosuffix>
+							<jsEngine>CLOSURE</jsEngine>
+
+							<webappSourceDir>${basedir}/src/main/resources/static/custom</webappSourceDir>
+							<webappTargetDir>${project.build.directory}/classes/static</webappTargetDir>
+							<jsSourceDir>.</jsSourceDir>
+							<jsTargetDir>/custom</jsTargetDir>
+							<jsSourceIncludes>
+								<jsSourceInclude>**/*.js</jsSourceInclude>
+							</jsSourceIncludes>
+							<jsSourceExcludes>
+								<jsSourceExclude>**/*.min.js</jsSourceExclude>
+							</jsSourceExcludes>
+
+							<cssSourceDir>.</cssSourceDir>
+							<cssTargetDir>/custom</cssTargetDir>
+							<cssSourceIncludes>
+								<cssSourceInclude>**/*.css</cssSourceInclude>
+							</cssSourceIncludes>
+							<cssSourceExcludes>
+								<cssSourceExclude>**/*.min.css</cssSourceExclude>
+							</cssSourceExcludes>
+
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<warName>test-web</warName>
+					<packagingExcludes>resources/jsgrid/custom/**</packagingExcludes>
+				</configuration>
+			</plugin> -->
 		</plugins>
 	</build>
+	<!-- <profiles>
+		<profile>
+			<activation>
+				<property>
+					<name>deployment</name>
+				</property>
+			</activation>
+
+			<pluginRepositories>
+				<pluginRepository>
+					<id>uglifyjs-maven-plugin</id>
+					<url>https://raw.github.com/tqh/uglifyjs-maven-plugin/master/repo</url>
+				</pluginRepository>
+			</pluginRepositories>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>net.tqh.plugins</groupId>
+						<artifactId>uglifyjs-maven-plugin</artifactId>
+						<version>1.0</version>
+						<configuration>
+							<sourceDirectory>src</sourceDirectory>
+							<outputDirectory>target/snapshot/javascript</outputDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>uglify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles> -->
 </project>
