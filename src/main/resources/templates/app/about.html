@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-	layout:decorate="~{layout/bootstrap}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout/bootstrap}">
 
 <head>
-<title th:text="#{label.menu.about}">Untitled</title>
-<style>
-table.orgin {
-	font-size: x-small;
-}
+	<title th:text="#{label.menu.about}">Untitled</title>
+	<style>
+		table.orgin {
+			font-size: x-small;
+		}
 
-table.orgin th {
-	background-color: lightgray;
-}
-</style>
+		table.orgin th {
+			background-color: lightgray;
+		}
+	</style>
 </head>
 
 <body>
@@ -29,14 +27,35 @@ table.orgin th {
 			<div class="col-sm-12">
 				<div class="card">
 					<div class="card-body">
-						<h5 class="card-title" th:text="#{label.menu.about}">Untitled</h5>
-						<p class="card-text">With supporting text below as a natural
+						<h4 class="card-title">Session: #session</h4>
+						<p class="card-text" th:text="${#session}" 
+							th:unless="${session == null}">With supporting text below as a natural
 							lead-in to additional content.</p>
+
+ 
+						<div class="row">
+							<div class="col">
+								<h5>Spring Security: #authentication.principal</h5>
+								<span th:text="${#authentication.principal}" th:unless="${session == null}">[...]</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+									<h5>Spring Security: #authentication.principal.member</h5>
+								<span th:text="${#authentication.principal.member}" th:unless="${session == null}">[...]</span>
+							</div>
+						</div>
 						
-						<canvas id="myChart1"></canvas>
-						
-			
-						<!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+						<div class="row">
+							<div class="col text-right">
+								<button type="button" class="btn btn-primary" id="btnDoAction">
+									<span class=""></span><span>Action</span>
+								</button>
+							</div>
+						</div>
+
+
+
 					</div>
 				</div>
 			</div>
@@ -45,7 +64,19 @@ table.orgin th {
 	<div th:fragment="javascript">
 		<script th:src="@{/webjars/chartjs/2.8.0/Chart.min.js}"></script>
 		<script type="text/javascript">
-			$(document).ready(function() {
+			$(document).ready(function () {
+
+				$("#btnDoAction").on("click", function (e) {
+
+					var skey = "X-KEY-API";
+
+					// sessionStorage.setItem(skey, "abcdef");
+
+					var sval = sessionStorage.getItem(skey);
+
+					console.log(sval);
+
+				});
 
 			});
 		</script>
