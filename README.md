@@ -45,6 +45,10 @@ mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,se
 ```
 
 ## css, js minify 처리하기 위해서.
+
+* http://samaxes.github.io/minify-maven-plugin/examples/bundle.html
+* Source: https://github.com/samaxes/minify-maven-plugin
+
 ```xml
 <plugin>
   <groupId>com.samaxes.maven</groupId>
@@ -62,11 +66,11 @@ mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,se
         <skipMerge>true</skipMerge>
         <nosuffix>true</nosuffix>
         <jsEngine>CLOSURE</jsEngine>
+        <webappSourceDir>${basedir}/src/main/resources/static</webappSourceDir>
+        <webappTargetDir>${project.build.outputDirectory}/static</webappTargetDir>
 
-        <webappSourceDir>${basedir}/src/main/resources/static/custom</webappSourceDir>
-        <webappTargetDir>${project.build.directory}/classes/static</webappTargetDir>
-        <jsSourceDir>.</jsSourceDir>
-        <jsTargetDir>/custom</jsTargetDir>
+        <jsSourceDir>/js</jsSourceDir>
+        <jsTargetDir>/js</jsTargetDir>
         <jsSourceIncludes>
           <jsSourceInclude>**/*.js</jsSourceInclude>
         </jsSourceIncludes>
@@ -74,8 +78,8 @@ mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,se
           <jsSourceExclude>**/*.min.js</jsSourceExclude>
         </jsSourceExcludes>
 
-        <cssSourceDir>.</cssSourceDir>
-        <cssTargetDir>/custom</cssTargetDir>
+        <cssSourceDir>/css</cssSourceDir>
+        <cssTargetDir>/css</cssTargetDir>
         <cssSourceIncludes>
           <cssSourceInclude>**/*.css</cssSourceInclude>
         </cssSourceIncludes>
