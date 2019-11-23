@@ -1,0 +1,47 @@
+{
+    "bundles": [
+        {
+            "type": "css",
+            "name": "powertalk.css",
+            "files": [
+                "global.css",
+                "glyphicon.css",
+                "grid-filter.css"
+            ]
+        },
+        {
+            "type": "js",
+            "name": "powertalk.js",
+            "files": [
+                "global-topmenu.js",
+                "powertalk-apiserver.js",
+                "app/app-grid-controller.js"
+            ]
+        },
+        {
+            "type": "css",
+            "name": "powertalk-jsgrid.css",
+            "files": [
+                "jsgrid/jsgrid.css",
+                "jsgrid/jsgrid-theme.css",
+                "jsgrid/jsgrid-custom.css"
+            ]
+        },
+        {
+            "type": "js",
+            "name": "powertalk-jsgrid.js",
+            "files": [
+                "jsgrid/jsgrid.js",
+                "jsgrid/jsgrid-custom.js",
+                "jsgrid/fields/jsgrid-date.js",
+                "jsgrid/fields/jsgrid-datetime.js",
+                "jsgrid/fields/jsgrid-multiselect.js",
+                "jsgrid/i18n/jsgrid.ko.js",
+                "jsgrid/i18n/jsgrid.ja.js",
+                "jsgrid/jsgrid-sample-data.js",
+                "app/i18n/powertalk-jsgrid-fields.ko.js",
+                "app/app-service-manager.js"
+            ]
+        }
+    ]
+}
