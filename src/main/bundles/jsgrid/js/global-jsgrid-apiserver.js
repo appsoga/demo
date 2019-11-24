@@ -1,5 +1,5 @@
 /**!
- * PowerTalk apiserver
+ * PowerTalk apiserver for jsGrid
  * 
  * @copyright 2019, sangmok <appsoga@gmail.com>
  * @license MIT

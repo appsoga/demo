@@ -2,45 +2,39 @@
     "bundles": [
         {
             "type": "css",
-            "name": "powertalk.css",
+            "name": "global.css",
             "files": [
-                "global.css",
-                "glyphicon.css",
-                "grid-filter.css"
+                "app/css/global-basic.css",
+                "app/css/glyphicon.css"
             ]
         },
         {
             "type": "js",
-            "name": "powertalk.js",
+            "name": "global.js",
             "files": [
-                "global-topmenu.js",
-                "powertalk-apiserver.js",
-                "app/app-grid-controller.js"
+                "app/js/global-init-menu.js",
+                "jsgrid/js/global-jsgrid-apiserver.js"
             ]
         },
         {
             "type": "css",
-            "name": "powertalk-jsgrid.css",
+            "name": "jsgrid-extention.css",
             "files": [
-                "jsgrid/jsgrid.css",
-                "jsgrid/jsgrid-theme.css",
-                "jsgrid/jsgrid-custom.css"
+                "jsgrid/css/jsgrid.css",
+                "jsgrid/css/jsgrid-theme.css",
+                "jsgrid/css/jsgrid-custom.css"
             ]
         },
         {
             "type": "js",
-            "name": "powertalk-jsgrid.js",
+            "name": "jsgrid-extention.js",
             "files": [
-                "jsgrid/jsgrid.js",
-                "jsgrid/jsgrid-custom.js",
-                "jsgrid/fields/jsgrid-date.js",
-                "jsgrid/fields/jsgrid-datetime.js",
-                "jsgrid/fields/jsgrid-multiselect.js",
-                "jsgrid/i18n/jsgrid.ko.js",
-                "jsgrid/i18n/jsgrid.ja.js",
-                "jsgrid/jsgrid-sample-data.js",
-                "app/i18n/powertalk-jsgrid-fields.ko.js",
-                "app/app-service-manager.js"
+                "jsgrid/js/jsgrid-extention.js",
+                "jsgrid/js/fields/jsgrid-date.js",
+                "jsgrid/js/fields/jsgrid-datetime.js",
+                "jsgrid/js/fields/jsgrid-multiselect.js",
+                "jsgrid/js/i18n/jsgrid.ko.js",
+                "jsgrid/js/jsgrid-example-data.js"
             ]
         }
     ]
