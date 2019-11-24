@@ -15,7 +15,7 @@ example app with Spring Boot 2.2.0
 ## Include webjars
 
 * jquery 2.2.4
-* jquery 1.12.1
+* jquery-ui 1.12.1
 * bootstrap 4.3.1
 
 ## Execute
