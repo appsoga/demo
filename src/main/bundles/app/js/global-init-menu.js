@@ -1,3 +1,9 @@
+/*!
+ * For Website (http://localhost:8080/)
+ * 
+ * @author sangmok <appsoga@gamil.com>
+ * @sine 2019.11.16
+ */
 
 // $.jgrid.defaults.hidegrid = false;
 // $.jgrid.defaults.autowidth = true;

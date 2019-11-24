@@ -1,9 +1,11 @@
-/**!
- * jsGrid 기능확장 및 초기값 설정
+/*!
+ * jsGrid extention and init options.
  * 
- * 확장내용: CSV 출력
+ * - function: exportCSV
+ * - Fields: date, datetime, selectcheckbox
  * 
  * @author sangmok <appsoga@gmail.com>
+ * @sine 2019.11
  * @required jquery 2.2.4, jsgrid 1.5.3
  */
 (function (jsGrid, $, undefined) {
@@ -25,7 +27,6 @@
     jsGrid.Grid.prototype.pageLoading = true; // 페이지별로 데이터를 로딩할지 여부
     jsGrid.Grid.prototype.sorting = false;
 
-    jsGrid.Grid.prototype.selectedItems_ = [];
 
     // jsGrid.Grid.prototype.rowClick = function (args) {
     //     var selectItem = this._selectRow;
@@ -47,6 +48,7 @@
     // };
 
 
+    jsGrid.Grid.prototype.selectedItems_ = [];
     jsGrid.Grid.prototype.selectedItems = function () {
         // var data = this.data,
         //     _selectedItems = [];

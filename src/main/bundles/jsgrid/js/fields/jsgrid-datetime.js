@@ -1,8 +1,3 @@
-/*!
- * Field: datetime
- * 
- * @author sangmok (appsoga@gamil.com), 2019.11.16
- */
 (function (jsGrid, $, undefined) {
 
     function DatetimeField(config) {

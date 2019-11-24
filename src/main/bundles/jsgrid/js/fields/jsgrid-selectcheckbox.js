@@ -1,8 +1,3 @@
-/*!
- * Field: selectcheckbox
- * 
- * @author sangmok (appsoga@gamil.com), 2019.11.16
- */
 (function (jsGrid, $, undefined) {
 
 
