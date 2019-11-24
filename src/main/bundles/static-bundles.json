@@ -2,6 +2,14 @@
     "bundles": [
         {
             "type": "css",
+            "name": "login.css",
+            "files": [
+                "app/css/floating-labels.css",
+                "app/css/glyphicon.css"
+            ]
+        },
+        {
+            "type": "css",
             "name": "global.css",
             "files": [
                 "app/css/global-basic.css",
@@ -13,7 +21,9 @@
             "name": "global.js",
             "files": [
                 "app/js/global-init-menu.js",
-                "app/js/global-jsgrid-apiserver.js"
+                "app/js/global-jsgrid-apiserver.js",
+                "app/js/i18n/jsgrid-fields.ko.js",
+                "app/js/i18n/jqgrid-fields.ko.js"
             ]
         },
         {

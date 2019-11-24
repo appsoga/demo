@@ -1,0 +1,101 @@
+@charset "UTF-8";
+@import url("../webjars/jquery-ui/1.12.1/jquery-ui.min.css");
+@import url("../webjars/bootstrap/4.3.1/css/bootstrap.min.css");
+
+body { 
+    background-color: rgb(255, 255, 255); 
+    margin-top: 0px;
+}
+
+nav {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+header.navbar {
+  color: rgb(247, 90, 84);
+  background-color: rgb(255, 255, 255);
+  border-bottom: 1px rgb(192, 191, 191) solid;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+header.navbar .navbar-brand {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+header.navbar a {
+  color: rgb(169, 169, 221);
+}
+
+.navbar-nav .nav-item.active {
+  border-bottom: 3px rgb(241, 86, 86) solid;
+}
+
+.navbar-nav .nav-item a.nav-link,
+.navbar-nav .nav-item a.nav-link:link,
+.navbar-nav .nav-item a.nav-link:visited,
+.navbar-nav .nav-item a.nav-link:hover,
+.navbar-nav .nav-item a.nav-link:active {
+  /* color: rgb(150, 56, 56);  */
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.navbar-nav .nav-item .dropdown-menu,
+.navbar-nav .nav-item .dropdown-menu a {
+  /* font-size: small; */
+  color: rgb(122, 119, 119);
+  font-size: small;
+  margin-top: 1px;
+  margin-bottom: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+} 
+/* 드롭다운 선택된 메뉴 */
+.navbar-nav .nav-item .dropdown-item.active, 
+.navbar-nav .nav-item .dropdown-item:active
+{
+  color: rgb(218, 85, 85);
+  font-size: small;
+  font-weight: bold;
+  background-color: rgb(250, 236, 236);
+}
+/* 드롭다운 마우스 오버 */
+.navbar-nav .nav-item .dropdown-menu a:hover
+{
+  background-color: rgb(240, 206, 206);
+}
+.dropdown-menu .dropdown-divider {
+  margin-top: 6px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 3px;
+} 
+/* .dropdown-menu .dropdown-item {
+  font-size: medium;
+}  */
+
+article {
+  padding: 3px;
+  padding-top: 0px;
+  padding-bottom: 12px;
+  background-color: rgb(226, 224, 224);
+}
+article > .page-path {
+  font-size: small;
+  padding-top: 3px;
+  padding-left: 20px;
+  padding-bottom: 3px;
+}
+article > .page-path .page-current-path {
+  color: rgb(245, 75, 75);
+  font-size: bold;
+}
+
+footer.layout {
+  margin-top: 0px;
+  padding-top: 6px;
+  border-top: 3px rgb(216, 215, 215) solid;
+}

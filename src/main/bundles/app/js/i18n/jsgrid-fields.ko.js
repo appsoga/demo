@@ -24,10 +24,10 @@ $.datepicker.setDefaults({
 });
 
 
-(function (jsGrid) {
+// (function (jsGrid) {
 
 
-}(jsGrid, jQuery));
+// }(jsGrid, jQuery));
 
 
 
