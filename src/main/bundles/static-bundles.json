@@ -13,27 +13,28 @@
             "name": "global.js",
             "files": [
                 "app/js/global-init-menu.js",
-                "jsgrid/js/global-jsgrid-apiserver.js"
+                "app/js/global-jsgrid-apiserver.js"
             ]
         },
         {
             "type": "css",
-            "name": "jsgrid-extention.css",
+            "name": "jsgrid-custom.css",
             "files": [
                 "jsgrid/css/jsgrid.css",
                 "jsgrid/css/jsgrid-theme.css",
-                "jsgrid/css/jsgrid-custom.css"
+                "jsgrid/css/jsgrid-osm515.css"
             ]
         },
         {
             "type": "js",
-            "name": "jsgrid-extention.js",
+            "name": "jsgrid-custom.js",
             "files": [
                 "jsgrid/js/jsgrid-extention.js",
                 "jsgrid/js/fields/jsgrid-date.js",
                 "jsgrid/js/fields/jsgrid-datetime.js",
-                "jsgrid/js/fields/jsgrid-multiselect.js",
-                "jsgrid/js/i18n/jsgrid.ko.js",
+                "jsgrid/js/fields/jsgrid-selectcheckbox.js",
+                "jsgrid/js/i18n/ko.js",
+                "jsgrid/js/i18n/ja.js",
                 "jsgrid/js/jsgrid-example-data.js"
             ]
         }
