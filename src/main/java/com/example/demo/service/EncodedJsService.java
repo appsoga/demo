@@ -45,16 +45,20 @@ public class EncodedJsService {
 
     private static Logger logger = LoggerFactory.getLogger(EncodedJsService.class);
 
-    private Environment api;
+    private Environment env;
 
     public Environment env() {
 
-        if (api.getBaseUrl() == null)
-            api.setBaseUrl("");
-        if (api.getHeaders() == null)
-            api.setHeaders(new Header());
+        if (env == null)
+            env = new Environment();
 
-        Header header = api.getHeaders();
+        if (env.getBaseUrl() == null)
+            env.setBaseUrl("");
+
+        if (env.getHeaders() == null)
+            env.setHeaders(new Header());
+
+        Header header = env.getHeaders();
         if (header.getContentType() == null)
             header.setContentType(APPLICATION_JSON);
         header.setTransId(UUID.randomUUID().toString());
@@ -63,7 +67,7 @@ public class EncodedJsService {
         header.setWorker("appsoga");
         header.setAccessToken("accessToken");
 
-        return api;
+        return env;
     }
 
     public String encodedJs() {
