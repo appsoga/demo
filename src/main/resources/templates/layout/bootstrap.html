@@ -7,7 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link th:href="@{/css/global.min.css}" rel="stylesheet" media="screen" />
- 
+
 </head>
 
 <body th:attr="data-language=${#locale.language}" class="container">
@@ -52,9 +52,11 @@
 	<script type="text/ecmascript" th:src="@{/webjars/free-jqgrid/4.15.4/js/i18n/grid.locale-kr.js}"></script>
 	<script type="text/ecmascript" th:src="@{/webjars/free-jqgrid/4.15.4/js/jquery.jqgrid.min.js}"></script>
 	-->
-	<script type="text/javascript">
-		console.log(Demo.webapiUrl); 
+
+	<script type="text/javascript" sec:authorize="hasRole('ROLE_USER')">
+		console.log(PowerTalk); 
 	</script>
+
 	<div th:replace=" :: javascript">
 		<script type="text/javascript">
 			//---

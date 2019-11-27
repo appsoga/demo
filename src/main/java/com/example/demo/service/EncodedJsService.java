@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,38 +13,58 @@ import org.springframework.stereotype.Service;
 
 import sangmok.util.aaEncode;
 
+@lombok.Data
 @Service
-@ConfigurationProperties(prefix = "site.encoded.js")
+@ConfigurationProperties(prefix = "mysite")
 public class EncodedJsService {
 
     @lombok.Data
-    public static class Environment {
-        private String webapiUrl;
-        private String token;
+    public static class Header {
+
+        @JsonProperty(value = "content-type")
+        private String contentType;
+
+        @JsonProperty(value = "access_token")
+        private String accessToken;
+
+        @JsonProperty(value = "tranId")
+        private String transId;
+
+        @JsonProperty(value = "id")
         private String worker;
+
     }
+
+    @lombok.Data
+    public static class Environment {
+        private String baseUrl;
+        private Header headers;
+    }
+
+    private static final String APPLICATION_JSON = "application/json";
 
     private static Logger logger = LoggerFactory.getLogger(EncodedJsService.class);
 
-    @lombok.Getter
-    @lombok.Setter
-    private String webapiUrl;
-
-    @lombok.Getter
-    @lombok.Setter
-    private String token;
+    private Environment api;
 
     public Environment env() {
-        Environment env = new Environment();
-        env.setWebapiUrl(webapiUrl);
-        env.setToken(token);
-        return env;
-    }
 
-// (function (global) {
-//     var Demo = global.Demo || (global.Demo = {});
-//     Demo.webapiUrl = "http://localhost:8080";
-// }(this));
+        if (api.getBaseUrl() == null)
+            api.setBaseUrl("");
+        if (api.getHeaders() == null)
+            api.setHeaders(new Header());
+
+        Header header = api.getHeaders();
+        if (header.getContentType() == null)
+            header.setContentType(APPLICATION_JSON);
+        header.setTransId(UUID.randomUUID().toString());
+
+        // TODO: 여기서 값을 적용해야 하나?
+        header.setWorker("appsoga");
+        header.setAccessToken("accessToken");
+
+        return api;
+    }
 
     public String encodedJs() {
         StringBuilder sb = new StringBuilder();
@@ -49,10 +72,9 @@ public class EncodedJsService {
             ObjectMapper om = new ObjectMapper();
             String json = om.writeValueAsString(env());
 
-            sb.append("(function (global) {")
-                .append("var Demo = global.Demo || (global.Demo = ").append(json).append(");")
-                .append("Demo.url = \"").append("http://localhost:8080").append("\";")
-                .append("}(this));");
+            sb.append("(function (global) {");
+            sb.append("var MyEnv = global.MyEnv || (global.MyEnv = ").append(json).append(");");
+            sb.append("}(this));");
             logger.info(sb.toString());
             // return sb.toString();
             return new aaEncode(sb.toString()).get();

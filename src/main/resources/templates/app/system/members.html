@@ -86,10 +86,10 @@
         <script type="text/javascript" th:src="@{/webjars/github-com-tabalinas-jsgrid/1.5.3/dist/jsgrid.min.js}"></script>
         <script type="text/javascript" th:src="@{/webjs/jquery-ui/jquery.ui-contextmenu.min.js}"></script>
         <script type="text/javascript" th:src="@{/js/jsgrid-custom.min.js}"></script>
+        <script type="text/javascript" th:if="${#locale.language eq 'ko'}">jsGrid.locale("ko");	</script>
+	    <script type="text/javascript" th:if="${#locale.language eq 'ja'}">jsGrid.locale("ja");	</script>
 
         <script type="text/javascript">
-
-            jsGrid.locale(lang);
 
             $(document).ready(function () {
 

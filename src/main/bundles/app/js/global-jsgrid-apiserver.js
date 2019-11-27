@@ -8,16 +8,14 @@
 
 (function (global) {
 
-    var PowerTalk = global.PowerTalk || (global.PowerTalk = {});
+    var PowerTalk = global.PowerTalk || (global.PowerTalk = MyEnv);
 
-    PowerTalk.baseUrl = "http://localhost:8080";
-
-    PowerTalk.headers = {
-        "Content-type": "application/json",
-        "access_token": "access-akskdaskldjfsdf-asdfkjsdfasdf-sadfasdfkasdfsadf-asdf",
-        "tranId": "34858304933-234-23423-4",
-        "id": "admin"
-    };
+    // PowerTalk.headers = {
+    //     "Content-type": "application/json",
+    //     "access_token": "access-akskdaskldjfsdf-asdfkjsdfasdf-sadfasdfkasdfsadf-asdf",
+    //     "tranId": "34858304933-234-23423-4",
+    //     "id": "admin"
+    // };
 
     PowerTalk.apiserver = {
 
