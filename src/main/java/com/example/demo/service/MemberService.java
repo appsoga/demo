@@ -172,7 +172,7 @@ public class MemberService implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		if (memberRepository.count() > 0)
 			return;
-		for (int i = 1; i <= 300; i++) {
+		for (int i = 1; i <= 3; i++) {
 			Member e1 = new Member();
 			e1.setUsername(String.format("user%d", i));
 			e1.setPassword(encode("password"));
