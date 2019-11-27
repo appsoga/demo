@@ -5,6 +5,27 @@
  * @sine 2019.11.16
  */
 
+$(document).ready(function () {
+    // mySite.locale = $("body").attr("data-locale");
+    // mySite.language = $("body").attr("data-language");
+
+    // current top menu to active flag.
+    var navLink;
+    var pathname = location.pathname;
+    $("ul.navbar-nav").find("li.nav-item").each(function (index, element) {
+        $(element).removeClass("active");
+        $(element).find("a.nav-link").each(function (index, el) {
+            var link = $(el).attr("href");
+            if (pathname.includes(link))
+                navLink = $(element);
+        });
+    });
+    // console.log(navLink, pathname);
+    if (navLink)
+        navLink.addClass("active");
+
+});
+
 // $.jgrid.defaults.hidegrid = false;
 // $.jgrid.defaults.autowidth = true;
 // $.jgrid.defaults.responsive = true;
@@ -14,17 +35,17 @@
 // $.jgrid.defaults.rowList = [10, 20, 50, 100, 500, 1024];
 // $.jgrid.defaults.viewrecords = true;
 
-function getUrlParams(url) {
-    var params = {};
-    url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value; });
-    return params;
-}
+// function getUrlParams(url) {
+//     var params = {};
+//     url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value; });
+//     return params;
+// }
 
-var lang = 'ko';
-$(document).ready(function () {
-    lang = $("body").attr("data-language");
-    // if (console) console.log(lang);
-});
+// var lang = 'ko';
+// $(document).ready(function () {
+//     lang = $("body").attr("data-language");
+//     // if (console) console.log(lang);
+// });
 
 
 
@@ -39,46 +60,46 @@ $(document).ready(function () {
     - shrinkFlag 를 false로 설정해서 리사이즈 대신 박스만 리사이즈하고 내부 스크롤생성방법으로 변경
  */
 
-//그리드 리사이즈
-var maxGridWidth = ""; // popup 사용 불가, contents가 그려지는 div 크기
-var minGridWidth = 0; // 최소 그리드 사이즈
-var preWindowWidth = 0; // 이전 창 크기
-var shrinkFlag = true; // true : 사이즈조정, false : 사이즈고정, 스크롤 생성
+// //그리드 리사이즈
+// var maxGridWidth = ""; // popup 사용 불가, contents가 그려지는 div 크기
+// var minGridWidth = 0; // 최소 그리드 사이즈
+// var preWindowWidth = 0; // 이전 창 크기
+// var shrinkFlag = true; // true : 사이즈조정, false : 사이즈고정, 스크롤 생성
 
-function setGridResize(gridId) {
-    //   maxGridWidth = $("#cont").width()-2; // popup 사용 불가, contents가 그려지는 div 크기
-    //          minGridWidth = $('#gbox_'+gridId).width();
+// function setGridResize(gridId) {
+//     //   maxGridWidth = $("#cont").width()-2; // popup 사용 불가, contents가 그려지는 div 크기
+//     //          minGridWidth = $('#gbox_'+gridId).width();
 
-    var windowWidth = $(window).width(); // 창크기
-    var newGridWidth = windowWidth - 2; // 그리드의 새로운 width
+//     var windowWidth = $(window).width(); // 창크기
+//     var newGridWidth = windowWidth - 2; // 그리드의 새로운 width
 
-    //   var ol = $("#cont").offset().left; // popup 사용 불가, contents가 그려지는 div 위치
-    //   var gridWidth = $('#gbox_'+gridId).width(); // 현재 그리드 박스 크기
-    //   var changeWidth = preWindowWidth - windowWidth; // 변경된 창의 값 (키우면 음수, 줄이면 양수)
+//     //   var ol = $("#cont").offset().left; // popup 사용 불가, contents가 그려지는 div 위치
+//     //   var gridWidth = $('#gbox_'+gridId).width(); // 현재 그리드 박스 크기
+//     //   var changeWidth = preWindowWidth - windowWidth; // 변경된 창의 값 (키우면 음수, 줄이면 양수)
 
-    // 그리드에 적용할 width가 최대크기보다 작고 and 그리드에 적용할 width가 최소 크기보다 크고
-    if (maxGridWidth > newGridWidth && minGridWidth < newGridWidth) {
-        $('#' + gridId).setGridWidth(newGridWidth, shrinkFlag);
-    }
+//     // 그리드에 적용할 width가 최대크기보다 작고 and 그리드에 적용할 width가 최소 크기보다 크고
+//     if (maxGridWidth > newGridWidth && minGridWidth < newGridWidth) {
+//         $('#' + gridId).setGridWidth(newGridWidth, shrinkFlag);
+//     }
 
-    // 그리드가 최대크기보다 크거나 같을 경우
-    if (maxGridWidth <= newGridWidth) {
-        $('#' + gridId).setGridWidth(maxGridWidth, shrinkFlag); // 기본 사이즈로 초기화
-    }
+//     // 그리드가 최대크기보다 크거나 같을 경우
+//     if (maxGridWidth <= newGridWidth) {
+//         $('#' + gridId).setGridWidth(maxGridWidth, shrinkFlag); // 기본 사이즈로 초기화
+//     }
 
-    // 그리드가 최소크기보다 작거나 같을 경우
-    if (minGridWidth >= newGridWidth) {
-        $('#' + gridId).setGridWidth(minGridWidth, shrinkFlag); // 최소 사이즈로 초기화
-    }
+//     // 그리드가 최소크기보다 작거나 같을 경우
+//     if (minGridWidth >= newGridWidth) {
+//         $('#' + gridId).setGridWidth(minGridWidth, shrinkFlag); // 최소 사이즈로 초기화
+//     }
 
-    preWindowWidth = windowWidth; // 현재 사이즈를 저장
-}
+//     preWindowWidth = windowWidth; // 현재 사이즈를 저장
+// }
 
-function gridResize(gridId) {
-    maxGridWidth = $("#cont").width() - 2; // popup 사용 불가, contents가 그려지는 div 크기
-    minGridWidth = $('#gbox_' + gridId).width();
+// function gridResize(gridId) {
+//     maxGridWidth = $("#cont").width() - 2; // popup 사용 불가, contents가 그려지는 div 크기
+//     minGridWidth = $('#gbox_' + gridId).width();
 
-    $(window).resize(function () {
-        setGridResize(gridId);
-    });
-}
+//     $(window).resize(function () {
+//         setGridResize(gridId);
+//     });
+// }

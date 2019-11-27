@@ -11,7 +11,7 @@ $.datepicker.setDefaults({
 	, changeYear: true //콤보박스에서 년 선택 가능
 	, changeMonth: true //콤보박스에서 월 선택 가능                
 	, showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-	, buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+	, buttonImage: "data:image/gif;base64,R0lGODdhEAAPAPQAAHdTUalbV7xeWd1jXO1lXu5tZe9zbPB6c/GDfTFpzjlx3lqK53Oe7/KIgvKNh/OYkvSblvSinfWrp/awq/e1sYyq7/vh3/3r6v3y8f729f/8/P///wAAAAAAAAAAAAAAACwAAAAAEAAPAAAFh+AEiCQAjehUIFvRvu6wCbM1TZIURY/jIECDgUCYXI7IW24ZKSp1j6gvOJRsNo9rFqvRPDKZgHXTuJbJ5oxFLGkcHm54hbFQwMXa/IbRVVwmARBmZl0LGhgJf4Ftb3ENCgoJCT2BeV5gD0cPFhSVZBpkYA1HDZyLDwcSqKqpqBMNgQGys7S1IQA7" //버튼 이미지 경로
 	, buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
 	, buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
 	, yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
