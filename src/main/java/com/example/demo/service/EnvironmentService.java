@@ -13,41 +13,36 @@ import org.springframework.stereotype.Service;
 
 import sangmok.util.aaEncode;
 
-@lombok.Data
 @Service
-@ConfigurationProperties(prefix = "mysite")
-public class EncodedJsService {
+@ConfigurationProperties(prefix = "powertalk", ignoreInvalidFields = true)
+public class EnvironmentService {
 
     @lombok.Data
     public static class Header {
-
         @JsonProperty(value = "content-type")
         private String contentType;
-
         @JsonProperty(value = "access_token")
         private String accessToken;
-
         @JsonProperty(value = "tranId")
         private String transId;
-
         @JsonProperty(value = "id")
         private String worker;
-
     }
 
     @lombok.Data
     public static class Environment {
+
         private String baseUrl;
         private Header headers;
     }
 
     private static final String APPLICATION_JSON = "application/json";
 
-    private static Logger logger = LoggerFactory.getLogger(EncodedJsService.class);
+    private static Logger logger = LoggerFactory.getLogger(EnvironmentService.class);
 
     private Environment env;
 
-    public Environment env() {
+    public Environment getEnv() {
 
         if (env == null)
             env = new Environment();
@@ -74,7 +69,7 @@ public class EncodedJsService {
         StringBuilder sb = new StringBuilder();
         try {
             ObjectMapper om = new ObjectMapper();
-            String json = om.writeValueAsString(env());
+            String json = om.writeValueAsString(getEnv());
 
             sb.append("(function (global) {");
             sb.append("var MyEnv = global.MyEnv || (global.MyEnv = ").append(json).append(");");
@@ -88,7 +83,6 @@ public class EncodedJsService {
 
         sb.append("whow are you?");
         return sb.toString();
-
     }
 
 }

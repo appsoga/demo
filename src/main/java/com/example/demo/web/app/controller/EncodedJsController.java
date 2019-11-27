@@ -1,6 +1,6 @@
 package com.example.demo.web.app.controller;
 
-import com.example.demo.service.EncodedJsService;
+import com.example.demo.service.EnvironmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class EncodedJsController {
 
     @Autowired
-    private EncodedJsService jsService;
+    private EnvironmentService jsService;
 
     @RequestMapping(value = "env.js", produces = "text/javascript")
     public @ResponseBody String env_js() {
